@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="LULU">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="LULU">
+    
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog,hexo-theme-archer,LULU,博客">
+    
+    <meta name="description" content="记录技术学习过程中的点滴">
+    <meta name="description" content="记录技术学习过程中的点滴">
+<meta property="og:type" content="website">
+<meta property="og:title" content="冰化了还有棍儿">
+<meta property="og:url" content="https://lulu010722.cn/archives/2023/index.html">
+<meta property="og:site_name" content="冰化了还有棍儿">
+<meta property="og:description" content="记录技术学习过程中的点滴">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="LULU">
+<meta property="article:tag" content="技术, 生活, 日记">
+<meta name="twitter:card" content="summary">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/images/hexo.svg">
+    
+    <title>冰化了还有棍儿的博客</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu header-sidebar-menu-rounded">
+        
+            
+                <i class="fas fa-bars"></i>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>冰化了还有棍儿</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden back-top-rounded">
+        
+        
+            <i class="fas fa-chevron-up"></i>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+">
+    
+    <!-- 主页  -->
+    
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main index-page">
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
+            <a class="abstract-title" href="/%E5%89%8D%E7%AB%AF%E7%BB%83%E4%B9%A0/">
+                
+                <span class="abstract-title-text">前端练习</span>
+            </a>
+            <div class="abstract-content">
+                <img src="/%E5%89%8D%E7%AB%AF%E7%BB%83%E4%B9%A0/register_form.png" class>
+<img src="/%E5%89%8D%E7%AB%AF%E7%BB%83%E4%B9%A0/register_form_error.png" class>
+<p>用了react的useState钩子，不过总感觉有很多赘余的部分，比如四个输入框的信息分别维护，而不是统一由一个四个元素组成的变量控制。</p>
+<p>主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useState &#125; <span class="keyword">from</span> <span class="string">&quot;react&quot;</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;./App.css&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">InputItem</span> = (<span class="params">&#123; handleInput, title, placeholder, error, isError &#125;</span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        <span class="language-xml"><span class="tag">&lt;&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">p</span> <span class="attr">className</span>=<span class="string">&quot;entry-name&quot;</span>&gt;</span>&#123;title&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">input</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">className</span>=<span class="string">&quot;input&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">type</span>=<span class="string">&quot;text&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">placeholder</span>=<span class="string">&#123;placeholder&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">onBlur</span>=<span class="string">&#123;(e)</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-xml">                    handleInput(e.target.value, title)</span></span><br><span class="line"><span class="language-xml">                &#125;&#125;</span></span><br><span class="line"><span class="language-xml">            /&gt;</span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">p</span> <span class="attr">className</span>=<span class="string">&quot;error&quot;</span>&gt;</span>&#123;isError &amp;&amp; error&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/&gt;</span></span></span><br><span class="line">    )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> [username, setUsername] = <span class="title function_">useState</span>(<span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">const</span> [email, setEmail] = <span class="title function_">useState</span>(<span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">const</span> [password, setPassword] = <span class="title function_">useState</span>(<span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">const</span> [confirm, setConfirm] = <span class="title function_">useState</span>(<span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> [usernameError, setUsernameError] = <span class="title function_">useState</span>(<span class="literal">false</span>)</span><br><span class="line">    <span class="keyword">const</span> [emailError, setEmailError] = <span class="title function_">useState</span>(<span class="literal">false</span>)</span><br><span class="line">    <span class="keyword">const</span> [passwordError, setPasswordError] = <span class="title function_">useState</span>(<span class="literal">false</span>)</span><br><span class="line">    <span class="keyword">const</span> [confirmError, setConfirmError] = <span class="title function_">useState</span>(<span class="literal">false</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">handleInput</span> = (<span class="params">value, title</span>) =&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span> (title === <span class="string">&quot;Username&quot;</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (value &amp;&amp; value.<span class="property">length</span> &gt;= <span class="number">3</span>) &#123;</span><br><span class="line">                <span class="title function_">setUsernameError</span>(<span class="literal">false</span>)</span><br><span class="line">                <span class="title function_">setUsername</span>(value)</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="title function_">setUsernameError</span>(<span class="literal">true</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (title === <span class="string">&quot;Email&quot;</span>) &#123;</span><br><span class="line">            <span class="keyword">const</span> emailReg =</span><br><span class="line">                <span class="regexp">/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/</span></span><br><span class="line">            <span class="keyword">if</span> (value &amp;&amp; emailReg.<span class="title function_">test</span>(value)) &#123;</span><br><span class="line">                <span class="title function_">setEmailError</span>(<span class="literal">false</span>)</span><br><span class="line">                <span class="title function_">setEmail</span>(value)</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="title function_">setEmailError</span>(<span class="literal">true</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (title === <span class="string">&quot;Password&quot;</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (value &amp;&amp; value.<span class="property">length</span> &gt;= <span class="number">6</span>) &#123;</span><br><span class="line">                <span class="title function_">setPasswordError</span>(<span class="literal">false</span>)</span><br><span class="line">                <span class="title function_">setPassword</span>(value)</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="title function_">setPasswordError</span>(<span class="literal">true</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (value &amp;&amp; value === password) <span class="title function_">setConfirmError</span>(<span class="literal">false</span>)</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="title function_">setConfirmError</span>(<span class="literal">true</span>)</span><br><span class="line">                <span class="title function_">setConfirm</span>(<span class="literal">true</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">handleClick</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span> (username === <span class="string">&quot;&quot;</span>) <span class="title function_">setUsernameError</span>(<span class="literal">true</span>)</span><br><span class="line">        <span class="keyword">if</span> (email === <span class="string">&quot;&quot;</span>) <span class="title function_">setEmailError</span>(<span class="literal">true</span>)</span><br><span class="line">        <span class="keyword">if</span> (password === <span class="string">&quot;&quot;</span>) <span class="title function_">setPasswordError</span>(<span class="literal">true</span>)</span><br><span class="line">        <span class="keyword">if</span> (confirm === <span class="string">&quot;&quot;</span>) <span class="title function_">setConfirmError</span>(<span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (</span><br><span class="line">            username !== <span class="string">&quot;&quot;</span> &amp;&amp;</span><br><span class="line">            !usernameError &amp;&amp;</span><br><span class="line">            !emailError &amp;&amp;</span><br><span class="line">            !passwordError &amp;&amp;</span><br><span class="line">            !confirmError</span><br><span class="line">        ) &#123;</span><br><span class="line">            <span class="title function_">alert</span>(<span class="string">&quot;Register succeeded.&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;App&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">h2</span> <span class="attr">className</span>=<span class="string">&quot;title&quot;</span>&gt;</span>Register With Us<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">InputItem</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">handleInput</span>=<span class="string">&#123;handleInput&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">title</span>=<span class="string">&quot;Username&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">placeholder</span>=<span class="string">&quot;Enter username&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">isError</span>=<span class="string">&#123;usernameError&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">error</span>=<span class="string">&quot;Username must be at least 3 characters&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">InputItem</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">handleInput</span>=<span class="string">&#123;handleInput&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">title</span>=<span class="string">&quot;Email&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">placeholder</span>=<span class="string">&quot;Enter email&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">isError</span>=<span class="string">&#123;emailError&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">error</span>=<span class="string">&quot;Email is not valid&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">InputItem</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">handleInput</span>=<span class="string">&#123;handleInput&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">title</span>=<span class="string">&quot;Password&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">placeholder</span>=<span class="string">&quot;Enter password&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">isError</span>=<span class="string">&#123;passwordError&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">error</span>=<span class="string">&quot;Password must be at least 6 characters&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">InputItem</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">handleInput</span>=<span class="string">&#123;handleInput&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">title</span>=<span class="string">&quot;Confirm Password&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">placeholder</span>=<span class="string">&quot;Enter password again&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">isError</span>=<span class="string">&#123;confirmError&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">error</span>=<span class="string">&quot;Passwords are not the same&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">button</span> <span class="attr">className</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">onClick</span>=<span class="string">&#123;handleClick&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                Submit</span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    )</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>目前暂时没想好怎么把这四个输入框统一管理起来。</p>
+            </div>
+            <!-- read more -->
+            
+                <div class="abstract-read-more-button">
+                    <a href="/%E5%89%8D%E7%AB%AF%E7%BB%83%E4%B9%A0/">
+                        <span style="margin-right: 0.2rem;">阅读全文</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </div>
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2023/06/30">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/06/27</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+        
+        
+            
+        
+        
+        <span class="post-category" data-categories="前端"">
+            <i class="fas fa-folder post-category-icon"></i>
+            <span class="post-category-text">
+                前端
+            </span>
+        </span>
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="练习">练习</a>
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
+            <a class="abstract-title" href="/cname%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/">
+                
+                <span class="abstract-title-text">CNAME的必要性</span>
+            </a>
+            <div class="abstract-content">
+                <p>首先，如果不写<code>CNAME</code>的话，我们只能从<code>https://username.github.io</code>这个网址进行访问，但是显然如果有一个更好记忆的自定义域名会更好。</p>
+<p>于是，我在腾讯云上买了两个域名<code>lulu010722.cn</code>和<code>lulu010722/com</code>。</p>
+<p>之后需要在域名提供商处进行域名解析，一般是通过CNAME类型进行解析。</p>
+<p>最后，在项目目录中也需要添加<code>CNAME</code>文件，在其中输入使用的域名。</p>
+<p>之前一直不懂的地方就是这里，为什么腾讯云的域名已经解析到<code>github page</code>了，还是无法访问，现在推测，可能是权限问题。</p>
+<p>在将<code>CNAME</code>文件定义好之后，我们就可以从原本地址和新购买的地址进行访问了。</p>
+            </div>
+            <!-- read more -->
+            
+                <div class="abstract-read-more-button">
+                    <a href="/cname%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/">
+                        <span style="margin-right: 0.2rem;">阅读全文</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </div>
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2023/06/30">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/06/27</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+        
+        
+            
+        
+        
+        <span class="post-category" data-categories="hexo"">
+            <i class="fas fa-folder post-category-icon"></i>
+            <span class="post-category-text">
+                hexo
+            </span>
+        </span>
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="配置">配置</a>
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
+            <a class="abstract-title" href="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/">
+                
+                <span class="abstract-title-text">我的雷神🤗</span>
+            </a>
+            <div class="abstract-content">
+                <img src="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/leishen1.jpg" class>
+<hr>
+<img src="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/leishen2.jpg" class>
+
+            </div>
+            <!-- read more -->
+            
+                <div class="abstract-read-more-button">
+                    <a href="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/">
+                        <span style="margin-right: 0.2rem;">阅读全文</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </div>
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2023/06/30">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/06/21</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+        
+        
+            
+        
+        
+        <span class="post-category" data-categories="展厅"">
+            <i class="fas fa-folder post-category-icon"></i>
+            <span class="post-category-text">
+                展厅
+            </span>
+        </span>
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="手办">手办</a>
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
+            <a class="abstract-title" href="/%E3%81%9F%E3%81%A0%E3%81%84%E3%81%BE/">
+                
+                <span class="abstract-title-text">ただいま</span>
+            </a>
+            <div class="abstract-content">
+                <h1 id="ロジちゃん">ロジちゃん</h1>
+<p>ロジちゃんは既に家に帰ってきたね。無事で帰国しましたのは良かった!日本にいたこの半年間、交大よりもっとすばらしい世界を見たはずでしょう。各地の観光地に行ったり、自然風景を鑑賞したり、美しい日本式の建物を観覧したり、美味しい特色な美食を食べたりをするのには、僕はほんとに羨ましいな。でももちろん、一番大事なことは東大での勉強体験だ。</p>
+<p>その一方で、こちらの生活は、いつもと同じに退屈でした。特に君を失ったあと、もっと退屈になっちゃった。以前に二人は一緒に歩いた場所や小道も、なんか突然死んだみたい実感が感じました。湖の周りにあるベンチには、いつも恋人たちがデートをする。しかしそのなかには、私達がいるわけがなくなった。</p>
+<p>あぁ、覚えてきた。私はそのワイトアルバム2っていうゲイムをした。三人の物語をだいたいわかりました。言いたいのは、私はとある歌のなかに（歌名を忘れた）ひとつの歌詞に思い出ぶかいだ。何でしたっけ、「ずっとあなたの名前、何度も、何度も読んだ。夢の中のあなたも、振り返ることはない。」毎回聞くとすぐに泣きそうだ。でもせめて、春希は雪菜に少しの感情が残るんだ。しかし、私のロジちゃんは、永遠に私のことが嫌くなった。残念ですね。今残っているのは、嘆きしかないんだ。</p>
+<p>ロジちゃん、私は君を愛してるほど憎んでいます。それは君は間もなくわかります。だから驚かないでね。</p>
+<p>最後に、君は「私達は今生にはお夫婦になれなくて、来世も不可能です」って言ったはずだろう。じゃあ、ご要望のとおり、私は今から来世に死ぬまで、君を邪魔しないようにしましょう!しかし、もし来世というものがあったら、何故再来世があってはいけないの?あそこでまた待ち合わせるのも悪くないんじゃん?シシシ。私は先に失礼しますぞ!</p>
+            </div>
+            <!-- read more -->
+            
+                <div class="abstract-read-more-button">
+                    <a href="/%E3%81%9F%E3%81%A0%E3%81%84%E3%81%BE/">
+                        <span style="margin-right: 0.2rem;">阅读全文</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </div>
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2023/06/30">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/05/14</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+        
+        
+            
+        
+        
+        <span class="post-category" data-categories="信"">
+            <i class="fas fa-folder post-category-icon"></i>
+            <span class="post-category-text">
+                信
+            </span>
+        </span>
+    
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+    <!-- paginator  -->
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+            
+                <a href="mailto:384668412@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="https://github.com/LuLu010722/LuLu010722.github.io" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                    
+                    <img class="profile-qr" src="/images/wechat.jpg" />
+                </span>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                    
+                    <img class="profile-qr" src="/images/qq.jpg" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://github.com/fi3ework/hexo-theme-archer" class="iconfont-archer others" target="_blank" title=others></a>
+            
+        
+    
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 23
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> 2023 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/27</span>
+            <a class="archive-post-title" href="/%E5%89%8D%E7%AB%AF%E7%BB%83%E4%B9%A0/">前端练习</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/27</span>
+            <a class="archive-post-title" href="/cname%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/">CNAME的必要性</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/21</span>
+            <a class="archive-post-title" href="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/">我的雷神🤗</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/14</span>
+            <a class="archive-post-title" href="/%E3%81%9F%E3%81%A0%E3%81%84%E3%81%BE/">ただいま</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2022 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/%E6%B3%89%E3%81%95%E3%82%93%E3%81%A8%E3%81%AE%E7%9B%B8%E8%AB%87/">泉さんとの相談</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/29</span>
+            <a class="archive-post-title" href="/cse-lab2a%E8%B8%A9%E5%9D%91/">cse-lab2a踩坑</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/24</span>
+            <a class="archive-post-title" href="/%E8%A7%A3%E5%B0%81%E4%BA%86%EF%BC%8C%E5%90%97%EF%BC%9F/">解封了，吗？</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/16</span>
+            <a class="archive-post-title" href="/git%E2%80%94%E2%80%94%E4%BA%BA%E7%B1%BB%E5%A5%BD%E6%9C%8B%E5%8F%8B/">git——人类好朋友</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span>
+            <a class="archive-post-title" href="/%E6%B5%8B%E8%AF%95/">测试</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span>
+            <a class="archive-post-title" href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">计算机系统基础</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span>
+            <a class="archive-post-title" href="/cse-lab1%E8%B8%A9%E5%9D%91/">cse-lab1踩坑</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/02</span>
+            <a class="archive-post-title" href="/inode%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/">inode文件系统</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span>
+            <a class="archive-post-title" href="/jpa%E4%BA%8B%E5%8A%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%A4%96%E9%94%AE%E6%AD%BB%E9%94%81/">JPA事务控制与外键死锁</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/24</span>
+            <a class="archive-post-title" href="/%E6%88%91%E7%9A%84%E7%94%BB/">我的画</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/23</span>
+            <a class="archive-post-title" href="/%E3%80%8A%E8%8B%8F%E4%B8%9C%E5%9D%A1%E4%BC%A0%E3%80%8B/">《苏东坡传》</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/22</span>
+            <a class="archive-post-title" href="/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/">《月亮与六便士》</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span>
+            <a class="archive-post-title" href="/%E9%9A%8F%E4%BE%BF%E5%86%99%E5%86%99/">随便写写</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span>
+            <a class="archive-post-title" href="/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/">柯柯的画</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span>
+            <a class="archive-post-title" href="/%E5%8F%AF%E5%8F%AF%E7%9A%84%E7%90%B4/">可可的琴</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span>
+            <a class="archive-post-title" href="/daily-report/">Daily Report</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span>
+            <a class="archive-post-title" href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/">机器学习概论</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span>
+            <a class="archive-post-title" href="/%E9%85%8D%E7%BD%AEhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E5%B9%B6%E6%9B%B4%E6%8D%A2%E5%A4%9A%E7%A7%8D%E4%B8%BB%E9%A2%98/">配置hexo博客，并更换多种主题</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span>
+            <a class="archive-post-title" href="/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%EF%BC%81/">欢迎来到我的博客！</a>
+        </li>
+    
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+            <span class="sidebar-tag-name" data-tags="ICS">
+                <span class="iconfont-archer">&#xe606;</span>
+                ICS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="复习">
+                <span class="iconfont-archer">&#xe606;</span>
+                复习
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="ipads面试">
+                <span class="iconfont-archer">&#xe606;</span>
+                ipads面试
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="mysql">
+                <span class="iconfont-archer">&#xe606;</span>
+                mysql
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="踩坑">
+                <span class="iconfont-archer">&#xe606;</span>
+                踩坑
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="配置">
+                <span class="iconfont-archer">&#xe606;</span>
+                配置
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="每日活动记录">
+                <span class="iconfont-archer">&#xe606;</span>
+                每日活动记录
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="随笔">
+                <span class="iconfont-archer">&#xe606;</span>
+                随笔
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="随键">
+                <span class="iconfont-archer">&#xe606;</span>
+                随键
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="git">
+                <span class="iconfont-archer">&#xe606;</span>
+                git
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="高级操作">
+                <span class="iconfont-archer">&#xe606;</span>
+                高级操作
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="练习">
+                <span class="iconfont-archer">&#xe606;</span>
+                练习
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="校园">
+                <span class="iconfont-archer">&#xe606;</span>
+                校园
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="线下课程">
+                <span class="iconfont-archer">&#xe606;</span>
+                线下课程
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="cse">
+                <span class="iconfont-archer">&#xe606;</span>
+                cse
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="绘画">
+                <span class="iconfont-archer">&#xe606;</span>
+                绘画
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="柯柯">
+                <span class="iconfont-archer">&#xe606;</span>
+                柯柯
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="月亮与六便士">
+                <span class="iconfont-archer">&#xe606;</span>
+                月亮与六便士
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="手办">
+                <span class="iconfont-archer">&#xe606;</span>
+                手办
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="可可">
+                <span class="iconfont-archer">&#xe606;</span>
+                可可
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="音乐">
+                <span class="iconfont-archer">&#xe606;</span>
+                音乐
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="古琴">
+                <span class="iconfont-archer">&#xe606;</span>
+                古琴
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="苏东坡传">
+                <span class="iconfont-archer">&#xe606;</span>
+                苏东坡传
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="雑談">
+                <span class="iconfont-archer">&#xe606;</span>
+                雑談
+            </span>
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="笔记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            笔记
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="数据库">
+            <span class="iconfont-archer">&#xe60a;</span>
+            数据库
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="cse">
+            <span class="iconfont-archer">&#xe60a;</span>
+            cse
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="hexo">
+            <span class="iconfont-archer">&#xe60a;</span>
+            hexo
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="日记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            日记
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="随笔">
+            <span class="iconfont-archer">&#xe60a;</span>
+            随笔
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="git">
+            <span class="iconfont-archer">&#xe60a;</span>
+            git
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="前端">
+            <span class="iconfont-archer">&#xe60a;</span>
+            前端
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="配置">
+            <span class="iconfont-archer">&#xe60a;</span>
+            配置
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="信">
+            <span class="iconfont-archer">&#xe60a;</span>
+            信
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="校园">
+            <span class="iconfont-archer">&#xe60a;</span>
+            校园
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="机器学习">
+            <span class="iconfont-archer">&#xe60a;</span>
+            机器学习
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="展厅">
+            <span class="iconfont-archer">&#xe60a;</span>
+            展厅
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="书架">
+            <span class="iconfont-archer">&#xe60a;</span>
+            书架
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="测试">
+            <span class="iconfont-archer">&#xe60a;</span>
+            测试
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="日本語">
+            <span class="iconfont-archer">&#xe60a;</span>
+            日本語
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="其他">
+            <span class="iconfont-archer">&#xe60a;</span>
+            其他
+        </span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "https://lulu010722.cn",
+        root: siteMetaRoot,
+        author: "LULU"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+        <!-- mermaid -->
+        
+    </body>
+</html>

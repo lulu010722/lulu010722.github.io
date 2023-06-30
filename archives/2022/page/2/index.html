@@ -1,0 +1,1852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="LULU">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="LULU">
+    
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog,hexo-theme-archer,LULU,博客">
+    
+    <meta name="description" content="记录技术学习过程中的点滴">
+    <meta name="description" content="记录技术学习过程中的点滴">
+<meta property="og:type" content="website">
+<meta property="og:title" content="冰化了还有棍儿">
+<meta property="og:url" content="https://lulu010722.cn/archives/2022/page/2/index.html">
+<meta property="og:site_name" content="冰化了还有棍儿">
+<meta property="og:description" content="记录技术学习过程中的点滴">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="LULU">
+<meta property="article:tag" content="技术, 生活, 日记">
+<meta name="twitter:card" content="summary">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/images/hexo.svg">
+    
+    <title>冰化了还有棍儿的博客</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu header-sidebar-menu-rounded">
+        
+            
+                <i class="fas fa-bars"></i>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>冰化了还有棍儿</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden back-top-rounded">
+        
+        
+            <i class="fas fa-chevron-up"></i>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+">
+    
+    <!-- 主页  -->
+    
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main index-page">
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
+            <a class="abstract-title" href="/%E3%80%8A%E8%8B%8F%E4%B8%9C%E5%9D%A1%E4%BC%A0%E3%80%8B/">
+                
+                <span class="abstract-title-text">《苏东坡传》</span>
+            </a>
+            <div class="abstract-content">
+                <blockquote>
+<p>莫听穿林打叶声，何妨吟啸且徐行。竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生。</p>
+<p>料峭春风吹酒醒，微冷，山头斜照却相迎。回首向来萧瑟处，归去，也无风雨也无晴。</p>
+</blockquote>
+<p>走进林语堂先生的《苏东坡传》，东坡正传没见几句，倒是看了不少苏家长辈的趣事，还有三苏二次赴京上任途中的三峡奇景。林语堂先生的语言通俗易懂，偶尔诙谐幽默。例如，今日读到，苏洵青年时期不爱读书。直至27岁，看到自己的哥哥，内兄，还有两个姐丈，都已科考成功，行将做官为吏，顿时追悔韶光虚掷，痛自鞭策。对此，他这样写到：</p>
+<blockquote>
+<p>大人常举这件事来鼓励年轻人，告以只要勤勉奋发，终会成功的。当然，聪明的孩子也许会推演出相反的结论，那就是孩童之时不一定非要专心向学。</p>
+</blockquote>
+<p>又有另一处。书中讲到，古时行经三峡的人，往往在进入三峡之前焚香祷告，出了三峡再焚香谢神。于是：</p>
+<blockquote>
+<p>不管他们上行下行，在三峡危险的地方，神祇准保有美酒牛肉大快朵颐。</p>
+</blockquote>
+<p><br></p>
+            </div>
+            <!-- read more -->
+            
+                <div class="abstract-read-more-button">
+                    <a href="/%E3%80%8A%E8%8B%8F%E4%B8%9C%E5%9D%A1%E4%BC%A0%E3%80%8B/">
+                        <span style="margin-right: 0.2rem;">阅读全文</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </div>
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2023/06/30">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/09/23</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+        
+        
+            
+        
+        
+        <span class="post-category" data-categories="书架"">
+            <i class="fas fa-folder post-category-icon"></i>
+            <span class="post-category-text">
+                书架
+            </span>
+        </span>
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="苏东坡传">苏东坡传</a>
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
+            <a class="abstract-title" href="/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/">
+                
+                <span class="abstract-title-text">《月亮与六便士》</span>
+            </a>
+            <div class="abstract-content">
+                <blockquote>
+<p>满地都是六便士，他却抬头看见了月亮。</p>
+</blockquote>
+<p>其实，上面这句话，并非出自原书。起初是对毛姆的《人性的弱点》的匿名评论，被刘瑜概括成了这句话。毛姆很喜欢月亮和六便士的比喻，便以此为题，开始进行他下一篇长篇小说的创作。</p>
+<img src="/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/liubianshi.png" class>
+<p>思特里克兰德是一个极为勇敢的天才，同时也是一个人性的罪犯。</p>
+<p>故事开篇，他已然是一个小有成就的股票经纪人，有一个漂亮贤惠的妻子，和一对健康活泼的儿女。但是，一个人的处境越安逸，越稳定，想要跳出这种枷锁，便越需要非凡的勇气。当思特里克兰德决定去往巴黎，再也不回来的时候，那给读者的感觉，是多种情感的复合。是费解，是好奇，是愤怒，同时也在读者心中悄然树立他非凡的形象。</p>
+<p>他来到巴黎，本就不富裕的生活，很快就变得更加落魄。此时，施特略夫对他的帮助，是不被理解的，甚至是有违常理的。施特略夫是这本书里一个悲剧人物，笔者从他的身上看到了自己的影子。他是一个一味讨好的人，是一个无法拒绝别人的人，甚至是没有尊严的人。毛姆笔下的“我”，对它的态度是同情，而又轻蔑。</p>
+            </div>
+            <!-- read more -->
+            
+                <div class="abstract-read-more-button">
+                    <a href="/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/">
+                        <span style="margin-right: 0.2rem;">阅读全文</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </div>
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2023/06/30">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/09/22</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+        
+        
+            
+        
+        
+        <span class="post-category" data-categories="书架"">
+            <i class="fas fa-folder post-category-icon"></i>
+            <span class="post-category-text">
+                书架
+            </span>
+        </span>
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="月亮与六便士">月亮与六便士</a>
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
+            <a class="abstract-title" href="/%E9%9A%8F%E4%BE%BF%E5%86%99%E5%86%99/">
+                
+                <span class="abstract-title-text">随便写写</span>
+            </a>
+            <div class="abstract-content">
+                <blockquote>
+<p><em>与其称之为”随笔“，倒不如称之为”随键“</em></p>
+<p><em>旁人有感而发，大都落笔成文</em></p>
+<p><em>而我不同，我触键成章</em></p>
+</blockquote>
+<h1 id="又一次鄙视自己的灵魂">又一次鄙视自己的灵魂</h1>
+<p>躺在床上，虽然很困，但是仍执着地拿着手机的时候，其实是在期望着在偌大的网络世界找到什么。</p>
+<p>不过我不幸运，要么什么也找不到，要么自以为找到了，但是一觉醒来，生活和自己，都没变。</p>
+<p>偶然想起，三四年前，给一位我特别尊敬的老师写过的一首诗。</p>
+<blockquote>
+<center>
+<h2 id="赠师普">赠师普</h2>
+<blockquote>
+<p>三月末，高考将至，颇念吾师增普旧恩，特献丑赋诗一篇，兼与同门高徒兴达，瑞嵩，家鑫，子扬等共勉</p>
+</blockquote>
+<p>十载光华空回轮，</p>
+<p>一朝幸甚入师门。</p>
+<p>要问师普何服我，</p>
+<p>学富才高撼余心。</p>
+<p>忽叹往岁虚无度，</p>
+<p>幸觉宏图尚可伸。</p>
+<p>今当远走高飞去，</p>
+<p>莫敢寸阴忘师恩。</p>
+</center></blockquote>
+            </div>
+            <!-- read more -->
+            
+                <div class="abstract-read-more-button">
+                    <a href="/%E9%9A%8F%E4%BE%BF%E5%86%99%E5%86%99/">
+                        <span style="margin-right: 0.2rem;">阅读全文</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </div>
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2023/06/30">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/09/20</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+        
+        
+            
+        
+        
+        <span class="post-category" data-categories="随笔"">
+            <i class="fas fa-folder post-category-icon"></i>
+            <span class="post-category-text">
+                随笔
+            </span>
+        </span>
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="随笔">随笔</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="随键">随键</a>
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
+            <a class="abstract-title" href="/%E5%8F%AF%E5%8F%AF%E7%9A%84%E7%90%B4/">
+                
+                <span class="abstract-title-text">可可的琴</span>
+            </a>
+            <div class="abstract-content">
+                <h1 id="寒鸦戏水">寒鸦戏水</h1>
+<audio id="audio" controls preload="none">
+<source src="/assets/寒鸦戏水.mp3">
+</audio>
+<blockquote>
+<p>等我一会儿~</p>
+</blockquote>
+<p><strong>演奏者</strong>：可可同学，可爱的可</p>
+<p><strong>曲目</strong>：寒鸦戏水</p>
+
+            </div>
+            <!-- read more -->
+            
+                <div class="abstract-read-more-button">
+                    <a href="/%E5%8F%AF%E5%8F%AF%E7%9A%84%E7%90%B4/">
+                        <span style="margin-right: 0.2rem;">阅读全文</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </div>
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2023/06/30">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/09/18</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+        
+        
+            
+        
+        
+        <span class="post-category" data-categories="展厅"">
+            <i class="fas fa-folder post-category-icon"></i>
+            <span class="post-category-text">
+                展厅
+            </span>
+        </span>
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="可可">可可</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="音乐">音乐</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="古琴">古琴</a>
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
+            <a class="abstract-title" href="/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/">
+                
+                <span class="abstract-title-text">柯柯的画</span>
+            </a>
+            <div class="abstract-content">
+                <h1 id="阿贝多">阿贝多</h1>
+
+<blockquote>
+<p>玩原神的时候被阿贝多的美貌感动到了，想当阿贝多的狗😍</p>
+</blockquote>
+<p><strong>作者</strong>：柯柯，软院小仙男</p>
+<p><strong>人物</strong>：阿贝多——原神</p>
+
+            </div>
+            <!-- read more -->
+            
+                <div class="abstract-read-more-button">
+                    <a href="/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/">
+                        <span style="margin-right: 0.2rem;">阅读全文</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </div>
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2023/06/30">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/09/18</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+        
+        
+            
+        
+        
+        <span class="post-category" data-categories="展厅"">
+            <i class="fas fa-folder post-category-icon"></i>
+            <span class="post-category-text">
+                展厅
+            </span>
+        </span>
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="绘画">绘画</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="柯柯">柯柯</a>
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
+            <a class="abstract-title" href="/daily-report/">
+                
+                    <span class="iconfont-archer stick-top">&#xe63d;</span>
+                
+                <span class="abstract-title-text">Daily Report</span>
+            </a>
+            <div class="abstract-content">
+                <p>[TOC]</p>
+<h1 id="section">2022-09</h1>
+<h2 id="section-1">16</h2>
+<ol type="1">
+<li>搭建了hexo个人博客。</li>
+<li>配置了两种主题：keep和archer。</li>
+<li>添加了以pandoc为引擎的<span class="math inline">\(\LaTeX\)</span>扩展。</li>
+<li>两篇博客。</li>
+<li>看了一点机器学习。</li>
+<li>keep25分钟腿（腿已废）。</li>
+</ol>
+<p><strong>是收获满满的一天，希望自己能够坚持下来！加油！</strong></p>
+<hr>
+            </div>
+            <!-- read more -->
+            
+                <div class="abstract-read-more-button">
+                    <a href="/daily-report/">
+                        <span style="margin-right: 0.2rem;">阅读全文</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </div>
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2023/06/30">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/09/16</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+        
+        
+            
+        
+        
+        <span class="post-category" data-categories="日记"">
+            <i class="fas fa-folder post-category-icon"></i>
+            <span class="post-category-text">
+                日记
+            </span>
+        </span>
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="每日活动记录">每日活动记录</a>
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
+            <a class="abstract-title" href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/">
+                
+                <span class="abstract-title-text">机器学习概论</span>
+            </a>
+            <div class="abstract-content">
+                <h1 id="nfl定理">NFL定理</h1>
+<p><strong>No Free Lunch Theorem</strong>：天下没有免费的午餐</p>
+<p>我们计算一个学习算法<span class="math inline">\(\mathcal{L}_a\)</span>的“训练集外误差”，有 <span class="math display">\[
+\begin{aligned}
+  E_{ote}(\mathcal{L}_a|X,f)=\sum_{h}\sum_{x\in\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne
+f(x))P(h|X,\mathcal{L}_a)
+\end{aligned}
+\]</span></p>
+<p>如果对于所有真实目标函数<span class="math inline">\(f\)</span>求和，则有 <span class="math display">\[
+\begin{aligned}
+  \sum_f E_{ote}(\mathcal{L}_a|X,f)&amp;=\sum_f\sum_h\sum_{x\in
+\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne f(x))P(h|X,\mathcal{L}_a)\\
+  &amp;=\sum_{x\in\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\sum_f\mathbb{I}(h(x)\ne
+f(x))\\
+  &amp;=\sum_{x\in
+\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\frac{1}{2}2^{|\mathcal{X}|}\\
+  &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in
+\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\\
+  &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in \mathcal{X}-X}P(x)\\
+\end{aligned}
+\]</span>
+我们可以看到，总误差与学习算法无关，也就是说，对于任意两个学习算法<span class="math inline">\(\mathcal{L}_a\)</span>，<span class="math inline">\(\mathcal{L}_b\)</span>，无论看上去<span class="math inline">\(\mathcal{L}_a\)</span>多复杂，多聪明，在期望的意义下，他们的性能是相同的。<del>（也就是说，随便瞎猜和复杂推导一样，不学了
+(*｀皿´*)ﾉ ）</del></p>
+<p><br></p>
+<h1 id="尝试证明auc计算公式">尝试证明AUC计算公式</h1>
+            </div>
+            <!-- read more -->
+            
+                <div class="abstract-read-more-button">
+                    <a href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/">
+                        <span style="margin-right: 0.2rem;">阅读全文</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </div>
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2023/06/30">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/09/16</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+        
+        
+            
+        
+        
+        <span class="post-category" data-categories="机器学习"">
+            <i class="fas fa-folder post-category-icon"></i>
+            <span class="post-category-text">
+                机器学习
+            </span>
+        </span>
+    
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
+            <a class="abstract-title" href="/%E9%85%8D%E7%BD%AEhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E5%B9%B6%E6%9B%B4%E6%8D%A2%E5%A4%9A%E7%A7%8D%E4%B8%BB%E9%A2%98/">
+                
+                <span class="abstract-title-text">配置hexo博客，并更换多种主题</span>
+            </a>
+            <div class="abstract-content">
+                <h1 id="hexo博客的基本维护方式">hexo博客的基本维护方式</h1>
+<p>搭建过程可参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/ai_green/article/details/121675790">hexo博客搭建教程</a>。</p>
+<p>hexo提供了便捷的构建、部署功能。在本地添加了新的markdown日志或者图片之后，只需执行如下代码：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">清除已有的构建目录，默认为public</span></span><br><span class="line">hexo clean</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">构建新的静态文件，g是generate的缩写</span></span><br><span class="line">hexo g</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">一条命令直接部署，d是deploy的缩写</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<p>就会把本地的public文件夹push到对应的github仓库，并将网站自动部署到
+<code>&#123;github用户名&#125;.github.io</code>。</p>
+<p>此外，如果想要维护本地源文件，还可以单独创建一个私有github仓库，用于存放source文件中的源文件等等。</p>
+            </div>
+            <!-- read more -->
+            
+                <div class="abstract-read-more-button">
+                    <a href="/%E9%85%8D%E7%BD%AEhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E5%B9%B6%E6%9B%B4%E6%8D%A2%E5%A4%9A%E7%A7%8D%E4%B8%BB%E9%A2%98/">
+                        <span style="margin-right: 0.2rem;">阅读全文</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </div>
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2023/06/30">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/09/16</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+        
+        
+            
+        
+        
+        <span class="post-category" data-categories="配置"">
+            <i class="fas fa-folder post-category-icon"></i>
+            <span class="post-category-text">
+                配置
+            </span>
+        </span>
+    
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
+            <a class="abstract-title" href="/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%EF%BC%81/">
+                
+                <span class="abstract-title-text">欢迎来到我的博客！</span>
+            </a>
+            <div class="abstract-content">
+                <p>这是我的第一篇博客</p>
+<p>以后会经常在这里记录一些我的学习经历</p>
+<p>包括各种技术的踩坑之旅</p>
+<p><strong>加油</strong></p>
+<p><strong>頑張って！</strong>❤</p>
+
+            </div>
+            <!-- read more -->
+            
+                <div class="abstract-read-more-button">
+                    <a href="/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%EF%BC%81/">
+                        <span style="margin-right: 0.2rem;">阅读全文</span>
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </div>
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2023/06/30">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/09/16</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+        
+        
+            
+        
+        
+        <span class="post-category" data-categories="其他"">
+            <i class="fas fa-folder post-category-icon"></i>
+            <span class="post-category-text">
+                其他
+            </span>
+        </span>
+    
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+    <!-- paginator  -->
+    
+        <nav class="page-nav">
+            <a class="extend prev" rel="prev" href="/archives/2022/">&lt; PREV</a><a class="page-number" href="/archives/2022/">1</a><span class="page-number current">2</span>
+        </nav>
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+            
+                <a href="mailto:384668412@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="https://github.com/LuLu010722/LuLu010722.github.io" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                    
+                    <img class="profile-qr" src="/images/wechat.jpg" />
+                </span>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                    
+                    <img class="profile-qr" src="/images/qq.jpg" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://github.com/fi3ework/hexo-theme-archer" class="iconfont-archer others" target="_blank" title=others></a>
+            
+        
+    
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 23
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> 2023 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/27</span>
+            <a class="archive-post-title" href="/%E5%89%8D%E7%AB%AF%E7%BB%83%E4%B9%A0/">前端练习</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/27</span>
+            <a class="archive-post-title" href="/cname%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/">CNAME的必要性</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/21</span>
+            <a class="archive-post-title" href="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/">我的雷神🤗</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/14</span>
+            <a class="archive-post-title" href="/%E3%81%9F%E3%81%A0%E3%81%84%E3%81%BE/">ただいま</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2022 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/%E6%B3%89%E3%81%95%E3%82%93%E3%81%A8%E3%81%AE%E7%9B%B8%E8%AB%87/">泉さんとの相談</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/29</span>
+            <a class="archive-post-title" href="/cse-lab2a%E8%B8%A9%E5%9D%91/">cse-lab2a踩坑</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/24</span>
+            <a class="archive-post-title" href="/%E8%A7%A3%E5%B0%81%E4%BA%86%EF%BC%8C%E5%90%97%EF%BC%9F/">解封了，吗？</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/16</span>
+            <a class="archive-post-title" href="/git%E2%80%94%E2%80%94%E4%BA%BA%E7%B1%BB%E5%A5%BD%E6%9C%8B%E5%8F%8B/">git——人类好朋友</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span>
+            <a class="archive-post-title" href="/%E6%B5%8B%E8%AF%95/">测试</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span>
+            <a class="archive-post-title" href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">计算机系统基础</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span>
+            <a class="archive-post-title" href="/cse-lab1%E8%B8%A9%E5%9D%91/">cse-lab1踩坑</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/02</span>
+            <a class="archive-post-title" href="/inode%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/">inode文件系统</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span>
+            <a class="archive-post-title" href="/jpa%E4%BA%8B%E5%8A%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%A4%96%E9%94%AE%E6%AD%BB%E9%94%81/">JPA事务控制与外键死锁</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/24</span>
+            <a class="archive-post-title" href="/%E6%88%91%E7%9A%84%E7%94%BB/">我的画</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/23</span>
+            <a class="archive-post-title" href="/%E3%80%8A%E8%8B%8F%E4%B8%9C%E5%9D%A1%E4%BC%A0%E3%80%8B/">《苏东坡传》</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/22</span>
+            <a class="archive-post-title" href="/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/">《月亮与六便士》</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span>
+            <a class="archive-post-title" href="/%E9%9A%8F%E4%BE%BF%E5%86%99%E5%86%99/">随便写写</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span>
+            <a class="archive-post-title" href="/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/">柯柯的画</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span>
+            <a class="archive-post-title" href="/%E5%8F%AF%E5%8F%AF%E7%9A%84%E7%90%B4/">可可的琴</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span>
+            <a class="archive-post-title" href="/daily-report/">Daily Report</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span>
+            <a class="archive-post-title" href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/">机器学习概论</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span>
+            <a class="archive-post-title" href="/%E9%85%8D%E7%BD%AEhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E5%B9%B6%E6%9B%B4%E6%8D%A2%E5%A4%9A%E7%A7%8D%E4%B8%BB%E9%A2%98/">配置hexo博客，并更换多种主题</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span>
+            <a class="archive-post-title" href="/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%EF%BC%81/">欢迎来到我的博客！</a>
+        </li>
+    
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+            <span class="sidebar-tag-name" data-tags="ICS">
+                <span class="iconfont-archer">&#xe606;</span>
+                ICS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="复习">
+                <span class="iconfont-archer">&#xe606;</span>
+                复习
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="ipads面试">
+                <span class="iconfont-archer">&#xe606;</span>
+                ipads面试
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="mysql">
+                <span class="iconfont-archer">&#xe606;</span>
+                mysql
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="踩坑">
+                <span class="iconfont-archer">&#xe606;</span>
+                踩坑
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="配置">
+                <span class="iconfont-archer">&#xe606;</span>
+                配置
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="每日活动记录">
+                <span class="iconfont-archer">&#xe606;</span>
+                每日活动记录
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="随笔">
+                <span class="iconfont-archer">&#xe606;</span>
+                随笔
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="随键">
+                <span class="iconfont-archer">&#xe606;</span>
+                随键
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="git">
+                <span class="iconfont-archer">&#xe606;</span>
+                git
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="高级操作">
+                <span class="iconfont-archer">&#xe606;</span>
+                高级操作
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="练习">
+                <span class="iconfont-archer">&#xe606;</span>
+                练习
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="校园">
+                <span class="iconfont-archer">&#xe606;</span>
+                校园
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="线下课程">
+                <span class="iconfont-archer">&#xe606;</span>
+                线下课程
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="cse">
+                <span class="iconfont-archer">&#xe606;</span>
+                cse
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="绘画">
+                <span class="iconfont-archer">&#xe606;</span>
+                绘画
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="柯柯">
+                <span class="iconfont-archer">&#xe606;</span>
+                柯柯
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="月亮与六便士">
+                <span class="iconfont-archer">&#xe606;</span>
+                月亮与六便士
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="手办">
+                <span class="iconfont-archer">&#xe606;</span>
+                手办
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="可可">
+                <span class="iconfont-archer">&#xe606;</span>
+                可可
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="音乐">
+                <span class="iconfont-archer">&#xe606;</span>
+                音乐
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="古琴">
+                <span class="iconfont-archer">&#xe606;</span>
+                古琴
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="苏东坡传">
+                <span class="iconfont-archer">&#xe606;</span>
+                苏东坡传
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="雑談">
+                <span class="iconfont-archer">&#xe606;</span>
+                雑談
+            </span>
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="笔记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            笔记
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="数据库">
+            <span class="iconfont-archer">&#xe60a;</span>
+            数据库
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="cse">
+            <span class="iconfont-archer">&#xe60a;</span>
+            cse
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="hexo">
+            <span class="iconfont-archer">&#xe60a;</span>
+            hexo
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="日记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            日记
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="随笔">
+            <span class="iconfont-archer">&#xe60a;</span>
+            随笔
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="git">
+            <span class="iconfont-archer">&#xe60a;</span>
+            git
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="前端">
+            <span class="iconfont-archer">&#xe60a;</span>
+            前端
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="配置">
+            <span class="iconfont-archer">&#xe60a;</span>
+            配置
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="信">
+            <span class="iconfont-archer">&#xe60a;</span>
+            信
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="校园">
+            <span class="iconfont-archer">&#xe60a;</span>
+            校园
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="机器学习">
+            <span class="iconfont-archer">&#xe60a;</span>
+            机器学习
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="展厅">
+            <span class="iconfont-archer">&#xe60a;</span>
+            展厅
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="书架">
+            <span class="iconfont-archer">&#xe60a;</span>
+            书架
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="测试">
+            <span class="iconfont-archer">&#xe60a;</span>
+            测试
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="日本語">
+            <span class="iconfont-archer">&#xe60a;</span>
+            日本語
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="其他">
+            <span class="iconfont-archer">&#xe60a;</span>
+            其他
+        </span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "https://lulu010722.cn",
+        root: siteMetaRoot,
+        author: "LULU"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+        <!-- mermaid -->
+        
+    </body>
+</html>

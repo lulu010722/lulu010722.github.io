@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="LULU">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="LULU">
+    
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog,hexo-theme-archer,LULU,博客">
+    
+    <meta name="description" content="记录技术学习过程中的点滴">
+    <meta name="description" content="[TOC] 2022-09 16  搭建了hexo个人博客。 配置了两种主题：keep和archer。 添加了以pandoc为引擎的\(\LaTeX\)扩展。 两篇博客。 看了一点机器学习。 keep25分钟腿（腿已废）。  是收获满满的一天，希望自己能够坚持下来！加油！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Daily Report">
+<meta property="og:url" content="https://lulu010722.cn/daily-report/index.html">
+<meta property="og:site_name" content="冰化了还有棍儿">
+<meta property="og:description" content="[TOC] 2022-09 16  搭建了hexo个人博客。 配置了两种主题：keep和archer。 添加了以pandoc为引擎的\(\LaTeX\)扩展。 两篇博客。 看了一点机器学习。 keep25分钟腿（腿已废）。  是收获满满的一天，希望自己能够坚持下来！加油！">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-09-16T15:09:22.000Z">
+<meta property="article:modified_time" content="2023-06-30T14:06:47.005Z">
+<meta property="article:author" content="LULU">
+<meta property="article:tag" content="每日活动记录">
+<meta name="twitter:card" content="summary">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/images/hexo.svg">
+    
+    <title>Daily Report · 冰化了还有棍儿的博客</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+    
+        <body class="post-body">
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu header-sidebar-menu-rounded">
+        
+            
+                <i class="fas fa-bars"></i>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>冰化了还有棍儿</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">冰化了还有棍儿</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">Daily Report</a>
+            </div>
+        </div>
+    
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden back-top-rounded">
+        
+        
+            <i class="fas fa-chevron-up"></i>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+    height:50vh;
+
+">
+    
+    <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
+    
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+                Daily Report
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+                
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        
+        
+            
+        
+        
+        <span class="post-category" data-categories="日记"">
+            <i class="fas fa-folder post-category-icon"></i>
+            <span class="post-category-text">
+                日记
+            </span>
+        </span>
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="每日活动记录">每日活动记录</a>
+    
+</div>
+
+                
+                <!-- 文章字数统计 -->
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">2.5k</span>阅读时长: <span class="post-count reading-time">9 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2022/09/16</span>
+                    <!-- busuanzi -->
+                    
+                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
+        <p>[TOC]</p>
+<h1 id="section">2022-09</h1>
+<h2 id="section-1">16</h2>
+<ol type="1">
+<li>搭建了hexo个人博客。</li>
+<li>配置了两种主题：keep和archer。</li>
+<li>添加了以pandoc为引擎的<span
+class="math inline">\(\LaTeX\)</span>扩展。</li>
+<li>两篇博客。</li>
+<li>看了一点机器学习。</li>
+<li>keep25分钟腿（腿已废）。</li>
+</ol>
+<p><strong>是收获满满的一天，希望自己能够坚持下来！加油！</strong></p>
+<hr />
+<h2 id="section-2">17</h2>
+<ol type="1">
+<li>粗略看完了西瓜书第二章，发现概统中的一些概念已经忘了（比如假设检验）。</li>
+<li>配置了博客评论gitalk。</li>
+<li>修复了about页没有intro-image的bug（是因为<code>about</code>文件夹中的<code>index.md</code>没有加layout的front
+matter）。</li>
+<li>添加了404页（May the force be with you :)）。</li>
+<li>更新了about页~。</li>
+</ol>
+<hr />
+<h2 id="section-3">18</h2>
+<ol type="1">
+<li>对archer版权信息框和gitalk默认样式进行了微调，主要包括：
+<ol type="1">
+<li>取消了版权内容的条状下边框，对应<code>themes\archer\src\scss\_partial\_post-page.scss</code>。</li>
+<li>对版权日期显示格式进行了规范，对应<code>themes\archer\layout\post.ejs</code></li>
+<li>添加评论显示框的圆角，对应<code>source\gitalk.css</code>。</li>
+<li>取消了评论显示区的hover特效，对应<code>source\gitalk.css</code>。</li>
+<li>修改了在暗黑模式下，gitalk元信息区action按钮、version文本、编辑区、预览区、评论展示区的前景色，对应<code>themes\archer\src\scss\_dark\_partial\_comment\_gitalk-dark.scss</code>。</li>
+</ol></li>
+<li>配置了algolia搜索引擎，并配置了其自动更新索引的github工作流，并修复了pandoc依赖缺失的问题。参考<a
+target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/508457566">这一篇知乎</a>。</li>
+<li>提交了我的第一个github pull request，尝试修复archer主题的一个<a
+target="_blank" rel="noopener" href="https://github.com/fi3ework/hexo-theme-archer/pull/344">小bug</a>，即上面提到的1.5。已成功被merge，解锁了github成就！😍</li>
+<li>对博客仓库结构进行了调整。</li>
+<li>改用了另外的<a target="_blank" rel="noopener" href="https://sm.ms/">图床</a>。</li>
+<li>在博客相邻的标题间，添加了&lt;br&gt;。</li>
+</ol>
+<p>学习了很多github CI/CD的知识，包括github actions的workflow
+file怎么写，这个是真的恶心。😢</p>
+<hr />
+<h2 id="section-4">19</h2>
+<ol type="1">
+<li>应用体系架构作业一第一部分，虽然还要再修改一下。</li>
+<li>开始Pro Create！<a
+href="https://lulu010722.cn/%E6%88%91%E7%9A%84%E7%94%BB/">处女作</a>。</li>
+</ol>
+<hr />
+<h2 id="section-5">20</h2>
+<ol type="1">
+<li>博客首页摘要格式化功能开启。</li>
+<li>博客图片圆角。</li>
+<li>asa作业一第一题完成。</li>
+<li>keep20分钟核心。</li>
+</ol>
+<hr />
+<h2 id="section-6">21</h2>
+<ol type="1">
+<li>阅读《月亮与六便士》，至75%。</li>
+<li>修复了index页摘要标题行距bug。</li>
+</ol>
+<p>对于过日子来说，今天是碌碌无为的；可是，我它用来放飞了灵魂。</p>
+<hr />
+<h2 id="section-7">22</h2>
+<ol type="1">
+<li>读完《月亮与六便士》，并撰写了读后感。</li>
+<li>那封信。</li>
+<li>开始阅读《苏东坡传》。</li>
+<li>配置了cse lab1环境。</li>
+</ol>
+<hr />
+<h2 id="section-8">23</h2>
+<ol type="1">
+<li>修复了sidebar时间显示NaN/aN/aN的问题，原因是hexo配置文件中jsonContent字段的date设置为了false。</li>
+<li>自定义摘要长度，方法为在hexo配置文件中添加excerpt字段，并调节depth。</li>
+<li>修改了主页每页博客数量，目前为5。</li>
+<li>《苏东坡传》，20%。</li>
+<li>keep27分钟臀腿+核心。</li>
+</ol>
+<hr />
+<h2 id="section-9">24</h2>
+<ol type="1">
+<li><a
+href="https://lulu010722.cn/%E6%88%91%E7%9A%84%E7%94%BB/">炭治郎</a>临摹（其实是像素级抄袭~）。</li>
+<li>蝴蝶忍正在上色。</li>
+<li>《苏东坡传》，30%。</li>
+</ol>
+<p>今天是纯纯不务正业的一天啊哈哈哈~~。</p>
+<hr />
+<h2 id="section-10">25</h2>
+<ol type="1">
+<li><a
+href="https://lulu010722.cn/%E6%88%91%E7%9A%84%E7%94%BB/">香奈乎</a>完工。</li>
+<li>应用体系架构（后面就简称app吧）作业一完成，将遇到的坑总结在了<a
+href="https://lulu010722.cn/jpa%E4%BA%8B%E5%8A%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%A4%96%E9%94%AE%E6%AD%BB%E9%94%81/">新博客</a>。</li>
+<li>启用了博客的mermaid图表功能。</li>
+</ol>
+<hr />
+<h2 id="section-11">26</h2>
+<ol type="1">
+<li>控线练习3页。</li>
+</ol>
+<hr />
+<h2 id="section-12">27</h2>
+<ol type="1">
+<li>心理咨询。</li>
+<li>控线练习1页。</li>
+<li>跑步3.08km，用时16'17''。</li>
+</ol>
+<hr />
+<h2 id="section-13">28</h2>
+<ol type="1">
+<li>跑步3.06km，用时14'55''。</li>
+</ol>
+<hr />
+<h2 id="section-14">29</h2>
+<ol type="1">
+<li>编译原理lab2完成。</li>
+<li>控线练习1页。</li>
+<li>《苏东坡传》40%。</li>
+<li>博客公私仓库分离。</li>
+<li>跑步3.02km，用时14'21''。</li>
+</ol>
+<hr />
+<h2 id="section-15">30</h2>
+<ol type="1">
+<li>起草第二封信。</li>
+<li>《苏传》50%。</li>
+<li>跑步3.00km，用时14'46''。</li>
+</ol>
+<hr />
+<p><br></p>
+<h1 id="section-16">2022-10</h1>
+<h2 id="section-17">1</h2>
+<ol type="1">
+<li>和琛琛打网球1h。</li>
+<li>跑步3.03km，用时13'43''。</li>
+</ol>
+<p>与国同庆，今天给自己放个小假~。</p>
+<hr />
+<h2 id="section-18">2</h2>
+<ol type="1">
+<li>cse lab1 part1A完成。</li>
+<li>跑步3.03km，用时14'16''。</li>
+</ol>
+<hr />
+<h2 id="section-19">3</h2>
+<ol type="1">
+<li>cse lab1 part1B完成。</li>
+</ol>
+<p>好久不去ktv了，唱了很多日语歌，至少彼时彼刻，很开心。</p>
+<hr />
+<h2 id="section-20">4</h2>
+<ol type="1">
+<li>cse lab1 part1CD完成。</li>
+</ol>
+<hr />
+<h2 id="section-21">5</h2>
+<ol type="1">
+<li>白色相簿2ic50%。</li>
+</ol>
+<hr />
+<h2 id="section-22">6</h2>
+<ol type="1">
+<li>白色相簿2ic完成。</li>
+</ol>
+<p>好的作品，跨越爱好，跨越年代。还是小看了二次元的精神丰富度。</p>
+<hr />
+<h2 id="section-23">7</h2>
+<ol type="1">
+<li>cse-lab1 part2ABC完成<del>（虽然放弃了part2D的symlink）</del>。</li>
+<li>《苏传》60%。</li>
+</ol>
+<hr />
+<h2 id="section-24">8</h2>
+<ol type="1">
+<li>app作业二完成。</li>
+<li>推了一会wa2的cc。</li>
+</ol>
+<hr />
+<h2 id="section-25">9</h2>
+<ol type="1">
+<li>compiler复习，lab3环境准备。</li>
+<li>《苏传》70%。</li>
+</ol>
+<hr />
+<h2 id="section-26">10</h2>
+<ol type="1">
+<li>白2大三圣诞节。</li>
+<li>和巢老师谈话。</li>
+</ol>
+<hr />
+<h2 id="section-27">11</h2>
+<ol type="1">
+<li>白2cc雪菜线完结。</li>
+</ol>
+<hr />
+<h2 id="section-28">12</h2>
+<ol type="1">
+<li>ML作业1。</li>
+</ol>
+<hr />
+<h2 id="section-29">13</h2>
+<ol type="1">
+<li>音频上传。</li>
+</ol>
+<hr />
+<h2 id="section-30">14</h2>
+<ol type="1">
+<li>算法作业1完成。</li>
+<li>2.03km，10'28''。</li>
+</ol>
+<hr />
+<h2 id="section-31">15</h2>
+<ol type="1">
+<li>复习了ICS第七章。</li>
+<li>一个github issue，问题是post中表格头显示异常（已被解决）。</li>
+<li>3.17km，16'07''。</li>
+</ol>
+<hr />
+<h2 id="section-32">16</h2>
+<ol type="1">
+<li>复习了ICS第八章。</li>
+<li>两个PR，均已被merge。</li>
+<li>提出关于archer TOC的issue，已被响应<del>（甩锅）</del>。</li>
+<li>博客和archer仓库重构。</li>
+<li>2.01km，12'03''。</li>
+</ol>
+<p>尝试了在blog主仓库，添加archer作为子模块。期望达到的目标为：在日常更新主仓库的博客等内容时，可以同时对archer进行贡献或者个性化修改。archer的目录需要暴露给blog，因为blog需要用到archer中的文件进行页面渲染。有待探索。</p>
+<hr />
+<h2 id="section-33">17</h2>
+<ol type="1">
+<li><p>放弃github CI/CD，改用本地构建然后直接部署到public
+repo。原因有两个：</p>
+<ol type="1">
+<li>如果通过push到私有仓库，在远端构建并部署，则需要下载pandoc等依赖，比较复杂。</li>
+<li>actions/checkout@v3会将source的内容克隆到服务器上，但是克隆会覆盖文件的修改时间，导致博客页面上的所有博客的修改时间均为克隆时间，而git又没有提供解决办法。</li>
+</ol>
+<p>顺便写了个脚本<code>go.bat</code>，一步到位~。</p></li>
+<li><p>顺便解决了时区的问题。因为是本地构建，所以时间正常显示。</p></li>
+<li><p>学习了git submodule的使用方法，解决了昨天的遗留问题。总结在了<a
+href="https://lulu010722.cn/git%E2%80%94%E2%80%94%E4%BA%BA%E7%B1%BB%E5%A5%BD%E6%9C%8B%E5%8F%8B/">这篇博客中</a>。</p></li>
+</ol>
+<hr />
+<h2 id="section-34">18</h2>
+<ol type="1">
+<li>复习了ICS第九章。</li>
+<li>复习了compiler关于parser的部分，编写了部分lab3代码。</li>
+<li>3.09km，15'45''。</li>
+<li>写了一点点mine主题。</li>
+</ol>
+<hr />
+<h2 id="section-35">19</h2>
+<ol type="1">
+<li>更新了about页，因为突然想起来，VG100的项目也可以列进去~🤗。</li>
+<li>改了改日记里面对博客的引用，因为前几天改了permalink的格式。</li>
+<li>连追八集边缘行者😍。</li>
+<li>3.04km，12'53''。</li>
+<li>compiler lab3第一版<del>（虽然一直syntax error）</del>。</li>
+</ol>
+<hr />
+<h2 id="section-36">20</h2>
+<ol type="1">
+<li>3.15km，15'19''。</li>
+</ol>
+<hr />
+<h2 id="section-37">21</h2>
+<ol type="1">
+<li>看医生。</li>
+<li>研究了ipads面试论文，基本搞懂了机器学习辅助缓存的基本原理。</li>
+</ol>
+<hr />
+<h2 id="section-38">22</h2>
+<ol type="1">
+<li>ipads面试，自我感觉一般quq。</li>
+<li>完成了compiler的lab3。</li>
+<li>修补了cse lab1
+2d部分未完成的任务，同时将代码迁移到wsl上，避免后续挂载问题。</li>
+<li>3.53km，18'55''。</li>
+</ol>
+<hr />
+<h2 id="section-39">23</h2>
+<ol type="1">
+<li>散步<span class="math inline">\(n\)</span>圈（<span
+class="math inline">\(n\ge8\)</span>）。由于一直在聊天所以实在不记得了hhh。</li>
+</ol>
+<p>小法绝活练成（bushi）。另外，大概可能要开始写信了呀。</p>
+<hr />
+<h2 id="section-40">24</h2>
+<ol type="1">
+<li>第二封信。</li>
+</ol>
+<hr />
+<h2 id="section-41">25</h2>
+<ol type="1">
+<li>学长碎碎念。</li>
+</ol>
+<hr />
+<h2 id="section-42">26</h2>
+<ol type="1">
+<li>yh碎碎念，甚至帮做ppt了hhh。</li>
+</ol>
+<hr />
+<h2 id="section-43">27</h2>
+<ol type="1">
+<li>af碎碎念。</li>
+</ol>
+<p>这几天只剩下碎碎念了。。。</p>
+<hr />
+<h2 id="section-44">28</h2>
+<ol type="1">
+<li>aea作业4完成。</li>
+<li>理清了一些关于摘要，签名，证书的原理。</li>
+</ol>
+<hr />
+<h2 id="section-45">29</h2>
+<ol type="1">
+<li>完成cse lab2A part1 part2。</li>
+<li>直系学长东工大留学经验分享。听完感觉又有点信心了hh。</li>
+</ol>
+<hr />
+<h2 id="section-46">30</h2>
+<ol type="1">
+<li>完成cse lab2A part3。</li>
+<li>完成算法作业2。</li>
+</ol>
+<hr />
+<h2 id="section-47">31</h2>
+<ol type="1">
+<li>复习了compiler type checking，开工lab4。</li>
+<li>综合日语第二次，16课朗读+词汇背诵。</li>
+</ol>
+<hr />
+<p><br></p>
+<h1 id="section-48">2022-11</h1>
+<h2 id="section-49">1</h2>
+<ol type="1">
+<li>完成了大部分compiler lab4。</li>
+</ol>
+<h2 id="section-50">2</h2>
+<ol type="1">
+<li>完成了lab4。</li>
+<li>复习compiler，因为明天要考试了quq。</li>
+</ol>
+<hr />
+<h2 id="section-51">3</h2>
+<ol type="1">
+<li>compiler考试，发挥正常。</li>
+<li>看医生。</li>
+</ol>
+<hr />
+<h2 id="section-52">4</h2>
+<ol type="1">
+<li>《明朝那些事儿（一）——洪武大帝》10%。</li>
+<li>JLPT
+N1-N5的例题全都挑战了一遍，发现自己目前大概在N4-N3之间的水平。不过，利用中国人的汉语和英语加成，N2的读解文章也能大概看懂，需要更多练习听解。</li>
+<li>试做了2011.12
+N3真题，刨除尺度计分的因素，综合得分大概135分左右，超过了95分的及格线。已复盘。</li>
+</ol>
+<hr />
+<h2 id="section-53">5</h2>
+<ol type="1">
+<li>2011.07 N3，刨除尺度计分，146。已复盘。</li>
+<li>JLPTというアプリで単語を70個覚えました。</li>
+</ol>
+<hr />
+<h2 id="section-54">6</h2>
+<ol type="1">
+<li>新しい単語を７０（N2）＋１２０（N5）個覚えました。前に覚えた単語を７０個を復習した。</li>
+<li>2012.07 N3，言语部分-11分，读解-8分。</li>
+<li>简单了解了fair division和stable
+match的问题，准备周三与陶老师见面。</li>
+</ol>
+<hr />
+<h2 id="section-55">7</h2>
+<ol type="1">
+<li>新しい単語７０個。７０個を復習した。</li>
+</ol>
+<hr />
+<h2 id="section-56">8</h2>
+<ol type="1">
+<li>新しい単語７０個。７０個を復習した。</li>
+<li>陶老师的论文浅读。</li>
+</ol>
+<hr />
+<h2 id="section-57">9</h2>
+<ol type="1">
+<li>和陶老师进行了交流，基本介绍了研究方向和问题。</li>
+<li>新しい単語７０個。７０個を復習した。</li>
+</ol>
+<hr />
+<h2 id="section-58">10</h2>
+<ol type="1">
+<li>泉さんとご相談をしました。</li>
+<li>新しい単語３５個。７０個を復習した。</li>
+<li>cse lab2B完成。</li>
+<li>ML hw2完成。</li>
+<li>飛くんとジョギングをした。</li>
+</ol>
+<hr />
+<h2 id="section-59">11</h2>
+<ol type="1">
+<li>ML lab1完成。</li>
+<li>新しい単語３５個。３５個を復習した。</li>
+<li>2012.07 N3 听解-17分，总分144。复盘了言语，读解和部分听解。</li>
+<li>飛くんとジョギングをした。</li>
+</ol>
+<hr />
+<h2 id="section-60">12</h2>
+<ol type="1">
+<li>完成了algorithm
+assignment3。尝试学习tikz画图论用图，但是失败了。。</li>
+<li>JLPTでN3の模擬試験は参加しました。得点はまだ出ていない。でも、聴解問題はちょっと難しかったな。</li>
+<li>新しい単語３５個。</li>
+</ol>
+<hr />
+<h2 id="section-61">13</h2>
+<ol type="1">
+<li>Talked with Aysu.</li>
+<li>単語３５個。</li>
+<li>复习了cse部分知识。明天还要继续，否则后天寄了哇。。</li>
+</ol>
+<p>今天外卖能送到楼下了，本学期第一次在楼下取到外卖，有点怀念了😭。</p>
+<hr />
+<h2 id="section-62">14</h2>
+<ol type="1">
+<li>复习了cse，包括乐观并发控制，事务原子控制，谷歌文件系统，inode-based文件系统等等。</li>
+<li>単語３５個。</li>
+</ol>
+<p>今天连翘了三节课复习，结果晚上陈老师来问问题还是不会，哎，希望明天加油吧。。</p>
+<hr />
+<h2 id="section-63">15</h2>
+<ol type="1">
+<li>cse期中考，感觉发挥非常不好。</li>
+<li>単語７０個。</li>
+<li>2012.12 N3 言语-10，语法-4，听力-2，总分164！头一次上160hh。</li>
+<li>复习了一点compiler activation record内容。</li>
+</ol>
+<hr />
+<h2 id="section-64">16</h2>
+<ol type="1">
+<li>単語３５個。</li>
+</ol>
+<p><br></p>
+<p><br></p>
+<h1 id="section-65">2023-06</h1>
+<h2 id="section-66">27</h2>
+<ol type="1">
+<li>完成了一个较为美观的表单组件。</li>
+</ol>
+<h2 id="section-67">28</h2>
+<ol type="1">
+<li>遇到一个坑，那就是css的transition属性中，涉及时间一定要加单位，否则会被视为无效。</li>
+</ol>
+<h2 id="section-68">29</h2>
+<ol type="1">
+<li><code>react</code>的根节点默认被<code>StrictMode</code>包裹，不去掉的话，在开发时，会有多次重复渲染。</li>
+<li>当<code>Array</code>的内容是<code>undefined</code>时，使用<code>map</code>不会进行转换。</li>
+<li>用<code>react</code>函数式组件写了一半的贪吃蛇，太难了，发现只是有很多漏洞。</li>
+</ol>
+<h1 id="todo">TODO</h1>
+<ol type="1">
+<li>生成文件中大量空白。与<code>themes\archer\layout\_partial\sidebar\sidebar-archives.ejs</code>有关，大概需要学习ejs语法。</li>
+<li>自动检测&lt;br&gt;。</li>
+<li>TOC修改。</li>
+<li>archer本地搜索。根据<code>hexo-generator-searchdb</code>生成的文件编写js。</li>
+<li>一个idea：可以添加私有文章系统，通过手动输入秘钥来解锁。</li>
+</ol>
+
+    </article>
+    <!-- license -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://lulu010722.cn">LULU</a>
+            <p>原文链接：<a href="https://lulu010722.cn/daily-report/">https://lulu010722.cn/daily-report/</a>
+            <p>发表日期：<a href="https://lulu010722.cn/daily-report/">September 16th 2022, 11:09:22 pm</a>
+            <p>更新日期：<a href="https://lulu010722.cn/daily-report/">June 30th 2023, 10:06:47 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/" title="柯柯的画">
+                    <div class="nextTitle">柯柯的画</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/" title="机器学习概论">
+                    <div class="prevTitle">机器学习概论</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
+    
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
+
+            
+
+            
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+    <script>
+        let idOption = '1663340962000'
+        
+        const gitalk = new Gitalk({
+            clientID: '92b12a8b77ce002f4e8f',
+            clientSecret: '0575f7da98f9abf2c39445ab6d9711ba2250efa8',
+            repo: 'blog-comments',
+            owner: 'LuLu010722',
+            admin: ["LuLu010722"],
+            id: idOption,
+            distractionFreeMode: false,
+            createIssueManually: true,
+        })
+        gitalk.render('gitalk-container')
+    </script>
+    <noscript>为正常使用 Gitalk 评论功能，您需要激活 JavaScript</noscript>
+
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
+        </div>
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+        <script>
+            (function () {
+                const time = document.getElementsByClassName('post-intro-time')[0]
+                const post = document.getElementsByTagName("article")[0]
+                if (time === undefined || post === undefined) {
+                    return
+                }
+
+                const pubTime = new Date(time.innerText)
+                const now = Date.now()
+                const interval = parseInt(now - pubTime)
+                const days = parseInt(interval / 86400000)
+                const outdated_threshold = parseInt(180)
+                if (interval > outdated_threshold * 24 * 3600 * 1000) {
+                    post.innerHTML = '<div class="note note-warning">' +
+                    `<div class="title">文章时效性提示</div><p>这是一篇发布于 ${days} 天前的文章，部分信息可能已发生改变，请注意甄别。` +
+                    '</p></div>' + post.innerHTML;
+                }
+            })();
+        </script>
+    
+    <!-- Mathjax -->
+    
+        
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            }
+        };
+    </script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js"></script>
+
+
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+            
+                <a href="mailto:384668412@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="https://github.com/LuLu010722/LuLu010722.github.io" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                    
+                    <img class="profile-qr" src="/images/wechat.jpg" />
+                </span>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                    
+                    <img class="profile-qr" src="/images/qq.jpg" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://github.com/fi3ework/hexo-theme-archer" class="iconfont-archer others" target="_blank" title=others></a>
+            
+        
+    
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#section"><span class="toc-number">1.</span> <span class="toc-text">2022-09</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#section-1"><span class="toc-number">1.1.</span> <span class="toc-text">16</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-2"><span class="toc-number">1.2.</span> <span class="toc-text">17</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-3"><span class="toc-number">1.3.</span> <span class="toc-text">18</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-4"><span class="toc-number">1.4.</span> <span class="toc-text">19</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-5"><span class="toc-number">1.5.</span> <span class="toc-text">20</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-6"><span class="toc-number">1.6.</span> <span class="toc-text">21</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-7"><span class="toc-number">1.7.</span> <span class="toc-text">22</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-8"><span class="toc-number">1.8.</span> <span class="toc-text">23</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-9"><span class="toc-number">1.9.</span> <span class="toc-text">24</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-10"><span class="toc-number">1.10.</span> <span class="toc-text">25</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-11"><span class="toc-number">1.11.</span> <span class="toc-text">26</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-12"><span class="toc-number">1.12.</span> <span class="toc-text">27</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-13"><span class="toc-number">1.13.</span> <span class="toc-text">28</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-14"><span class="toc-number">1.14.</span> <span class="toc-text">29</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-15"><span class="toc-number">1.15.</span> <span class="toc-text">30</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#section-16"><span class="toc-number">2.</span> <span class="toc-text">2022-10</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#section-17"><span class="toc-number">2.1.</span> <span class="toc-text">1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-18"><span class="toc-number">2.2.</span> <span class="toc-text">2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-19"><span class="toc-number">2.3.</span> <span class="toc-text">3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-20"><span class="toc-number">2.4.</span> <span class="toc-text">4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-21"><span class="toc-number">2.5.</span> <span class="toc-text">5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-22"><span class="toc-number">2.6.</span> <span class="toc-text">6</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-23"><span class="toc-number">2.7.</span> <span class="toc-text">7</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-24"><span class="toc-number">2.8.</span> <span class="toc-text">8</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-25"><span class="toc-number">2.9.</span> <span class="toc-text">9</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-26"><span class="toc-number">2.10.</span> <span class="toc-text">10</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-27"><span class="toc-number">2.11.</span> <span class="toc-text">11</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-28"><span class="toc-number">2.12.</span> <span class="toc-text">12</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-29"><span class="toc-number">2.13.</span> <span class="toc-text">13</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-30"><span class="toc-number">2.14.</span> <span class="toc-text">14</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-31"><span class="toc-number">2.15.</span> <span class="toc-text">15</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-32"><span class="toc-number">2.16.</span> <span class="toc-text">16</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-33"><span class="toc-number">2.17.</span> <span class="toc-text">17</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-34"><span class="toc-number">2.18.</span> <span class="toc-text">18</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-35"><span class="toc-number">2.19.</span> <span class="toc-text">19</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-36"><span class="toc-number">2.20.</span> <span class="toc-text">20</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-37"><span class="toc-number">2.21.</span> <span class="toc-text">21</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-38"><span class="toc-number">2.22.</span> <span class="toc-text">22</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-39"><span class="toc-number">2.23.</span> <span class="toc-text">23</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-40"><span class="toc-number">2.24.</span> <span class="toc-text">24</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-41"><span class="toc-number">2.25.</span> <span class="toc-text">25</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-42"><span class="toc-number">2.26.</span> <span class="toc-text">26</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-43"><span class="toc-number">2.27.</span> <span class="toc-text">27</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-44"><span class="toc-number">2.28.</span> <span class="toc-text">28</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-45"><span class="toc-number">2.29.</span> <span class="toc-text">29</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-46"><span class="toc-number">2.30.</span> <span class="toc-text">30</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-47"><span class="toc-number">2.31.</span> <span class="toc-text">31</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#section-48"><span class="toc-number">3.</span> <span class="toc-text">2022-11</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#section-49"><span class="toc-number">3.1.</span> <span class="toc-text">1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-50"><span class="toc-number">3.2.</span> <span class="toc-text">2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-51"><span class="toc-number">3.3.</span> <span class="toc-text">3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-52"><span class="toc-number">3.4.</span> <span class="toc-text">4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-53"><span class="toc-number">3.5.</span> <span class="toc-text">5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-54"><span class="toc-number">3.6.</span> <span class="toc-text">6</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-55"><span class="toc-number">3.7.</span> <span class="toc-text">7</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-56"><span class="toc-number">3.8.</span> <span class="toc-text">8</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-57"><span class="toc-number">3.9.</span> <span class="toc-text">9</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-58"><span class="toc-number">3.10.</span> <span class="toc-text">10</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-59"><span class="toc-number">3.11.</span> <span class="toc-text">11</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-60"><span class="toc-number">3.12.</span> <span class="toc-text">12</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-61"><span class="toc-number">3.13.</span> <span class="toc-text">13</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-62"><span class="toc-number">3.14.</span> <span class="toc-text">14</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-63"><span class="toc-number">3.15.</span> <span class="toc-text">15</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-64"><span class="toc-number">3.16.</span> <span class="toc-text">16</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#section-65"><span class="toc-number">4.</span> <span class="toc-text">2023-06</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#section-66"><span class="toc-number">4.1.</span> <span class="toc-text">27</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-67"><span class="toc-number">4.2.</span> <span class="toc-text">28</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-68"><span class="toc-number">4.3.</span> <span class="toc-text">29</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#todo"><span class="toc-number">5.</span> <span class="toc-text">TODO</span></a></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 23
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> 2023 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/27</span>
+            <a class="archive-post-title" href="/%E5%89%8D%E7%AB%AF%E7%BB%83%E4%B9%A0/">前端练习</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/27</span>
+            <a class="archive-post-title" href="/cname%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/">CNAME的必要性</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/21</span>
+            <a class="archive-post-title" href="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/">我的雷神🤗</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/14</span>
+            <a class="archive-post-title" href="/%E3%81%9F%E3%81%A0%E3%81%84%E3%81%BE/">ただいま</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2022 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/%E6%B3%89%E3%81%95%E3%82%93%E3%81%A8%E3%81%AE%E7%9B%B8%E8%AB%87/">泉さんとの相談</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/29</span>
+            <a class="archive-post-title" href="/cse-lab2a%E8%B8%A9%E5%9D%91/">cse-lab2a踩坑</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/24</span>
+            <a class="archive-post-title" href="/%E8%A7%A3%E5%B0%81%E4%BA%86%EF%BC%8C%E5%90%97%EF%BC%9F/">解封了，吗？</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/16</span>
+            <a class="archive-post-title" href="/git%E2%80%94%E2%80%94%E4%BA%BA%E7%B1%BB%E5%A5%BD%E6%9C%8B%E5%8F%8B/">git——人类好朋友</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span>
+            <a class="archive-post-title" href="/%E6%B5%8B%E8%AF%95/">测试</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span>
+            <a class="archive-post-title" href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">计算机系统基础</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span>
+            <a class="archive-post-title" href="/cse-lab1%E8%B8%A9%E5%9D%91/">cse-lab1踩坑</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/02</span>
+            <a class="archive-post-title" href="/inode%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/">inode文件系统</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span>
+            <a class="archive-post-title" href="/jpa%E4%BA%8B%E5%8A%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%A4%96%E9%94%AE%E6%AD%BB%E9%94%81/">JPA事务控制与外键死锁</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/24</span>
+            <a class="archive-post-title" href="/%E6%88%91%E7%9A%84%E7%94%BB/">我的画</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/23</span>
+            <a class="archive-post-title" href="/%E3%80%8A%E8%8B%8F%E4%B8%9C%E5%9D%A1%E4%BC%A0%E3%80%8B/">《苏东坡传》</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/22</span>
+            <a class="archive-post-title" href="/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/">《月亮与六便士》</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span>
+            <a class="archive-post-title" href="/%E9%9A%8F%E4%BE%BF%E5%86%99%E5%86%99/">随便写写</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span>
+            <a class="archive-post-title" href="/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/">柯柯的画</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span>
+            <a class="archive-post-title" href="/%E5%8F%AF%E5%8F%AF%E7%9A%84%E7%90%B4/">可可的琴</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span>
+            <a class="archive-post-title" href="/daily-report/">Daily Report</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span>
+            <a class="archive-post-title" href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/">机器学习概论</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span>
+            <a class="archive-post-title" href="/%E9%85%8D%E7%BD%AEhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E5%B9%B6%E6%9B%B4%E6%8D%A2%E5%A4%9A%E7%A7%8D%E4%B8%BB%E9%A2%98/">配置hexo博客，并更换多种主题</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span>
+            <a class="archive-post-title" href="/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%EF%BC%81/">欢迎来到我的博客！</a>
+        </li>
+    
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+            <span class="sidebar-tag-name" data-tags="ICS">
+                <span class="iconfont-archer">&#xe606;</span>
+                ICS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="复习">
+                <span class="iconfont-archer">&#xe606;</span>
+                复习
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="ipads面试">
+                <span class="iconfont-archer">&#xe606;</span>
+                ipads面试
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="mysql">
+                <span class="iconfont-archer">&#xe606;</span>
+                mysql
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="踩坑">
+                <span class="iconfont-archer">&#xe606;</span>
+                踩坑
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="配置">
+                <span class="iconfont-archer">&#xe606;</span>
+                配置
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="每日活动记录">
+                <span class="iconfont-archer">&#xe606;</span>
+                每日活动记录
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="随笔">
+                <span class="iconfont-archer">&#xe606;</span>
+                随笔
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="随键">
+                <span class="iconfont-archer">&#xe606;</span>
+                随键
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="git">
+                <span class="iconfont-archer">&#xe606;</span>
+                git
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="高级操作">
+                <span class="iconfont-archer">&#xe606;</span>
+                高级操作
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="练习">
+                <span class="iconfont-archer">&#xe606;</span>
+                练习
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="校园">
+                <span class="iconfont-archer">&#xe606;</span>
+                校园
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="线下课程">
+                <span class="iconfont-archer">&#xe606;</span>
+                线下课程
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="cse">
+                <span class="iconfont-archer">&#xe606;</span>
+                cse
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="绘画">
+                <span class="iconfont-archer">&#xe606;</span>
+                绘画
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="柯柯">
+                <span class="iconfont-archer">&#xe606;</span>
+                柯柯
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="月亮与六便士">
+                <span class="iconfont-archer">&#xe606;</span>
+                月亮与六便士
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="手办">
+                <span class="iconfont-archer">&#xe606;</span>
+                手办
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="可可">
+                <span class="iconfont-archer">&#xe606;</span>
+                可可
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="音乐">
+                <span class="iconfont-archer">&#xe606;</span>
+                音乐
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="古琴">
+                <span class="iconfont-archer">&#xe606;</span>
+                古琴
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="苏东坡传">
+                <span class="iconfont-archer">&#xe606;</span>
+                苏东坡传
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="雑談">
+                <span class="iconfont-archer">&#xe606;</span>
+                雑談
+            </span>
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="笔记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            笔记
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="数据库">
+            <span class="iconfont-archer">&#xe60a;</span>
+            数据库
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="cse">
+            <span class="iconfont-archer">&#xe60a;</span>
+            cse
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="hexo">
+            <span class="iconfont-archer">&#xe60a;</span>
+            hexo
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="日记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            日记
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="随笔">
+            <span class="iconfont-archer">&#xe60a;</span>
+            随笔
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="git">
+            <span class="iconfont-archer">&#xe60a;</span>
+            git
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="前端">
+            <span class="iconfont-archer">&#xe60a;</span>
+            前端
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="配置">
+            <span class="iconfont-archer">&#xe60a;</span>
+            配置
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="信">
+            <span class="iconfont-archer">&#xe60a;</span>
+            信
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="校园">
+            <span class="iconfont-archer">&#xe60a;</span>
+            校园
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="机器学习">
+            <span class="iconfont-archer">&#xe60a;</span>
+            机器学习
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="展厅">
+            <span class="iconfont-archer">&#xe60a;</span>
+            展厅
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="书架">
+            <span class="iconfont-archer">&#xe60a;</span>
+            书架
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="测试">
+            <span class="iconfont-archer">&#xe60a;</span>
+            测试
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="日本語">
+            <span class="iconfont-archer">&#xe60a;</span>
+            日本語
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="其他">
+            <span class="iconfont-archer">&#xe60a;</span>
+            其他
+        </span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "https://lulu010722.cn",
+        root: siteMetaRoot,
+        author: "LULU"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
+            <script src='https://cdn.jsdelivr.net/npm/mermaid@8.11.0/dist/mermaid.min.js'></script>
+            <script>
+                if (window.mermaid) {
+                    mermaid.initialize({theme: 'dark'});
+                }
+            </script>
+        
+    </body>
+</html>

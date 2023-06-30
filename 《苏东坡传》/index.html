@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="LULU">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="LULU">
+    
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog,hexo-theme-archer,LULU,博客">
+    
+    <meta name="description" content="记录技术学习过程中的点滴">
+    <meta name="description" content="莫听穿林打叶声，何妨吟啸且徐行。竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生。 料峭春风吹酒醒，微冷，山头斜照却相迎。回首向来萧瑟处，归去，也无风雨也无晴。  走进林语堂先生的《苏东坡传》，东坡正传没见几句，倒是看了不少苏家长辈的趣事，还有三苏二次赴京上任途中的三峡奇景。林语堂先生的语言通俗易懂，偶尔诙谐幽默。例如，今日读到，苏洵青年时期不爱读书。直至27岁，看到自己的哥哥，内兄，还有两个姐丈，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《苏东坡传》">
+<meta property="og:url" content="https://lulu010722.cn/%E3%80%8A%E8%8B%8F%E4%B8%9C%E5%9D%A1%E4%BC%A0%E3%80%8B/index.html">
+<meta property="og:site_name" content="冰化了还有棍儿">
+<meta property="og:description" content="莫听穿林打叶声，何妨吟啸且徐行。竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生。 料峭春风吹酒醒，微冷，山头斜照却相迎。回首向来萧瑟处，归去，也无风雨也无晴。  走进林语堂先生的《苏东坡传》，东坡正传没见几句，倒是看了不少苏家长辈的趣事，还有三苏二次赴京上任途中的三峡奇景。林语堂先生的语言通俗易懂，偶尔诙谐幽默。例如，今日读到，苏洵青年时期不爱读书。直至27岁，看到自己的哥哥，内兄，还有两个姐丈，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-09-23T13:38:41.000Z">
+<meta property="article:modified_time" content="2023-06-30T14:06:47.068Z">
+<meta property="article:author" content="LULU">
+<meta property="article:tag" content="苏东坡传">
+<meta name="twitter:card" content="summary">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/images/hexo.svg">
+    
+    <title>《苏东坡传》 · 冰化了还有棍儿的博客</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+    
+        <body class="post-body">
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu header-sidebar-menu-rounded">
+        
+            
+                <i class="fas fa-bars"></i>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>冰化了还有棍儿</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">冰化了还有棍儿</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">《苏东坡传》</a>
+            </div>
+        </div>
+    
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden back-top-rounded">
+        
+        
+            <i class="fas fa-chevron-up"></i>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+    height:50vh;
+
+">
+    
+    <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
+    
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+                《苏东坡传》
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+                
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        
+        
+            
+        
+        
+        <span class="post-category" data-categories="书架"">
+            <i class="fas fa-folder post-category-icon"></i>
+            <span class="post-category-text">
+                书架
+            </span>
+        </span>
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="苏东坡传">苏东坡传</a>
+    
+</div>
+
+                
+                <!-- 文章字数统计 -->
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">2k</span>阅读时长: <span class="post-count reading-time">6 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2022/09/23</span>
+                    <!-- busuanzi -->
+                    
+                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
+        <blockquote>
+<p>莫听穿林打叶声，何妨吟啸且徐行。竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生。</p>
+<p>料峭春风吹酒醒，微冷，山头斜照却相迎。回首向来萧瑟处，归去，也无风雨也无晴。</p>
+</blockquote>
+<p>走进林语堂先生的《苏东坡传》，东坡正传没见几句，倒是看了不少苏家长辈的趣事，还有三苏二次赴京上任途中的三峡奇景。林语堂先生的语言通俗易懂，偶尔诙谐幽默。例如，今日读到，苏洵青年时期不爱读书。直至27岁，看到自己的哥哥，内兄，还有两个姐丈，都已科考成功，行将做官为吏，顿时追悔韶光虚掷，痛自鞭策。对此，他这样写到：</p>
+<blockquote>
+<p>大人常举这件事来鼓励年轻人，告以只要勤勉奋发，终会成功的。当然，聪明的孩子也许会推演出相反的结论，那就是孩童之时不一定非要专心向学。</p>
+</blockquote>
+<p>又有另一处。书中讲到，古时行经三峡的人，往往在进入三峡之前焚香祷告，出了三峡再焚香谢神。于是：</p>
+<blockquote>
+<p>不管他们上行下行，在三峡危险的地方，神祇准保有美酒牛肉大快朵颐。</p>
+</blockquote>
+<p><br></p>
+<p>多日未曾开卷，今天可终于是把苏东坡人生中最重要的一段政治经历——王安石变法——看完了。</p>
+<p>诚如一众读者所感，我也觉得，在《苏传》中，他对于王安石的描摹未免有失偏颇。在这本书中，王安石被刻画成了一个颠倒黑白，混淆是非，党同伐异，欺君罔上的小人。自“王安石变法”至“人的恶行”凡三章，或明指王安石改革制度危害之深重，或暗喻王安石个人品行之败坏，不一而足。</p>
+<p>虽未尝研读王安石的经史著作，亦不曾考究其变法内容的实际影响，可单单由王安石之被列入“唐宋八大家”一事便可知，他本人想必并不像林语堂笔下所写一般卑劣。林语堂受西方经济社会制度的影响，对王安石变法所代表的国家资本主义思想深恶痛绝，再加上此书又是为苏轼著书立说，于是在个人情感的影响下，将王安石描述的过于负面，有失公正，不够客观。</p>
+<p>受此时局动荡之影响，苏东坡很难自保。他一向是坦率直言，为人最忌阳奉阴违。他对新政的看法基本中立，对王安石的变法内容不全盘否定，但也并不欣然接受，于是他在朝中，自然在两派中都无法交好。</p>
+<p><br></p>
+<p>熙宁四年（1071），苏轼来到杭州，他的第二故乡。对于杭州人来说，他们是不喜欢承认苏东坡生于眉州的，原文如下：</p>
+<blockquote>
+<p>今天，去此伟大诗人居住于杭州，歌咏于杭州，已经一千余年，在你泛舟于西湖之上，或攀登上孤山岛或凤凰山上，或品茗于湖滨酒馆中，你会听到杭州本地的主任嘴边常挂着“苏东坡，苏东坡”。你若指出苏东坡是四川人，他会不高兴听。他心里认为苏东坡生于杭州，除去到京都之外，何尝离开过杭州！</p>
+</blockquote>
+<p>在杭州，他常与僧侣为伴，亦频频为歌伎题诗。</p>
+<p>书中记载了一则东坡与好友佛印的趣事。“鸟”字在中国俚语中有不雅之意，苏东坡借此字想要开佛印的玩笑。他说，“古代诗人常常将‘僧’和‘鸟’在诗中相对，例如‘鸟宿池边树，僧敲月下门’，又如‘时闻啄木鸟，疑是叩门僧’。我佩服古人以‘僧’对‘鸟’的聪慧。”</p>
+<p>佛印的回应如下：</p>
+<blockquote>
+<p>这就是我为什么以“僧”的身份与你相对而坐的理由了。（暗指苏东坡为“鸟”）</p>
+</blockquote>
+<p>在北宋，文人雅士为官之时，在酒宴场合，与官妓相调戏并以诗相赠，是被接受的。东坡以其天妒之才，为各路名妓题赠了不少诗词。但纵然苏轼爱出席此等酒筵征逐，他并不沉迷声色。他的所爱，在杭州的山水之间，尤以西湖为最。他对西湖的情感，饱含在如下这首广为流传的诗中：</p>
+<blockquote>
+<p>水光潋滟晴方好，山色空蒙雨亦奇。</p>
+<p>欲把西湖比西子，淡妆浓抹总相宜。</p>
+</blockquote>
+<p>当然，在杭州，与苏轼相伴的并不只有诗酒与山河。当时安石还没有被罢相，新政仍在实施。其为害之烈，一一体现在杭州的民生上。除去“荡气回肠的爱情诗，启人灵思的山水诗”，苏轼在杭州期间，也曾写下了大量“戏谑讽刺的抗暴诗”。</p>
+<p><br></p>
+<p>熙宁七年，苏轼转调密州（今山东诸城市，是潍坊的下辖县，与青岛毗邻）知州。因为弟弟子由在山东济州任职，于是苏东坡变在杭州任期届满之时，呈请调任到山东去。“这是苏东坡最难过、最沮丧的一段时光。”但是，他的诗才在这一时期，达到完全成熟的地步。“愤怒与苛酷的火气已无，只剩下安详平和与顺时知命的心境。”</p>
+<p><br></p>
+<p>熙宁九年，苏轼又被改派至徐州。在任期内，为治理黄河水患，而加强城基，增加城高。治水成功后，由于苏轼喜欢建筑，便在外围城墙上，修筑了一座楼，楼高百尺，谓之“黄楼”。后来，苏东坡在徐州任期内所作的诗歌总集，便以“黄楼”命名，正如在密州时，他曾建“超然台”，此台也成了苏东坡在密州时所写诗集的名称。</p>
+<p><br></p>
+<p>尚未读完，暂无定论。</p>
+<p>不妨先放些摘抄。</p>
+<h2 id="诗词">诗词</h2>
+<blockquote>
+<p>十年生死两茫茫，不思量，自难忘。千里孤坟，无处话凄凉。纵使相逢应不识，尘满面，鬓如霜。</p>
+<p>夜来幽梦忽还乡，小轩窗，正梳妆。相顾无言，惟有泪千行。聊得年年断肠处，明月夜，短松岗。</p>
+<p>——《江城子·乙卯正月二十日夜记梦》</p>
+<p>此为东坡为悼念亡妻王弗而创作的悼亡词。</p>
+</blockquote>
+<blockquote>
+<p>东风知我欲山行，吹断檐间积雨声。</p>
+<p>岭上晴云披絮帽，树头初日挂铜钲。</p>
+</blockquote>
+<blockquote>
+<p>劝君莫惜金缕衣，劝君惜取少年时。</p>
+<p>花开堪折直须折，莫待无花空折枝。</p>
+</blockquote>
+<h2 id="林语堂原文">林语堂原文</h2>
+<blockquote>
+<p>使文学作品有别于一般作品，就在于在精神上取悦于人的声韵、感情、风格而已。</p>
+</blockquote>
+<blockquote>
+<p>对国运为害之烈，再没有如庸妄之辈大权在握、独断独行时之甚得了。</p>
+</blockquote>
+<blockquote>
+<p>所谓华美靡丽的风格，可以说就是堆砌艰深难解之辞藻与晦涩罕见的典故，以求文章之美。在此等文章里，很难找到一两行质朴自然的句子。最忌讳指物直称其名，最怕句子质朴无华。苏东坡称这种炫耀浮华的文章里构句用字各自为政，置全篇效果于不顾，如演戏之开场日，项臂各挂华丽珠宝的老妪一样。</p>
+</blockquote>
+<blockquote>
+<p><em>读苏东坡来信，不知为何，我竟喜极汗下。老夫当退让此人，使之出人头地。</em></p>
+<p><em>——欧阳修</em></p>
+</blockquote>
+<blockquote>
+<p>苏东坡这时轻松愉快，壮志凌云，才气纵横而不可抑制，一时骅骝长嘶，奋蹄蹴地，有随风飞驰、征服四野八荒之势。</p>
+</blockquote>
+<blockquote>
+<p>在历史上，多少政治的罪恶都是假借“人民”的名义而犯下的，现代的读者自然不难明白。</p>
+</blockquote>
+
+    </article>
+    <!-- license -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://lulu010722.cn">LULU</a>
+            <p>原文链接：<a href="https://lulu010722.cn/%E3%80%8A%E8%8B%8F%E4%B8%9C%E5%9D%A1%E4%BC%A0%E3%80%8B/">https://lulu010722.cn/%E3%80%8A%E8%8B%8F%E4%B8%9C%E5%9D%A1%E4%BC%A0%E3%80%8B/</a>
+            <p>发表日期：<a href="https://lulu010722.cn/%E3%80%8A%E8%8B%8F%E4%B8%9C%E5%9D%A1%E4%BC%A0%E3%80%8B/">September 23rd 2022, 9:38:41 pm</a>
+            <p>更新日期：<a href="https://lulu010722.cn/%E3%80%8A%E8%8B%8F%E4%B8%9C%E5%9D%A1%E4%BC%A0%E3%80%8B/">June 30th 2023, 10:06:47 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/%E6%88%91%E7%9A%84%E7%94%BB/" title="我的画">
+                    <div class="nextTitle">我的画</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/" title="《月亮与六便士》">
+                    <div class="prevTitle">《月亮与六便士》</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
+    
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
+
+            
+
+            
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+    <script>
+        let idOption = '1663940321000'
+        
+        const gitalk = new Gitalk({
+            clientID: '92b12a8b77ce002f4e8f',
+            clientSecret: '0575f7da98f9abf2c39445ab6d9711ba2250efa8',
+            repo: 'blog-comments',
+            owner: 'LuLu010722',
+            admin: ["LuLu010722"],
+            id: idOption,
+            distractionFreeMode: false,
+            createIssueManually: true,
+        })
+        gitalk.render('gitalk-container')
+    </script>
+    <noscript>为正常使用 Gitalk 评论功能，您需要激活 JavaScript</noscript>
+
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
+        </div>
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+        <script>
+            (function () {
+                const time = document.getElementsByClassName('post-intro-time')[0]
+                const post = document.getElementsByTagName("article")[0]
+                if (time === undefined || post === undefined) {
+                    return
+                }
+
+                const pubTime = new Date(time.innerText)
+                const now = Date.now()
+                const interval = parseInt(now - pubTime)
+                const days = parseInt(interval / 86400000)
+                const outdated_threshold = parseInt(180)
+                if (interval > outdated_threshold * 24 * 3600 * 1000) {
+                    post.innerHTML = '<div class="note note-warning">' +
+                    `<div class="title">文章时效性提示</div><p>这是一篇发布于 ${days} 天前的文章，部分信息可能已发生改变，请注意甄别。` +
+                    '</p></div>' + post.innerHTML;
+                }
+            })();
+        </script>
+    
+    <!-- Mathjax -->
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+            
+                <a href="mailto:384668412@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="https://github.com/LuLu010722/LuLu010722.github.io" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                    
+                    <img class="profile-qr" src="/images/wechat.jpg" />
+                </span>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                    
+                    <img class="profile-qr" src="/images/qq.jpg" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://github.com/fi3ework/hexo-theme-archer" class="iconfont-archer others" target="_blank" title=others></a>
+            
+        
+    
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%97%E8%AF%8D"><span class="toc-number">1.</span> <span class="toc-text">诗词</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%97%E8%AF%AD%E5%A0%82%E5%8E%9F%E6%96%87"><span class="toc-number">2.</span> <span class="toc-text">林语堂原文</span></a></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 23
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> 2023 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/27</span>
+            <a class="archive-post-title" href="/%E5%89%8D%E7%AB%AF%E7%BB%83%E4%B9%A0/">前端练习</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/27</span>
+            <a class="archive-post-title" href="/cname%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/">CNAME的必要性</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/21</span>
+            <a class="archive-post-title" href="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/">我的雷神🤗</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/14</span>
+            <a class="archive-post-title" href="/%E3%81%9F%E3%81%A0%E3%81%84%E3%81%BE/">ただいま</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2022 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/%E6%B3%89%E3%81%95%E3%82%93%E3%81%A8%E3%81%AE%E7%9B%B8%E8%AB%87/">泉さんとの相談</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/29</span>
+            <a class="archive-post-title" href="/cse-lab2a%E8%B8%A9%E5%9D%91/">cse-lab2a踩坑</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/24</span>
+            <a class="archive-post-title" href="/%E8%A7%A3%E5%B0%81%E4%BA%86%EF%BC%8C%E5%90%97%EF%BC%9F/">解封了，吗？</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/16</span>
+            <a class="archive-post-title" href="/git%E2%80%94%E2%80%94%E4%BA%BA%E7%B1%BB%E5%A5%BD%E6%9C%8B%E5%8F%8B/">git——人类好朋友</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span>
+            <a class="archive-post-title" href="/%E6%B5%8B%E8%AF%95/">测试</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span>
+            <a class="archive-post-title" href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">计算机系统基础</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span>
+            <a class="archive-post-title" href="/cse-lab1%E8%B8%A9%E5%9D%91/">cse-lab1踩坑</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/02</span>
+            <a class="archive-post-title" href="/inode%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/">inode文件系统</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span>
+            <a class="archive-post-title" href="/jpa%E4%BA%8B%E5%8A%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%A4%96%E9%94%AE%E6%AD%BB%E9%94%81/">JPA事务控制与外键死锁</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/24</span>
+            <a class="archive-post-title" href="/%E6%88%91%E7%9A%84%E7%94%BB/">我的画</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/23</span>
+            <a class="archive-post-title" href="/%E3%80%8A%E8%8B%8F%E4%B8%9C%E5%9D%A1%E4%BC%A0%E3%80%8B/">《苏东坡传》</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/22</span>
+            <a class="archive-post-title" href="/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/">《月亮与六便士》</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span>
+            <a class="archive-post-title" href="/%E9%9A%8F%E4%BE%BF%E5%86%99%E5%86%99/">随便写写</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span>
+            <a class="archive-post-title" href="/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/">柯柯的画</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span>
+            <a class="archive-post-title" href="/%E5%8F%AF%E5%8F%AF%E7%9A%84%E7%90%B4/">可可的琴</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span>
+            <a class="archive-post-title" href="/daily-report/">Daily Report</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span>
+            <a class="archive-post-title" href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/">机器学习概论</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span>
+            <a class="archive-post-title" href="/%E9%85%8D%E7%BD%AEhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E5%B9%B6%E6%9B%B4%E6%8D%A2%E5%A4%9A%E7%A7%8D%E4%B8%BB%E9%A2%98/">配置hexo博客，并更换多种主题</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span>
+            <a class="archive-post-title" href="/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%EF%BC%81/">欢迎来到我的博客！</a>
+        </li>
+    
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+            <span class="sidebar-tag-name" data-tags="ICS">
+                <span class="iconfont-archer">&#xe606;</span>
+                ICS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="复习">
+                <span class="iconfont-archer">&#xe606;</span>
+                复习
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="ipads面试">
+                <span class="iconfont-archer">&#xe606;</span>
+                ipads面试
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="mysql">
+                <span class="iconfont-archer">&#xe606;</span>
+                mysql
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="踩坑">
+                <span class="iconfont-archer">&#xe606;</span>
+                踩坑
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="配置">
+                <span class="iconfont-archer">&#xe606;</span>
+                配置
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="每日活动记录">
+                <span class="iconfont-archer">&#xe606;</span>
+                每日活动记录
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="随笔">
+                <span class="iconfont-archer">&#xe606;</span>
+                随笔
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="随键">
+                <span class="iconfont-archer">&#xe606;</span>
+                随键
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="git">
+                <span class="iconfont-archer">&#xe606;</span>
+                git
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="高级操作">
+                <span class="iconfont-archer">&#xe606;</span>
+                高级操作
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="练习">
+                <span class="iconfont-archer">&#xe606;</span>
+                练习
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="校园">
+                <span class="iconfont-archer">&#xe606;</span>
+                校园
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="线下课程">
+                <span class="iconfont-archer">&#xe606;</span>
+                线下课程
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="cse">
+                <span class="iconfont-archer">&#xe606;</span>
+                cse
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="绘画">
+                <span class="iconfont-archer">&#xe606;</span>
+                绘画
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="柯柯">
+                <span class="iconfont-archer">&#xe606;</span>
+                柯柯
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="月亮与六便士">
+                <span class="iconfont-archer">&#xe606;</span>
+                月亮与六便士
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="手办">
+                <span class="iconfont-archer">&#xe606;</span>
+                手办
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="可可">
+                <span class="iconfont-archer">&#xe606;</span>
+                可可
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="音乐">
+                <span class="iconfont-archer">&#xe606;</span>
+                音乐
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="古琴">
+                <span class="iconfont-archer">&#xe606;</span>
+                古琴
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="苏东坡传">
+                <span class="iconfont-archer">&#xe606;</span>
+                苏东坡传
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="雑談">
+                <span class="iconfont-archer">&#xe606;</span>
+                雑談
+            </span>
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="笔记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            笔记
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="数据库">
+            <span class="iconfont-archer">&#xe60a;</span>
+            数据库
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="cse">
+            <span class="iconfont-archer">&#xe60a;</span>
+            cse
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="hexo">
+            <span class="iconfont-archer">&#xe60a;</span>
+            hexo
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="日记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            日记
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="随笔">
+            <span class="iconfont-archer">&#xe60a;</span>
+            随笔
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="git">
+            <span class="iconfont-archer">&#xe60a;</span>
+            git
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="前端">
+            <span class="iconfont-archer">&#xe60a;</span>
+            前端
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="配置">
+            <span class="iconfont-archer">&#xe60a;</span>
+            配置
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="信">
+            <span class="iconfont-archer">&#xe60a;</span>
+            信
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="校园">
+            <span class="iconfont-archer">&#xe60a;</span>
+            校园
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="机器学习">
+            <span class="iconfont-archer">&#xe60a;</span>
+            机器学习
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="展厅">
+            <span class="iconfont-archer">&#xe60a;</span>
+            展厅
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="书架">
+            <span class="iconfont-archer">&#xe60a;</span>
+            书架
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="测试">
+            <span class="iconfont-archer">&#xe60a;</span>
+            测试
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="日本語">
+            <span class="iconfont-archer">&#xe60a;</span>
+            日本語
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="其他">
+            <span class="iconfont-archer">&#xe60a;</span>
+            其他
+        </span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "https://lulu010722.cn",
+        root: siteMetaRoot,
+        author: "LULU"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
+            <script src='https://cdn.jsdelivr.net/npm/mermaid@8.11.0/dist/mermaid.min.js'></script>
+            <script>
+                if (window.mermaid) {
+                    mermaid.initialize({theme: 'dark'});
+                }
+            </script>
+        
+    </body>
+</html>

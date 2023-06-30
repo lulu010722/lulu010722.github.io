@@ -1,0 +1,2257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="LULU">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="LULU">
+    
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog,hexo-theme-archer,LULU,博客">
+    
+    <meta name="description" content="记录技术学习过程中的点滴">
+    <meta name="description" content="[TOC]  第一部分 程序结构和执行  第一章 计算机系统漫游 第二章 信息的表示和处理 数据类型的转换 相同位数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机系统基础">
+<meta property="og:url" content="https://lulu010722.cn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="冰化了还有棍儿">
+<meta property="og:description" content="[TOC]  第一部分 程序结构和执行  第一章 计算机系统漫游 第二章 信息的表示和处理 数据类型的转换 相同位数">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lulu010722.cn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/ics1.png">
+<meta property="og:image" content="https://lulu010722.cn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/ics2.png">
+<meta property="og:image" content="https://lulu010722.cn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/ics3.png">
+<meta property="og:image" content="https://lulu010722.cn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/ics4.png">
+<meta property="og:image" content="https://lulu010722.cn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/ics5.png">
+<meta property="og:image" content="https://lulu010722.cn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/ics6.png">
+<meta property="og:image" content="https://lulu010722.cn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/ics7.png">
+<meta property="og:image" content="https://lulu010722.cn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/ics8.png">
+<meta property="article:published_time" content="2022-10-15T06:24:49.000Z">
+<meta property="article:modified_time" content="2023-06-30T14:06:46.989Z">
+<meta property="article:author" content="LULU">
+<meta property="article:tag" content="ICS">
+<meta property="article:tag" content="复习">
+<meta property="article:tag" content="ipads面试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lulu010722.cn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/ics1.png">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/images/hexo.svg">
+    
+    <title>计算机系统基础 · 冰化了还有棍儿的博客</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+    
+        <body class="post-body">
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu header-sidebar-menu-rounded">
+        
+            
+                <i class="fas fa-bars"></i>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>冰化了还有棍儿</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">冰化了还有棍儿</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">计算机系统基础</a>
+            </div>
+        </div>
+    
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden back-top-rounded">
+        
+        
+            <i class="fas fa-chevron-up"></i>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+    height:50vh;
+
+">
+    
+    <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
+    
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+                计算机系统基础
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+                
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        
+        
+            
+        
+        
+        <span class="post-category" data-categories="笔记"">
+            <i class="fas fa-folder post-category-icon"></i>
+            <span class="post-category-text">
+                笔记
+            </span>
+        </span>
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ICS">ICS</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="复习">复习</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ipads面试">ipads面试</a>
+    
+</div>
+
+                
+                <!-- 文章字数统计 -->
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">10.4k</span>阅读时长: <span class="post-count reading-time">37 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2022/10/15</span>
+                    <!-- busuanzi -->
+                    
+                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
+        <p>[TOC]</p>
+<div
+style="font-size: 50px; font-weight: bold; color: #777; margin: 22px 0; line-height: normal;">
+第一部分 程序结构和执行
+</div>
+<h1 id="第一章-计算机系统漫游">第一章 计算机系统漫游</h1>
+<h1 id="第二章-信息的表示和处理">第二章 信息的表示和处理</h1>
+<h2 id="数据类型的转换">数据类型的转换</h2>
+<h3 id="相同位数">相同位数</h3>
+<p>以32位int和unsigned举例，基本原则是保持二进制表示不变，而将实际表示的数字调整。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a;</span><br><span class="line"><span class="type">unsigned</span> b;</span><br><span class="line"></span><br><span class="line">a = <span class="number">0xffffffff</span>; <span class="comment">// a = -1</span></span><br><span class="line">b = (<span class="type">int</span>)a;     <span class="comment">// b = 0xffffffff</span></span><br></pre></td></tr></table></figure>
+<h3 id="不同位数">不同位数</h3>
+<p>如果两个类型的长度和符号都不相同，则遵循先扩展/收缩长度，再进行符号转换。</p>
+<p><strong>扩展无符号</strong>：补零</p>
+<p><strong>扩展有符号</strong>：补最高位</p>
+<p><strong>截断无符号</strong>：直接截断</p>
+<p><strong>截断有符号</strong>：直接截断</p>
+<h2 id="ieee浮点数表示">IEEE浮点数表示</h2>
+<p><span class="math inline">\(V=(-1)^s\times M\times 2^E\)</span></p>
+<ul>
+<li><p><span class="math inline">\(s\)</span>: 符号位；</p></li>
+<li><p><span class="math inline">\(M\)</span>: 尾数；</p></li>
+<li><p><span class="math inline">\(E\)</span>: 阶码。</p></li>
+</ul>
+<p>在计算机中，我们也按照这三个部分来表示。</p>
+<ul>
+<li>一个单独符号位<span class="math inline">\(s\)</span>。</li>
+<li><span class="math inline">\(k\)</span>位阶码字段<span
+class="math inline">\(e=e_{k-1}\cdots e_1e_0\)</span>编码阶码<span
+class="math inline">\(E\)</span>。</li>
+<li><span class="math inline">\(n\)</span>位小数字段<span
+class="math inline">\(f=f_{n-1}\cdots f_1f_0\)</span>编码尾数<span
+class="math inline">\(M\)</span>，但是编码对应的值与<span
+class="math inline">\(E\)</span>是否等于零有关（格式化与非格式化表示）。</li>
+</ul>
+<p>共有三种情况</p>
+<ol type="1">
+<li>格式化，<span
+class="math inline">\(e\)</span>的各位不为全0页不为全1。<span
+class="math inline">\(E=e-Bias\)</span>, <span
+class="math inline">\(e\)</span>无符号数，Bias=<span
+class="math inline">\(2^{k-1}-1\)</span>，<span
+class="math inline">\(M=1+f\)</span>。</li>
+<li>非格式化，此时<span class="math inline">\(e\)</span>各位全为0。<span
+class="math inline">\(E=1-Bias\)</span>，<span
+class="math inline">\(M=f\)</span>。</li>
+<li>特殊值，此时<span
+class="math inline">\(e\)</span>各位全为1。如果<span
+class="math inline">\(f\)</span>的各位全为0，则表示无穷大，否则表示NaN。</li>
+</ol>
+<h2 id="浮点之间浮点与整形的转换">浮点之间，浮点与整形的转换</h2>
+<ol type="1">
+<li>int-&gt;float，不会溢出，但是可能会损失精度；</li>
+<li>int或float-&gt;double，不会溢出也不会损失精度；</li>
+<li>double-&gt;float，有可能会溢出为<span
+class="math inline">\(+\infty\)</span>或者<span
+class="math inline">\(-\infty\)</span>，若不溢出，也可能损失精度；</li>
+<li>float或double-&gt;int，向零取整，值可能会溢出，但是并未规定处理方式。</li>
+</ol>
+<hr />
+<h1 id="第三章-程序的机器级表示">第三章 程序的机器级表示</h1>
+<h1 id="第四章-处理器体系结构">第四章 处理器体系结构</h1>
+<h1 id="第五章-优化程序性能">第五章 优化程序性能</h1>
+<h1 id="第六章-储存器层次结构">第六章 储存器层次结构</h1>
+<hr />
+<div
+style="font-size: 50px; font-weight: bold; color: #777; margin: 22px 0; line-height: normal;">
+第二部分 在系统上运行程序
+</div>
+<h1 id="第七章-链接">第七章 链接</h1>
+<h2 id="基本流程">基本流程</h2>
+<pre class="mermaid">flowchart TB;
+A(main.c源代码) --> cpp预处理器 --> B(main.i中间文件) --> cc1编译器 --> C(main.s汇编文件) --> as汇编器 --> D(main.o可重定位目标文件) --> ld链接器 --> E(main可执行目标文件) --> loader加载器 --> F(运行)</pre>
+<h2 id="静态链接">静态链接</h2>
+<p>可重定向目标文件格式</p>
+<table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 86%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>部分</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ELF头</td>
+<td>文件的元信息，包括ELF头本身大小，目标文件类型（可重定向，可执行，共享），机器类型，节头部表的偏移，节头部表中的条目大小和数量。</td>
+</tr>
+<tr class="even">
+<td>.text</td>
+<td>以编译程序的机器代码。</td>
+</tr>
+<tr class="odd">
+<td>.rodata</td>
+<td>只读数据，例如printf语句中的格式化字符串和switch语句的跳转表。</td>
+</tr>
+<tr class="even">
+<td>.data</td>
+<td>已初始化的全局和静态C变量。局部C变量保存于栈中，既不存在于.data，也不存在于.bss。</td>
+</tr>
+<tr class="odd">
+<td>.bss</td>
+<td>未初始化的静态C变量，以及所有被初始化为0的全局和静态C变量。区分是否初始化为0是为了节省空间。未初始化的全局变量将被放在COMMON伪节。</td>
+</tr>
+<tr class="even">
+<td>.symtab</td>
+<td>符号表，存放程序中定义和引用的函数和全局变量的信息。和编译器的符号表不同，.symtab不包含局部变量。</td>
+</tr>
+<tr class="odd">
+<td>.rel.text</td>
+<td>.text节中位置的列表，当链接器将目标文件和其他文件组合时，需要修改这些位置。可执行目标文件不需要重定位信息，所以一般没有该条目。</td>
+</tr>
+<tr class="even">
+<td>.rel.data</td>
+<td>被模块引用或定义的所有全局变量的重定位信息。一般而言，任何已经初始化的全局变量，如果他的初始值是一个全局变量的地址或者外部定义函数的地址，都需要被修改。</td>
+</tr>
+<tr class="odd">
+<td>.debug</td>
+<td>调试符号表，条目是程序中定义的局部变量和类型定义，程序中定义和引用的全局变量，以及C源文件。只有以-g选项调用编译器时，才会得到这张表。</td>
+</tr>
+<tr class="even">
+<td>.line</td>
+<td>C源程序中行号和.text节中机器指令之间的映射，只有以-g选项调用编译器时，才会得到这张表。</td>
+</tr>
+<tr class="odd">
+<td>.strtab</td>
+<td>一个字符串表，内容包括.symtab和.debug中的符号表，以及节头部中的节名字。是以null结尾的字符串序列。</td>
+</tr>
+<tr class="even">
+<td>节头部表</td>
+<td>描述目标文件。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="符号和符号表">符号和符号表</h2>
+<p>可重定向目标文件m的.symtab中有三种不同的符号：</p>
+<ul>
+<li>由模块m定义并能被其他模块访问的<strong>全局符号</strong>，全局链接器符号对应于<strong>非静态C函数和全局变量</strong>。</li>
+<li>由其他模块定义并被m模块引用的的全局符号，称为<strong>外部符号</strong>，对应于在其他文件中定义的<strong>非静态C函数和全局变量</strong>。</li>
+<li>只被模块m定义和引用的<strong>局部符号</strong>，对应于<strong>静态C函数和静态全局变量</strong>。</li>
+</ul>
+<p>动态局部变量和全局静态变量有区别，前者由栈管理，链接器只考虑后者。</p>
+<p><strong>但是</strong>，局部变量也可以被声明为静态。此时它是不被栈管理的。相反，编译器会在.data或者.bss中为每个定义分配空间，并在符号表中创建有唯一名称的链接器符号。</p>
+<p>符号表是由一种结构体构成的数组，结构体定义如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="type">int</span> name;        <span class="comment">// 在字符串表中的字节偏移，指向以null结尾的字符串名字。</span></span><br><span class="line">    <span class="type">char</span> type:<span class="number">4</span>,     <span class="comment">// 区分数据和函数。</span></span><br><span class="line">    	 binding:<span class="number">4</span>;  <span class="comment">// 区分本地和全局。</span></span><br><span class="line">    <span class="type">char</span> reserved;</span><br><span class="line">    <span class="type">short</span> section;   <span class="comment">// 符号所在节。</span></span><br><span class="line">    <span class="type">long</span> value;      <span class="comment">// 符号的地址。在可重定向目标文件中，是距定义目标的节起始位置的偏移，而对于可执行目标文件来说，是一个绝对运行时地址。</span></span><br><span class="line">    <span class="type">long</span> size;       <span class="comment">// 目标的大小，单位为字节。</span></span><br><span class="line">&#125; Elf64_Symbol;</span><br></pre></td></tr></table></figure>
+<p>符号表中的一个条目，还可以表示一个节，也可以用来表示原始文件路径名。</p>
+<h3 id="伪节">伪节</h3>
+<p>除了表中列出的节之外，还有三个伪节，在节头部表中没有条目。伪节仅存在于可重定向目标文件。</p>
+<ul>
+<li><strong>ABS</strong>：表示不该被重定向的符号；</li>
+<li><strong>UNDEF</strong>：表示未定义的符号，也就是在本目标模块中引用，但是在其他地方定义的符号；</li>
+<li><strong>COMMON</strong>：表示还未被分配位置的未初始化的数据目标。此时，value字段给出对齐要求，size指的是最小的大小。</li>
+</ul>
+<h3 id="common和.bss的区别">COMMON和.bss的区别。</h3>
+<p>COMMON存放未初始化的全局变量（也就是弱符号）；</p>
+<p>.bss存放未初始化的静态变量，以及初始化为0的全局和静态变量。</p>
+<p>造成这一区分的主要原因是，编译器允许不同模块中有同名的符号。</p>
+<h2 id="符号解析">符号解析</h2>
+<p><strong>强符号</strong>：函数和已经初始化的全局变量；</p>
+<p><strong>弱符号</strong>：未初始化的全局变量。</p>
+<p>三条规则</p>
+<ol type="1">
+<li>不允许有同名的强符号；</li>
+<li>如果有强符号和弱符号同名，则选择强符号；</li>
+<li>如果若干弱符号同名，则随意选择一个。</li>
+</ol>
+<h2 id="静态库">静态库</h2>
+<p>多个标准可重定向目标文件，可以打包形成一个归档文件，以.a后缀名结尾，又称为<strong>静态库</strong>。</p>
+<p>在使用gcc命令进行编译的时候，需要将用到的静态库显式地添加到命令行。</p>
+<p>例如<code>gcc main.c /usr/lib/libm.a /usr/lib/libc.a</code>，而libc.a是被默认链接地，所以并不需要指出。</p>
+<p>静态库的连接顺序是有所谓的。未定义的符号所在模块，必须出现在定义模块之前。</p>
+<h2 id="重定位">重定位</h2>
+<p>链接器知道了.text和.data的确切大小，可以进行地址的重定位。</p>
+<ol type="1">
+<li>重定位节和符号定义。将所有模块的同种节合成一个，例如将所有模块的.data节合成一个大的.data节，输出到可执行目标文件的.data节。然后链接器为每个聚合节，聚合节中的每一个原始节，和节中出现的符号分配运行时内存地址。</li>
+<li>重定位节中的符号引用。修改代码和数据节中对每个符号的引用。这依赖于.rel.text和.rel.data两个重定位节。</li>
+</ol>
+<p>代码的重定位条目放在.rel.text中，已初始化数据的重定位条目放在.rel.data中。</p>
+<p>条目格式如下。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="type">long</span> offset;    <span class="comment">// 要被修改的引用相对于节的偏移。</span></span><br><span class="line">    <span class="type">long</span> type:<span class="number">32</span>,   <span class="comment">// 重定位类型，告诉链接器如何修改。</span></span><br><span class="line">         symbol:<span class="number">32</span>; <span class="comment">// 该引用指向的符号。</span></span><br><span class="line">    <span class="type">long</span> addend;    <span class="comment">// 一些类型的重定位需要使用该信息来修改偏移量。</span></span><br><span class="line">&#125; Elf64_Rela;</span><br></pre></td></tr></table></figure>
+<p>ELF定义了32种不同的重定位模式。</p>
+<ul>
+<li><strong>R_X86_64_PC32</strong>：32位PC相对地址；</li>
+<li><strong>R_X86_64_32</strong>：32位绝对地址。</li>
+</ul>
+<p>这两种类型支持x86-64小型代码模型，即假设代码和数据总体大小小于2GB。</p>
+<h2 id="可执行目标文件">可执行目标文件</h2>
+<table>
+<thead>
+<tr class="header">
+<th>部分</th>
+<th>段属性</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ELF头</td>
+<td>只读内存段（代码段）</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>段头部表</td>
+<td>只读内存段</td>
+<td>将连续的文件节映射到运行时的内存段</td>
+</tr>
+<tr class="odd">
+<td>.init</td>
+<td>只读内存段</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>.text</td>
+<td>只读内存段</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>.rodata</td>
+<td>只读内存段</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>.data</td>
+<td>读写内存段（数据段）</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>.bss</td>
+<td>读写内存段</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>.symtab</td>
+<td>不加载到内存</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>.debug</td>
+<td>不加载到内存</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>.line</td>
+<td>不加载到内存</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>.strtab</td>
+<td>不加载到内存</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>节头部表</td>
+<td>不加载到内存</td>
+<td>描述目标文件的节</td>
+</tr>
+</tbody>
+</table>
+<h3 id="程序头部表">程序头部表</h3>
+<p>描述了将代码段加载到内存的映射关系。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">只读段</span><br><span class="line">LOAD off    0x0000000000000000 vaddr 0x0000000000400000 paddr 0x0000000000400000 align 2**21</span><br><span class="line">     filesz 0x000000000000069c memsz 0x000000000000069c flags r-x</span><br><span class="line"></span><br><span class="line">读写段</span><br><span class="line">LOAD off    0x0000000000000df8 vaddr 0x0000000000600df8 paddr 0x0000000000600df8 align 2**21</span><br><span class="line">     filesz 0x0000000000000228 memsz 0x0000000000000230 flags rw-</span><br></pre></td></tr></table></figure>
+<p>filesz和memsz不一致的原因在于，.bss在目标文件中是不需要占用空间的，但是在内存中需要为其留出位置并初始化为0。</p>
+<p>off和vaddr要求对齐，即<span class="math inline">\(\text{vaddr}\pmod
+{\text{align}}=\text{off}\pmod
+{\text{align}}\)</span>。这种要求的原因，与虚拟内存的组织方式有关。</p>
+<h2 id="加载可执行目标文件">加载可执行目标文件</h2>
+<p>在命令行中执行内置命令或用<code>./prog</code>来执行一个可执行文件，或者调用`<code>execve</code>函数，都可以调用加载器（loader）。</p>
+<h2 id="动态链接">动态链接</h2>
+<p>静态库的一个问题是，所有进程都会加载相同的标准静态库函数，造成内存的极大浪费。</p>
+<p><strong>共享库</strong>在运行或加载时，加载到任意的内存位置，并和一个在内存中的程序链接起来。</p>
+<p>共享库也叫共享目标，在Linux中以.so文件后缀结尾，在Windows中则是DLL（动态链接库）。</p>
+<p>两种不同的共享方式：</p>
+<ol type="1">
+<li>一个库只对应一个.so文件，所有引用该库的文件共享.text和.data中的数据，而不用嵌入到引用模块的可执行目标文件中；</li>
+<li>在内存中，共享库的.text节的一个副本可以被不同的正在运行的进程共享。</li>
+</ol>
+<pre class="mermaid">flowchart TB;
+A(main.c) & B(vector.h) --> a["翻译器(cpp, cc1, as)"] --> C(可重定位目标文件main.o)
+C & D(libc.so\nlibvector.so) --> b["链接器(ld)"] --> E("部分链接地可执行目标文件prog1") --> c["加载器(execve)"]
+c & F("libc.so\nlibvector.so") --> d["动态链接器(ld-linux.so)"] --> G("完全链接的可执行目标文件prog2")</pre>
+<h2 id="位置无关代码pic">位置无关代码（PIC）</h2>
+<p>如何在多个进程中共享一个程序副本？</p>
+<p>如果为每一个共享库都分配一个固定的地址空间，那么弊端很多，主要是难于管理，并且也有很大浪费。</p>
+<p>可加载而无需重定向的代码称之为<strong>位置无关代码（Position-Independent
+Code）</strong>。</p>
+<h3 id="全局偏移量表got">全局偏移量表（GOT）</h3>
+<p>首先，编译器在.data开始的地方创建一个<strong>全局偏移量表（Global
+Offset
+Table）</strong>。每个被该模块引用的全局数据目标（过程或者全局变量）都有一个8字节的条目。同时编译器还为GOT中的每一个条目生成一个重定向记录，由于代码段和数据段的间隔是不变的，编译器可以使用PC相对寻址来重定位。</p>
+<h3 id="过程链接表plt">过程链接表（PLT）</h3>
+<p>为了避免动态链接在加载时，对成百上千个不需要的符号进行重定位，GNU提出了<strong>延迟绑定</strong>。延迟绑定需要使用GOT和<strong>过程连接表（Procedure
+Linkage
+Table）</strong>两个数据结构。如果一个目标模块调用了共享库中定义的任何函数，那么他就有GOT和PLT。GOT是数据段的一部分，PLT是代码段的一部分。</p>
+<h2 id="库打桩机制">库打桩机制</h2>
+<h1 id="第八章-异常控制流">第八章 异常控制流</h1>
+<h2 id="异常">异常</h2>
+<p>异常的发生可能与当前执行的指令有关，例如当前指令发生了一些缺页错误，或者尝试除零；也可能与当前指令没有关系，例如定时器到时，或者IO操作完成。</p>
+<p>当程序检测到有异常时，会通过<strong>异常表</strong>来进行间接的函数调用，到一个专门处理这些事件的操作系统子程序（异常处理程序）。处理完成后，根据异常事件的类型，会发生三种情况。</p>
+<ol type="1">
+<li>将控制返回<span
+class="math inline">\(I_{curr}\)</span>，重新执行；</li>
+<li>将控制返回<span
+class="math inline">\(I_{next}\)</span>，跳过之前的指令；</li>
+<li>终止被中断的程序。</li>
+</ol>
+<h3 id="异常处理">异常处理</h3>
+<p>系统为每种异常都分配了一个异常号码，有一些来自于处理器的设计者，有一些来自于操作系统内核。</p>
+<p>系统在启动时，操作系统会分配并初始化一张异常表，每个条目都指向对应异常的处理函数的地址。</p>
+<p>异常表的起始地址存放在名为<strong>异常表基址寄存器</strong>的特殊寄存器中。</p>
+<p>异常处理函数的调用与普通函数调用有一些区别：</p>
+<ol type="1">
+<li>将当前函数的返回地址压栈的时候，根据异常类型，要确定是压入当前指令地址，还是下一个指令的地址；</li>
+<li>处理函数会把一些额外的处理器状态压栈，但是栈有内核栈和用户栈的区别。处理函数由于处于内核态，则压入内核栈，同时它也对所有系统资源具有完全访问权限。</li>
+</ol>
+<h3 id="异常种类">异常种类</h3>
+<ul>
+<li>中断（interrupt）</li>
+<li>陷阱（trap）</li>
+<li>故障（fault）</li>
+<li>终止（abort）</li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 24%" />
+<col style="width: 42%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>类别</th>
+<th>原因</th>
+<th>异步/同步</th>
+<th>返回行为</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>中断</td>
+<td>来自IO设备的信号</td>
+<td>异步（与当前指令无关的异常）</td>
+<td>总是返回下一条指令</td>
+</tr>
+<tr class="even">
+<td>陷阱</td>
+<td>有意的异常</td>
+<td>同步（当前指令的直接产物）</td>
+<td>总是返回下一条指令</td>
+</tr>
+<tr class="odd">
+<td>故障</td>
+<td>可能恢复的异常</td>
+<td>同步（当前指令的直接产物）</td>
+<td>可能返回当前地址</td>
+</tr>
+<tr class="even">
+<td>终止</td>
+<td>不可恢复的异常</td>
+<td>同步（当前指令的直接产物）</td>
+<td>不会返回</td>
+</tr>
+</tbody>
+</table>
+<p><strong>中断</strong></p>
+<p>IO设备会异步地向CPU的一个引脚发送信号。</p>
+<p>CPU会在<strong>处理完当前指令之后</strong>调用异常处理器，而不是直接打断执行到中间状态的当前指令，于是原来的进程就像没有受到中断一样，继续执行下一条指令。</p>
+<p><strong>陷阱和系统调用</strong></p>
+<p>是有意为之的异常，主要是用来进行系统调用，例如调用系统层的read，write，fork等等函数。</p>
+<p>处理器提供了一个特殊的<code>syscall n</code>指令，n代表系统函数的编号。</p>
+<p><strong>故障</strong></p>
+<p>用户程序发生了一个错误情况，触发故障处理函数。如果处理函数能够修复故障，则会返回出现故障的用户指令重新执行，否则，处理函数将会直接在<strong>内核态</strong>发送一个新的终止异常，结束用户程序。</p>
+<p><strong>终止</strong></p>
+<p>终止是不可修复的致命错误，通常是一些硬件错误。</p>
+<h3 id="linuxx86-64系统异常">Linux/x86-64系统异常</h3>
+<p>有256种异常，0-31号由Intel的设计师们定义，因此对于任何x86-64的机器，这些异常都是一样的，32-255号是由操作系统定义的中断和陷阱。</p>
+<p><strong>Linux故障和终止举例</strong></p>
+<p><em>除法错误</em>：编号0，不会恢复，Linux
+shell通常会报“浮点异常（Floating exception）”的异常信息。</p>
+<p><em>一般保护故障</em>：编号13，有许多原因，但通常是由于程序引用了一个未定义的虚拟内存区域，例如访问空指针，或尝试修改一个只读片段。不会恢复，Linux
+shell通常报告为“段故障（Segmentation fault）”。</p>
+<p><em>缺页</em>：编号14，与虚拟内存的管理有关。</p>
+<p><em>机器检查</em>：编号18，硬件错误。</p>
+<p><strong>Linux系统调用</strong></p>
+<p>Linux提供了上百个系统调用，每个都对应于一个整数号，对应于内核中的一个跳转表（<strong>注意该跳转表与异常表并不相同</strong>）。</p>
+<p>调用<code>syscall</code>指令即可进入内核态执行系统函数。在开始前，需要将编号存入%rax寄存器，并将可能用到的参数依次存入%rdi、%rsi、%rdx、%rcx、%r8、%r9这六个寄存器中。系统函数无法使用栈传递更多的参数，于是一个系统函数最多只有六个参数。</p>
+<h2 id="进程">进程※</h2>
+<p>提供一种假象，让我们的程序独占所有计算机资源。</p>
+<p>进程提供了两个关键抽象：</p>
+<ul>
+<li>一个独立的逻辑控制流；</li>
+<li>一个私有的地址空间。</li>
+</ul>
+<h3 id="私有地址空间">私有地址空间</h3>
+<p>一般而言，一个进程所在的内存字节是不能被其他进程进行读写的，也就是所谓私有。</p>
+<p>每个进程的地址空间都有相同的结构。</p>
+<img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/ics1.png" class="">
+<h3 id="用户态和内核态">用户态和内核态</h3>
+<p>处理器必须限制一个应用可以执行的指令和可以访问的地址空间范围。通常用一个模式位来提供这种功能。当设置了该模式位时，系统处于内核态，可以访问内存中的任何位置。</p>
+<p>在用户态中，如果直接执行特权指令，例如停止处理器，改变模式位，发起IO操作，或者访问内核态的代码和数据，都会直接导致保护故障。用户必须通过系统调用接口来间接的调用内核数据和代码。</p>
+<p>用户态进入内核态的<strong>唯一方法</strong>是触发异常。</p>
+<p>Linux提供了一种/proc文件系统，他允许用户访问内核数据结构的内容，例如CPU类型，某个进程所使用的内存段。</p>
+<h3 id="上下文切换">上下文切换</h3>
+<p>以进程A进行read系统调用为例。</p>
+<ol type="1">
+<li>进程A通过系统调用触发陷阱异常，进入内核态；</li>
+<li>内核在执行了一部分陷阱处理逻辑之后，将需要等待磁盘的返回，此时它将进行上下文切换，切换到进程B的内核态；</li>
+<li>系统进入进程B的用户态并执行代码；</li>
+<li>进程B在执行过程中，受到了来自磁盘的中断，表示数据已经读取成功；</li>
+<li>进程B进入内核态，随后内核将上下文切换回A进程；</li>
+<li>系统进入进程A的用户态，继续执行剩余的用户代码。</li>
+</ol>
+<h3 id="系统调用的错误">系统调用的错误</h3>
+<p>和用户函数一样，系统调用也可能出现错误。此时通常会返回-1，并设置全局整数变量<code>errno</code>来表示出了什么问题。</p>
+<p>通过<code>strerror(errno)</code>函数，我们可以将errno对应的错误信息打印出来。</p>
+<h2 id="进程控制">进程控制※</h2>
+<p>接下来将复习Unix的进程控制函数，数量较多。</p>
+<h3 id="进程id">进程ID</h3>
+<p>每个进程都有一个正数进程ID。可以通过getpid获取，getppid则返回父进程的pid。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">pid_t</span> <span class="title function_">getpid</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="type">pid_t</span> <span class="title function_">getppid</span><span class="params">(<span class="type">void</span>)</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="创建和终止进程">创建和终止进程</h3>
+<p>进程的状态有三种：</p>
+<ul>
+<li><strong>运行</strong>：或者正在执行，或者在等待内核再一次切换上下文回来继续执行；</li>
+<li><strong>停止</strong>：被挂起，且不会被调度。当收到SIGSTOP，SIGTSTP，SIGTTIN或者SIGTTOU等信号时，进程就会停止。当他收到SIGCONT信号时，程序再次回到运行状态；</li>
+<li><strong>终止</strong>：程序永远的停止了，原因可能有三个：
+<ol type="1">
+<li>收到默认行为为终止进程的信号；</li>
+<li>从主程序返回；</li>
+<li>调用了<code>exit</code>函数。</li>
+</ol></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">exit</span><span class="params">(<span class="type">int</span> status)</span>;</span><br><span class="line"><span class="comment">// 不返回。</span></span><br></pre></td></tr></table></figure>
+<p>父进程可通过<code>fork</code>函数创建一个新的进程。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">pid_t</span> <span class="title function_">fork</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="comment">// 返回：子进程为0，父进程为子进程PID；出错则返回-1。</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>调用一次，返回两次，分别在父进程和子进程中。在父进程中，返回的是子进程的PID，在子进程中，返回0。通过这一特性，我们就可以区分当前进程是父进程还是子进程。</li>
+<li>并发执行。进程一旦创建完毕，父子进程的执行是并发的，他们可能以任何可能的顺序交替执行。</li>
+<li>相同但是独立的地址空间。<code>fork</code>函数执行完之后，两进程的地址空间及其内容是一样的，但是针对其进行的修改是完全独立的。</li>
+<li>共享文件。子进程会继承父进程打开的所有文件。</li>
+</ul>
+<h3 id="进程回收">进程回收</h3>
+<p>进程的三种状态之一是终止。但是终止并不意味着系统会将该进程所占用的资源立刻回收，清空，并释放。父进程需要主动地去回收它。一个终止但并未被回收的进程称之为僵尸进程。当父进程回收子进程时，内核可以将子进程的退出状态传递给父进程。</p>
+<p>系统中的所有进程，都是init进程的子进程。init的PID是1，是所有进程的祖先，在系统启动时被内核创建，永远不会退出。</p>
+<p>在一个进程退出时，如果他存在孤儿进程，则init会主动去收养该进程作为自己的子进程。如果一个父进程在退出时并未回收其僵尸子进程，则init会自动回收他们。但是，对于长时间不退出的进程，例如shell或者服务器，我们需要手动去回收其子进程。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">pid_t</span> <span class="title function_">waitpid</span><span class="params">(<span class="type">pid_t</span> pid, <span class="type">int</span> *statusp, <span class="type">int</span> options)</span>;</span><br><span class="line"><span class="comment">// 返回：如果成功，则为子进程PID；如果options设置了WNOHANG则为0；其他为-1。</span></span><br></pre></td></tr></table></figure>
+<p>该函数的行为<strong>比较复杂</strong>。</p>
+<p><strong>默认情况下（options=0）</strong>，进程被挂起，直到其<em>等待集合</em>中的某一个子进程终止。</p>
+<p><strong>修改等待集合</strong>，通过指定pid参数来控制。</p>
+<ul>
+<li><strong>pid&gt;0</strong>：等待PID=pid的进程返回。</li>
+<li><strong>pid=-1</strong>：等待集合为父进程的所有子进程。</li>
+</ul>
+<p><strong>修改默认行为</strong>，通过修改options来控制。</p>
+<ul>
+<li><strong>WNOHANG</strong>：如果调用的时候，等待集合里面没有已经终止的子进程，则立即返回。</li>
+<li><strong>WUNTRACED</strong>：除了等待终止，也等待停止。</li>
+<li><strong>WCONTINUED</strong>：除了等待终止，也等待一个等待集合中被停止的进程被SIGCONT重新激活。</li>
+</ul>
+<p>可以将他们用或运算组合起来。</p>
+<p><strong>检查已回收子进程的退出状态</strong></p>
+<p>设<code>int status = *statusp;</code>（如果statusp非空）。</p>
+<p><code>waitpid</code>会修改改指针指向的值，然后父进程可以用一些预定义的宏来获取信息。</p>
+<ul>
+<li><strong>WIFEXITED</strong>：如果子进程正常终止，则返回真。</li>
+<li><strong>WEXITSTATUS</strong>：返回退出状态。</li>
+<li><strong>WIFSIGNALED</strong>：如果子进程是因为一个未被捕获的信号终止的，则返回真。</li>
+<li><strong>WTERMSIG</strong>：返回引起终止的信号编号。</li>
+<li><strong>WIFSTOPPED</strong>：如果因为子进程停止而返回，则返回真。</li>
+<li><strong>WSTOPSIG</strong>：返回引起子进程停止的信号编号。</li>
+<li><strong>WIFCONTINUED</strong>：如果因为子进程重新运行而返回，则返回真。</li>
+</ul>
+<p><strong>错误返回</strong></p>
+<p>如果没有子进程，则返回-1，并设置<code>errno</code>为<code>ECHILD</code>；如果<code>waitpid</code>被一个信号中断，则返回-1，并设置<code>error</code>为<code>EINTR</code>。</p>
+<h3 id="进程休眠">进程休眠</h3>
+<p>可以用<code>sleep</code>来让进程休眠指定时间。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">int</span> <span class="title function_">sleep</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span> secs)</span>;</span><br><span class="line"><span class="comment">// 返回：还要休眠的秒数。</span></span><br></pre></td></tr></table></figure>
+<p><code>sleep</code>如果达成了设置的休眠时间，则返回0。但是他有可能被一个信号提前中断，此时返回剩余秒数。</p>
+<p>如果想让程序休眠，直到收到一个信号，则应使用<code>pause</code>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">pause</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="comment">// 返回：总是-1。</span></span><br></pre></td></tr></table></figure>
+<h3 id="加载并运行程序">加载并运行程序</h3>
+<p><code>execve</code>可以在当前进程的上下文中，加载并运行一个程序。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">execve</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *filename, <span class="type">const</span> <span class="type">char</span> *argv[], <span class="type">const</span> <span class="type">char</span> *envp[])</span>;</span><br><span class="line"><span class="comment">// 返回：如果成功则不返回，否则返回-1。</span></span><br></pre></td></tr></table></figure>
+<p>filename表示可执行文件的文件名，argv提供程序运行的字符串参数数组，而envp提供环境键值对。</p>
+<p>以下函数可以操作环境数组。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> *<span class="title function_">getenv</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *name)</span>;</span><br><span class="line"><span class="comment">// 返回：若存在则返回指向name的指针，否则返回NULL。</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">setenv</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *name, <span class="type">const</span> <span class="type">char</span> *newvalue, <span class="type">int</span> overwrite)</span>;</span><br><span class="line"><span class="comment">// 返回：成功为0，失败为-1。</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">unsetenv</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *name)</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="信号">信号※</h2>
+<p>一个信号就是一条消息，用来通知进程系统中发生了某些事件。</p>
+<ul>
+<li>进程尝试除零，则内核会给该进程发一个<strong>SIGFPE</strong>信号。</li>
+<li>进程执行一条非法指令，则内核会给进程发一个<strong>SIGILL</strong>信号。</li>
+<li>进程进行非法内存引用，则内核会给进程发一个<strong>SIGSEGV</strong>信号。</li>
+</ul>
+<h3 id="信号术语">信号术语</h3>
+<p>传送一个信号到目标进程需要两步。</p>
+<ul>
+<li><em>发送信号</em>：内核通过更新目的进程上下文中的某个状态，发送一个信号给目的进程。发送原因可能有：
+<ul>
+<li>内核检测到一个系统事件，比如除零错或者子进程终止。</li>
+<li>一个进程调用了kill函数，将信号发给自身进程或其他进程。</li>
+</ul></li>
+<li><em>接收信号</em>：目的进程被内核强迫对发来的信号进行反应。进程可以忽略这个信号，终止或者通过用<code>signal</code>函数捕获这个信号，并自定义针对该信号的处理逻辑。目标进程在执行到<span
+class="math inline">\(I_{curr}\)</span>被打断之后，内核将控制流交给信号处理函数，可能是系统内置，也可能是用户自定义的函数。执行完成之后，内核将控制流返回目标进程，继续执行<span
+class="math inline">\(I_{next}\)</span>。</li>
+</ul>
+<p><em>待处理信号</em>：一个已发出但未被接收的信号。一个类型的信号至多有一个待处理信号。一个进程可以阻塞某些信号，阻塞后，该种信号仍可以被发送给目标进程，但是不会被接受，直到目标进程取消对该信号的阻塞。</p>
+<p>如果进程阻塞了k号信号之后，k号信号被发送给该进程，则内核会设置pending位向量的第k位。</p>
+<h3 id="发送信号">发送信号</h3>
+<h4 id="进程组">进程组</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">pid_t</span> <span class="title function_">getpgrp</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="comment">// 返回：调用进程的进程组ID。</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">setpgid</span><span class="params">(<span class="type">pid_t</span> pid, <span class="type">pid_t</span> pgid)</span>;</span><br><span class="line"><span class="comment">// 返回：成功为0，失败为-1。</span></span><br></pre></td></tr></table></figure>
+<p>子进程默认与父进程处于相同PGID。调用<code>setpgid</code>可以改变自己或者其他进程的PGID。</p>
+<p>pid为0时，使用当前进程的PID；pgid为0时，使用pid指定的PID作为PGID的数字。</p>
+<h4 id="binkill命令">/bin/kill命令</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">/bin/kill -9 15213  // 发送9号信号给15213进程。</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">/bin/kill -9 -15213 // 发送9好信号给15213进程组中的所有进程。</span></span><br></pre></td></tr></table></figure>
+<h4 id="从键盘发送信号">从键盘发送信号</h4>
+<p>按下Ctrl+C，可以向shell的前台进程组中的每个进程发送一个SIGINT信号。</p>
+<p>类似地，按下Ctrl+Z则发送SIGTSTP信号到前台进程组中的每个进程。</p>
+<h4 id="kill函数">kill函数</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">kill</span><span class="params">(<span class="type">pid_t</span> pid, <span class="type">int</span> sig)</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>pid</code>&gt;0：发送<code>sig</code>号信号给<code>pid</code>进程。</li>
+<li><code>pid</code>=0：发送给调用进程所在进程组的每一个进程，包括自己。</li>
+<li><code>pid</code>&lt;0：发送给进程组<code>|pid|</code>中的每一个进程。</li>
+</ul>
+<h4 id="alarm函数">alarm函数</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">int</span> <span class="title function_">alarm</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span> secs)</span>;</span><br><span class="line"><span class="comment">// 返回：前一次设置闹钟的剩余秒数，若以前没有设置过，则返回0。</span></span><br></pre></td></tr></table></figure>
+<p>在<code>secs</code>秒后，向自己发送一个SIGALRM信号。</p>
+<p>如果在上一个闹钟尚未触发的时候就又调用了<code>alarm</code>函数，则之前的闹钟被取消，只保留新闹钟，并返回上次闹钟所剩秒数。</p>
+<h3 id="接收信号">接收信号</h3>
+<p>信号处理的时机：进程从内核态转变为用户态时（系统调用结束或者上下文切换）。</p>
+<p>会检查未被阻塞的待处理信号集合。如果有，则选择某一个进行处理。</p>
+<p>每个信号都有默认处理行为：</p>
+<ul>
+<li>进程终止。</li>
+<li>进程终止并转储内存。</li>
+<li>进程停止知道被SIGCONT重启。</li>
+<li>进程忽略改信号。</li>
+</ul>
+<p>可以通过<code>signal</code>函数修改该进程对某一信号的默认处理行为。（<strong>注意：SIGSTOP和SIGKILL两信号是唯二默认行为不能被修改的信号</strong>）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">sighandler_t</span> <span class="title function_">signal</span><span class="params">(<span class="type">int</span> signum, <span class="type">sighandler_t</span> handler)</span>;</span><br><span class="line"><span class="comment">// 返回：若成功则返回前次处理函数的指针，若失败则返回SIG_ERR（并不设置errno）。</span></span><br></pre></td></tr></table></figure>
+<p><code>handler</code>可以传入三种值：</p>
+<ul>
+<li><strong>SIG_IGN</strong>：忽略。</li>
+<li><strong>SIG_DFL</strong>：恢复默认。</li>
+<li><strong>函数指针</strong>：执行改函数流程。</li>
+</ul>
+<p><strong>注意，信号的处理函数也可以被其他信号打断。</strong></p>
+<img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/ics2.png" class="">
+<h3 id="阻塞与解阻">阻塞与解阻</h3>
+<p>分为两种：</p>
+<ul>
+<li><em>隐式阻塞</em>：若内核正在执行信号s的处理程序，此时进程又收到了一个信号s，则该信号不会被立即接收，也不会被取消，而是称为待处理信号。</li>
+<li><em>显式阻塞</em>：程序调用<code>sigpromask</code>及相关辅助函数。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">sigpromask</span><span class="params">(<span class="type">int</span> how, <span class="type">const</span> <span class="type">sigset_t</span> *<span class="built_in">set</span>, <span class="type">sigset_t</span> *oldset)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">sigemptyset</span><span class="params">(<span class="type">sigset_t</span> *<span class="built_in">set</span>)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">sigfillset</span><span class="params">(<span class="type">sigset_t</span> *<span class="built_in">set</span>)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">sigaddset</span><span class="params">(<span class="type">sigset_t</span> *<span class="built_in">set</span>, <span class="type">int</span> signum)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">sigdelset</span><span class="params">(<span class="type">sigset_t</span> *<span class="built_in">set</span>, <span class="type">int</span> signum)</span>;</span><br><span class="line"><span class="comment">// 返回：均为成功0，失败-1。</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">sigismember</span><span class="params">(<span class="type">const</span> <span class="type">sigset_t</span> *<span class="built_in">set</span>, <span class="type">int</span> signum)</span>;</span><br><span class="line"><span class="comment">// 返回：如果signum是set的成员则返回1，不是则返回0，出错返回-1。</span></span><br></pre></td></tr></table></figure>
+<p>其中，<code>how</code>的语义为如何改变当前信号集。有如下三种方式：</p>
+<ul>
+<li><strong>SIG_BLOCK</strong>：将set中的信号添加到blocked中。</li>
+<li><strong>SIG_UNBLOCK</strong>：删除set中的信号。</li>
+<li><strong>SIG_SETMASK</strong>：block=set。</li>
+</ul>
+<h3 id="编写singal-handler信号处理程序">编写singal
+handler信号处理程序</h3>
+<p>安全信号处理的一些原则。</p>
+<ol type="1">
+<li><strong>处理函数要尽可能简单</strong>。</li>
+<li><strong>调用异步信号安全的函数</strong>。在处理函数中调用其他外部函数时，该外部函数可能会被其他信号中断，导致处理函数被间接中断。应该使用一些保证异步信号安全的函数。他们要么是<em>可重入的</em>，要么不会被其他信号中断。</li>
+<li><strong>保存和回复errno</strong>。主程序中可能会用到errno。如果在处理函数中也调用了一些内核函数，则会干扰主程序的判断。应该保证在执行处理函数前后，errno不变。</li>
+<li><strong>阻塞所有信号，保护全局数据访问</strong>。</li>
+<li><strong>用volatile声明全局变量</strong>。volatile告诉编译器，不要缓存该变量。由于信号处理函数处于内核态，不经过主函数的缓存路线，而直接将变量在内存中修改，用户态函数无法穿透缓存而读取到内存中的最新值。</li>
+<li><strong>用sig_atom_t声明标志</strong>。保证读写的原子性。</li>
+</ol>
+<p><strong>竞争问题（race）</strong></p>
+<p>子进程结束会给父进程发送<strong>SIGCHLD</strong>信号，父进程自定义处理函数，捕获之后进行一些处理。但是处理函数和父进程程序中的一些操作可能存在顺序冲突。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">sigsuspend</span><span class="params">(<span class="type">const</span> <span class="type">sigset_t</span> *mask)</span>;</span><br><span class="line"><span class="comment">// 返回：-1。</span></span><br></pre></td></tr></table></figure>
+<p>该函数等价于如下流程的原子版本：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sigpromask(SIG_SETMASK, &amp;mask, &amp;prev);</span><br><span class="line">pause();</span><br><span class="line">sigpromask(SIG_SETMASK, &amp;prev, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
+<p>可以使用该函数暂时取消某一信号的阻塞，然后不可中断地进入pause。此时，如果已经有了待处理信号，则pause会被信号唤醒。</p>
+<h2 id="非本地跳转未完">非本地跳转（未完）</h2>
+<p>将控制直接从一个函数转移至另一个当前正在执行的函数，而不需要通过正常的调用返回。非本地跳转通过<code>setjmp</code>和<code>longjmp</code>函数实现。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">setjmp</span><span class="params">(jmp_buf env)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">sigsetjmp</span><span class="params">(sigjmp_buf env, <span class="type">int</span> savesigs)</span>;</span><br><span class="line"><span class="comment">// 返回：setjmp返回0，sigsetjmp返回非0。</span></span><br></pre></td></tr></table></figure>
+<h1 id="第九章-虚拟内存">第九章 虚拟内存※</h1>
+<h2 id="物理和虚拟地址">物理和虚拟地址</h2>
+<p>主存是一个由M个连续的字节大小的单元组成的数组，每个单元对应了一个地址。</p>
+<p>如果我们拿到一个地址值并且直接用该地址取出内存中的值，则称为<strong>物理寻址</strong>。</p>
+<p>然而，我们可以<strong>虚拟寻址</strong>。</p>
+<p>CPU首先生成一个虚拟地址，但是这个地址并不能直接被用于寻找内存中的数据，需要经过一个
+<strong>内存管理单元（MMU）</strong>的翻译，转化为物理地址后，才能取出数据。MMU利用存放在主存中的查询表来进行动态翻译，该表内容由操作系统管理。</p>
+<h2 id="地址空间">地址空间</h2>
+<p>一个非负整数组成的有序集合<span
+class="math inline">\(\{0,1,2,3,\cdots\}\)</span>可以称之为一个地址空间。我们总是假设他是连续的。</p>
+<p>CPU从一个有<span
+class="math inline">\(N=2^n\)</span>的地址空间中生成虚拟地址。</p>
+<p>一个包含<span class="math inline">\(N=2^n\)</span>的地址空间称为<span
+class="math inline">\(n\)</span>位地址空间。现代操作系统通常支持32位或者64位虚拟地址空间。</p>
+<p>物理地址空间字节数<span
+class="math inline">\(M\)</span>不要求一定是2的幂次，但为了方便讨论，假设<span
+class="math inline">\(M=2^m\)</span>。</p>
+<h2 id="虚拟内存作为缓存的工具">虚拟内存作为缓存的工具</h2>
+<p>虚拟内存存储于磁盘上。</p>
+<p>主存可以看成是磁盘的缓存，于是二者之间的信息交流有一个固定大小的单位长度。系统将虚拟内存分割为<strong>虚拟页</strong>，每一页的大小是固定的，一般是2的幂次<span
+class="math inline">\(P=2^p\)</span>。类似地，物理内存被分割为<strong>物理页</strong>，大小也为<span
+class="math inline">\(P\)</span>字节，物理页也被称为页帧。</p>
+<p>任何时刻，虚拟页的集合都分为三个不相交的子集：</p>
+<ul>
+<li><strong>未被分配的</strong>：VM系统尚未分配或创建的页。不占用磁盘空间。</li>
+<li><strong>缓存的</strong>：已缓存在物理内存中的已分配页。</li>
+<li><strong>未缓存的</strong>：未缓存在物理内存中的已分配页。</li>
+</ul>
+<h3 id="dram组织结构">DRAM组织结构</h3>
+<p>DRAM如果miss了，那么到磁盘中去读取数据的延迟是巨大的。</p>
+<p>所以为了尽量避免cache miss，虚拟页往往都很大，通常是4KB~2MB。</p>
+<p>虚拟页是fully-associative的，也就是只有一个set，任何虚拟页可以放到任何物理页中。替换算法要比SRAM缓存更复杂精密。</p>
+<h3 id="页表">页表</h3>
+<p>既然虚拟内存是物理内存的缓存，则需要一个表来记录信息。</p>
+<p>页表是存放在物理内存中的数据结构，将虚拟页映射到物理页。</p>
+<img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/ics3.png" class="">
+<p>在如图所示的例子中，第0，5号虚拟页尚未被分配所以是null；第1，2，4，7号虚拟页已经被缓存到物理内存中，剩下的第3，6号尚未被缓存。</p>
+<h3 id="命中">命中</h3>
+<p>此时，如果CPU想要访问第2号虚拟地址，那么他就会被翻译成物理内存中的PP1。此时称为页命中。</p>
+<h3 id="缺页">缺页</h3>
+<p>如果页表没有查询到对应的记录，则出现了一次miss，称为<strong>缺页</strong>。</p>
+<p>如果CPU想要访问VP3，则系统触发缺页异常，并调用缺页异常处理程序，它会选择一个物理内存中的牺牲页（PP3对应的VP4）。如果VP4已经被修改，则内核会将他复制回磁盘。然后无论是否修改，都会将页表中关于VP4的信息抹除。然后内核从磁盘复制VP3中的内容到PP3，同时更新页表。然后处理程序返回，重启触发缺页异常的指令，此时他就可以正常访问VP3。</p>
+<p>一般情况下，页的写入和擦除都是在发生miss的情况下才进行，这称之为<strong>demand
+paging</strong>。也可以按照某种方式，预测可能的miss，在页实际被饮用之前就提前准备好。不过，所有现代机器都不会做这种预测。</p>
+<h3 id="分配malloc">分配（malloc）</h3>
+<p>将页表中一些尚未分配的条目，在磁盘上分配新的空间。</p>
+<h2 id="虚拟内存作为内存管理的工具">虚拟内存作为内存管理的工具</h2>
+<p>一些早期系统中，虚拟内存小于物理内存。即便如此，它也可以作为管理内存一个有用的工具。</p>
+<p>系统为每个进程提供了独立的页表。</p>
+<img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/ics4.png" class="">
+<p>在此示例中，两进程的共享了一个物理内存页PP7。在两个进程中访问同一个VP1地址，最终指向的物理地址是不同的。它的作用体现在：</p>
+<ol type="1">
+<li><strong>简化链接</strong>。允许了每个进程使用完全相同的内存结构。</li>
+<li><strong>简化加载</strong>。分配新的虚拟页，用于加载可执行目标文件的各个段，而不需要实际去磁盘中读写物理页。</li>
+<li><strong>简化共享</strong>。一般而言，不同进程的虚拟地址空间是私有的，在物理内存中不会被映射到相同的地址。但是，想printf这种大家都会用到的程序，操作系统会将其映射到相同的物理页面。</li>
+<li><strong>简化内存分配</strong>。直接在虚拟内存中分配连续的k个页，而不需要在物理内存中寻找。</li>
+</ol>
+<h2 id="虚拟内存作为内存保护的工具">虚拟内存作为内存保护的工具</h2>
+<p>我们需要限制用户态函数对只读代码段的修改，不能允许他访问内核态的代码和数据，也不能让其读写其他进程的私有内存，除非是共享的。</p>
+<p>在内核分配一个虚拟页时，可以在页表中的条目里面添加一些控制位，来区分权限。</p>
+<p>例如，PTE中有三个许可位：</p>
+<ul>
+<li><strong>SUP</strong>：表示进程是否必须为内核态。</li>
+<li><strong>READ</strong>：读权限。</li>
+<li><strong>WRITE</strong>：写权限。</li>
+</ul>
+<h2 id="地址翻译">地址翻译※</h2>
+<p>基本参数和术语。</p>
+<table>
+<thead>
+<tr class="header">
+<th>符号</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(N=2^n\)</span></td>
+<td>虚拟地址的地址数量</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(M=2^m\)</span></td>
+<td>物理地址的地址数量</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(P=2^p\)</span></td>
+<td>页大小</td>
+</tr>
+<tr class="even">
+<td>VPO</td>
+<td>虚拟页偏移量</td>
+</tr>
+<tr class="odd">
+<td>VPN</td>
+<td>虚拟页号</td>
+</tr>
+<tr class="even">
+<td>TLBI</td>
+<td>TLB index</td>
+</tr>
+<tr class="odd">
+<td>TLBT</td>
+<td>TLB tag</td>
+</tr>
+<tr class="even">
+<td>PPO</td>
+<td>物理页偏移量</td>
+</tr>
+<tr class="odd">
+<td>PPN</td>
+<td>物理页号</td>
+</tr>
+<tr class="even">
+<td>CO</td>
+<td>cache offset</td>
+</tr>
+<tr class="odd">
+<td>CI</td>
+<td>cache index</td>
+</tr>
+<tr class="even">
+<td>CT</td>
+<td>cache tag</td>
+</tr>
+</tbody>
+</table>
+<h3 id="基本流程-1">基本流程</h3>
+<img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/ics5.png" class="">
+<p>上图展示了MMU使用页表来进行翻译的基本流程。</p>
+<p>CPU中有一个特殊寄存器称为<strong>页表基址寄存器（PTBR）</strong>，指向当前进程的页表。</p>
+<p>n位虚拟地址包含两部分：</p>
+<ul>
+<li><strong>VPO</strong>：<span
+class="math inline">\(p\)</span>位，代表着在一个页中，想要读取的字节的起始位置。</li>
+<li><strong>VPN</strong>：<span
+class="math inline">\((n-p)\)</span>位，代表虚拟页号。</li>
+</ul>
+<p>MMU利用VPN来选去适当的PTE。由于虚拟和物理内存的页大小都是<span
+class="math inline">\(P\)</span>字节，所以PPO和VPO是相等的。</p>
+<h3 id="具体流程">具体流程</h3>
+<img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/ics6.png" class="">
+<h4 id="hit">hit</h4>
+<ol type="1">
+<li>CPU生成一个虚拟地址，传给MMU。</li>
+<li>MMU生成PTE的地址，并利用各级缓存或主存找到它。</li>
+<li>各级缓存或主存返回给MMU一个PTE。</li>
+<li>MMU组装物理地址，并传给各级缓存或主存。</li>
+<li>各级缓存或主存将数据返回CPU。</li>
+</ol>
+<p><strong>注意</strong>，PTE的地址（PTEA）和要找的地址是不一样的。页表是常驻于内存的，并通过PTBR寄存器加上条目编号的方式定位。</p>
+<h4 id="miss">miss</h4>
+<ol type="1">
+<li>同上。</li>
+<li>同上。</li>
+<li>同上。</li>
+<li>PTE中的有效位为0，意味着缺页。MMU触发一次异常，将控制传递给缺页异常处理程序。</li>
+<li>处理程序确定物理内存中的牺牲页，若该页被修改，则写回磁盘，否则则不需要。</li>
+<li>缺页异常换入新页面，并更新PTE。</li>
+<li>处理函数将控制交回给原进程，再次执行触发缺页的指令，从头执行，本次执行会hit。</li>
+</ol>
+<h3 id="高速缓存中的地址">高速缓存中的地址</h3>
+<p>大多数系统选择物理地址。PTEA也可以参与缓存。</p>
+<h3 id="tlb">TLB</h3>
+<p>除了查询目标物理地址，每次翻译的时候，都必须要在各级缓存或者主存中查找PTE的地址，针对PTEA，我们也可以有一个小缓存器，名为<strong>翻译后备缓冲器（TLB）</strong></p>
+<p>TLB中存储虚拟地址，每一行都是有一个PTE组成的块。</p>
+<p>假设TLB有<span
+class="math inline">\(T=2^t\)</span>个set，那么TLBI是由VPN地最低<span
+class="math inline">\(t\)</span>位组成的，剩余位组成TLBT。</p>
+<img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/ics7.png" class="">
+<p><strong>注意</strong>，此处可以使用虚拟地址而不担心不同进程之间混乱的原因是，各个进程的页表物理地址是存在PTBR中的，是不同的。</p>
+<h3 id="多级页表">多级页表</h3>
+<p>问题：需要的页表条目太多，占用空间太大。由此引出了多级页表的概念。</p>
+<p>举例说明，假设虚拟地址为32位，页大小为4KB，一个PTE是4字节。</p>
+<p>一级页表映射的是很多连续页表组成的一个大块，或成为<strong>片（chunk）</strong>。此时，一个32位系统只需要1024个一级页表项就够了。</p>
+<p>但是只有一级页表，是无法查到某一准确的PTE的。假设一级页表的一个条目已经被分配，则它指向的二级页表是存在的，是连续的1024个PTE。</p>
+<p>我们很精确的构造，使得一二级页表都是正好一个页的大小。</p>
+<img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/ics8.png" class="">
+<p>如图所示，我们对一个虚拟地址进行切分，使用不同的位来到每级页表中去查询，最终得到PPN。然后与VPO组装，形成一个物理地址。</p>
+<h2 id="案例">案例</h2>
+<h2 id="内存映射">内存映射</h2>
+<h2 id="动态内存分配">动态内存分配</h2>
+<hr />
+<div
+style="font-size: 50px; font-weight: bold; color: #777; margin: 22px 0; line-height: normal;">
+第三部分 程序间的交互和通信
+</div>
+<h1 id="第十章-系统级io">第十章 系统级I/O</h1>
+<h1 id="第十一章-网络编程">第十一章 网络编程</h1>
+<h1 id="第十二章-并发编程">第十二章 并发编程</h1>
+
+    </article>
+    <!-- license -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://lulu010722.cn">LULU</a>
+            <p>原文链接：<a href="https://lulu010722.cn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">https://lulu010722.cn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/</a>
+            <p>发表日期：<a href="https://lulu010722.cn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">October 15th 2022, 2:24:49 pm</a>
+            <p>更新日期：<a href="https://lulu010722.cn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">June 30th 2023, 10:06:46 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/%E6%B5%8B%E8%AF%95/" title="测试">
+                    <div class="nextTitle">测试</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/cse-lab1%E8%B8%A9%E5%9D%91/" title="cse-lab1踩坑">
+                    <div class="prevTitle">cse-lab1踩坑</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
+    
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
+
+            
+
+            
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+    <script>
+        let idOption = '1665815089000'
+        
+        const gitalk = new Gitalk({
+            clientID: '92b12a8b77ce002f4e8f',
+            clientSecret: '0575f7da98f9abf2c39445ab6d9711ba2250efa8',
+            repo: 'blog-comments',
+            owner: 'LuLu010722',
+            admin: ["LuLu010722"],
+            id: idOption,
+            distractionFreeMode: false,
+            createIssueManually: true,
+        })
+        gitalk.render('gitalk-container')
+    </script>
+    <noscript>为正常使用 Gitalk 评论功能，您需要激活 JavaScript</noscript>
+
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
+        </div>
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+        <script>
+            (function () {
+                const time = document.getElementsByClassName('post-intro-time')[0]
+                const post = document.getElementsByTagName("article")[0]
+                if (time === undefined || post === undefined) {
+                    return
+                }
+
+                const pubTime = new Date(time.innerText)
+                const now = Date.now()
+                const interval = parseInt(now - pubTime)
+                const days = parseInt(interval / 86400000)
+                const outdated_threshold = parseInt(180)
+                if (interval > outdated_threshold * 24 * 3600 * 1000) {
+                    post.innerHTML = '<div class="note note-warning">' +
+                    `<div class="title">文章时效性提示</div><p>这是一篇发布于 ${days} 天前的文章，部分信息可能已发生改变，请注意甄别。` +
+                    '</p></div>' + post.innerHTML;
+                }
+            })();
+        </script>
+    
+    <!-- Mathjax -->
+    
+        
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            }
+        };
+    </script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js"></script>
+
+
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+            
+                <a href="mailto:384668412@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="https://github.com/LuLu010722/LuLu010722.github.io" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                    
+                    <img class="profile-qr" src="/images/wechat.jpg" />
+                </span>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                    
+                    <img class="profile-qr" src="/images/qq.jpg" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://github.com/fi3ework/hexo-theme-archer" class="iconfont-archer others" target="_blank" title=others></a>
+            
+        
+    
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8"><span class="toc-number">1.</span> <span class="toc-text">第一章 计算机系统漫游</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">第二章 信息的表示和处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">2.1.</span> <span class="toc-text">数据类型的转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%90%8C%E4%BD%8D%E6%95%B0"><span class="toc-number">2.1.1.</span> <span class="toc-text">相同位数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E5%90%8C%E4%BD%8D%E6%95%B0"><span class="toc-number">2.1.2.</span> <span class="toc-text">不同位数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ieee%E6%B5%AE%E7%82%B9%E6%95%B0%E8%A1%A8%E7%A4%BA"><span class="toc-number">2.2.</span> <span class="toc-text">IEEE浮点数表示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E4%B9%8B%E9%97%B4%E6%B5%AE%E7%82%B9%E4%B8%8E%E6%95%B4%E5%BD%A2%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">2.3.</span> <span class="toc-text">浮点之间，浮点与整形的转换</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%9C%BA%E5%99%A8%E7%BA%A7%E8%A1%A8%E7%A4%BA"><span class="toc-number">3.</span> <span class="toc-text">第三章 程序的机器级表示</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">第四章 处理器体系结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E4%BC%98%E5%8C%96%E7%A8%8B%E5%BA%8F%E6%80%A7%E8%83%BD"><span class="toc-number">5.</span> <span class="toc-text">第五章 优化程序性能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%82%A8%E5%AD%98%E5%99%A8%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84"><span class="toc-number">6.</span> <span class="toc-text">第六章 储存器层次结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%83%E7%AB%A0-%E9%93%BE%E6%8E%A5"><span class="toc-number">7.</span> <span class="toc-text">第七章 链接</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B"><span class="toc-number">7.1.</span> <span class="toc-text">基本流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5"><span class="toc-number">7.2.</span> <span class="toc-text">静态链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%A6%E5%8F%B7%E5%92%8C%E7%AC%A6%E5%8F%B7%E8%A1%A8"><span class="toc-number">7.3.</span> <span class="toc-text">符号和符号表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%AA%E8%8A%82"><span class="toc-number">7.3.1.</span> <span class="toc-text">伪节</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#common%E5%92%8C.bss%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">7.3.2.</span> <span class="toc-text">COMMON和.bss的区别。</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%A6%E5%8F%B7%E8%A7%A3%E6%9E%90"><span class="toc-number">7.4.</span> <span class="toc-text">符号解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%BA%93"><span class="toc-number">7.5.</span> <span class="toc-text">静态库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E5%AE%9A%E4%BD%8D"><span class="toc-number">7.6.</span> <span class="toc-text">重定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6"><span class="toc-number">7.7.</span> <span class="toc-text">可执行目标文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E5%A4%B4%E9%83%A8%E8%A1%A8"><span class="toc-number">7.7.1.</span> <span class="toc-text">程序头部表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BD%E5%8F%AF%E6%89%A7%E8%A1%8C%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6"><span class="toc-number">7.8.</span> <span class="toc-text">加载可执行目标文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5"><span class="toc-number">7.9.</span> <span class="toc-text">动态链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%8D%E7%BD%AE%E6%97%A0%E5%85%B3%E4%BB%A3%E7%A0%81pic"><span class="toc-number">7.10.</span> <span class="toc-text">位置无关代码（PIC）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E5%81%8F%E7%A7%BB%E9%87%8F%E8%A1%A8got"><span class="toc-number">7.10.1.</span> <span class="toc-text">全局偏移量表（GOT）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E7%A8%8B%E9%93%BE%E6%8E%A5%E8%A1%A8plt"><span class="toc-number">7.10.2.</span> <span class="toc-text">过程链接表（PLT）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%93%E6%89%93%E6%A1%A9%E6%9C%BA%E5%88%B6"><span class="toc-number">7.11.</span> <span class="toc-text">库打桩机制</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%85%AB%E7%AB%A0-%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81"><span class="toc-number">8.</span> <span class="toc-text">第八章 异常控制流</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8"><span class="toc-number">8.1.</span> <span class="toc-text">异常</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-number">8.1.1.</span> <span class="toc-text">异常处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E7%A7%8D%E7%B1%BB"><span class="toc-number">8.1.2.</span> <span class="toc-text">异常种类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linuxx86-64%E7%B3%BB%E7%BB%9F%E5%BC%82%E5%B8%B8"><span class="toc-number">8.1.3.</span> <span class="toc-text">Linux&#x2F;x86-64系统异常</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B"><span class="toc-number">8.2.</span> <span class="toc-text">进程※</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4"><span class="toc-number">8.2.1.</span> <span class="toc-text">私有地址空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%80%81%E5%92%8C%E5%86%85%E6%A0%B8%E6%80%81"><span class="toc-number">8.2.2.</span> <span class="toc-text">用户态和内核态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2"><span class="toc-number">8.2.3.</span> <span class="toc-text">上下文切换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E7%9A%84%E9%94%99%E8%AF%AF"><span class="toc-number">8.2.4.</span> <span class="toc-text">系统调用的错误</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6"><span class="toc-number">8.3.</span> <span class="toc-text">进程控制※</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8Bid"><span class="toc-number">8.3.1.</span> <span class="toc-text">进程ID</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%92%8C%E7%BB%88%E6%AD%A2%E8%BF%9B%E7%A8%8B"><span class="toc-number">8.3.2.</span> <span class="toc-text">创建和终止进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E5%9B%9E%E6%94%B6"><span class="toc-number">8.3.3.</span> <span class="toc-text">进程回收</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E4%BC%91%E7%9C%A0"><span class="toc-number">8.3.4.</span> <span class="toc-text">进程休眠</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BD%E5%B9%B6%E8%BF%90%E8%A1%8C%E7%A8%8B%E5%BA%8F"><span class="toc-number">8.3.5.</span> <span class="toc-text">加载并运行程序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E5%8F%B7"><span class="toc-number">8.4.</span> <span class="toc-text">信号※</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E5%8F%B7%E6%9C%AF%E8%AF%AD"><span class="toc-number">8.4.1.</span> <span class="toc-text">信号术语</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E4%BF%A1%E5%8F%B7"><span class="toc-number">8.4.2.</span> <span class="toc-text">发送信号</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%BB%84"><span class="toc-number">8.4.2.1.</span> <span class="toc-text">进程组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#binkill%E5%91%BD%E4%BB%A4"><span class="toc-number">8.4.2.2.</span> <span class="toc-text">&#x2F;bin&#x2F;kill命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8E%E9%94%AE%E7%9B%98%E5%8F%91%E9%80%81%E4%BF%A1%E5%8F%B7"><span class="toc-number">8.4.2.3.</span> <span class="toc-text">从键盘发送信号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#kill%E5%87%BD%E6%95%B0"><span class="toc-number">8.4.2.4.</span> <span class="toc-text">kill函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#alarm%E5%87%BD%E6%95%B0"><span class="toc-number">8.4.2.5.</span> <span class="toc-text">alarm函数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E4%BF%A1%E5%8F%B7"><span class="toc-number">8.4.3.</span> <span class="toc-text">接收信号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%BB%E5%A1%9E%E4%B8%8E%E8%A7%A3%E9%98%BB"><span class="toc-number">8.4.4.</span> <span class="toc-text">阻塞与解阻</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E5%86%99singal-handler%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F"><span class="toc-number">8.4.5.</span> <span class="toc-text">编写singal
+handler信号处理程序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%9E%E6%9C%AC%E5%9C%B0%E8%B7%B3%E8%BD%AC%E6%9C%AA%E5%AE%8C"><span class="toc-number">8.5.</span> <span class="toc-text">非本地跳转（未完）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98"><span class="toc-number">9.</span> <span class="toc-text">第九章 虚拟内存※</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%92%8C%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80"><span class="toc-number">9.1.</span> <span class="toc-text">物理和虚拟地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4"><span class="toc-number">9.2.</span> <span class="toc-text">地址空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E4%BD%9C%E4%B8%BA%E7%BC%93%E5%AD%98%E7%9A%84%E5%B7%A5%E5%85%B7"><span class="toc-number">9.3.</span> <span class="toc-text">虚拟内存作为缓存的工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#dram%E7%BB%84%E7%BB%87%E7%BB%93%E6%9E%84"><span class="toc-number">9.3.1.</span> <span class="toc-text">DRAM组织结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E8%A1%A8"><span class="toc-number">9.3.2.</span> <span class="toc-text">页表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%B8%AD"><span class="toc-number">9.3.3.</span> <span class="toc-text">命中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%BA%E9%A1%B5"><span class="toc-number">9.3.4.</span> <span class="toc-text">缺页</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E9%85%8Dmalloc"><span class="toc-number">9.3.5.</span> <span class="toc-text">分配（malloc）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E4%BD%9C%E4%B8%BA%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E7%9A%84%E5%B7%A5%E5%85%B7"><span class="toc-number">9.4.</span> <span class="toc-text">虚拟内存作为内存管理的工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E4%BD%9C%E4%B8%BA%E5%86%85%E5%AD%98%E4%BF%9D%E6%8A%A4%E7%9A%84%E5%B7%A5%E5%85%B7"><span class="toc-number">9.5.</span> <span class="toc-text">虚拟内存作为内存保护的工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%B0%E5%9D%80%E7%BF%BB%E8%AF%91"><span class="toc-number">9.6.</span> <span class="toc-text">地址翻译※</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B-1"><span class="toc-number">9.6.1.</span> <span class="toc-text">基本流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="toc-number">9.6.2.</span> <span class="toc-text">具体流程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#hit"><span class="toc-number">9.6.2.1.</span> <span class="toc-text">hit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#miss"><span class="toc-number">9.6.2.2.</span> <span class="toc-text">miss</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E9%80%9F%E7%BC%93%E5%AD%98%E4%B8%AD%E7%9A%84%E5%9C%B0%E5%9D%80"><span class="toc-number">9.6.3.</span> <span class="toc-text">高速缓存中的地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tlb"><span class="toc-number">9.6.4.</span> <span class="toc-text">TLB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E7%BA%A7%E9%A1%B5%E8%A1%A8"><span class="toc-number">9.6.5.</span> <span class="toc-text">多级页表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B"><span class="toc-number">9.7.</span> <span class="toc-text">案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%98%A0%E5%B0%84"><span class="toc-number">9.8.</span> <span class="toc-text">内存映射</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D"><span class="toc-number">9.9.</span> <span class="toc-text">动态内存分配</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%8D%81%E7%AB%A0-%E7%B3%BB%E7%BB%9F%E7%BA%A7io"><span class="toc-number">10.</span> <span class="toc-text">第十章 系统级I&#x2F;O</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B"><span class="toc-number">11.</span> <span class="toc-text">第十一章 网络编程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B"><span class="toc-number">12.</span> <span class="toc-text">第十二章 并发编程</span></a></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 23
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> 2023 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/27</span>
+            <a class="archive-post-title" href="/%E5%89%8D%E7%AB%AF%E7%BB%83%E4%B9%A0/">前端练习</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/27</span>
+            <a class="archive-post-title" href="/cname%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/">CNAME的必要性</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/21</span>
+            <a class="archive-post-title" href="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/">我的雷神🤗</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/14</span>
+            <a class="archive-post-title" href="/%E3%81%9F%E3%81%A0%E3%81%84%E3%81%BE/">ただいま</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2022 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/10</span>
+            <a class="archive-post-title" href="/%E6%B3%89%E3%81%95%E3%82%93%E3%81%A8%E3%81%AE%E7%9B%B8%E8%AB%87/">泉さんとの相談</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/29</span>
+            <a class="archive-post-title" href="/cse-lab2a%E8%B8%A9%E5%9D%91/">cse-lab2a踩坑</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/24</span>
+            <a class="archive-post-title" href="/%E8%A7%A3%E5%B0%81%E4%BA%86%EF%BC%8C%E5%90%97%EF%BC%9F/">解封了，吗？</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/16</span>
+            <a class="archive-post-title" href="/git%E2%80%94%E2%80%94%E4%BA%BA%E7%B1%BB%E5%A5%BD%E6%9C%8B%E5%8F%8B/">git——人类好朋友</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span>
+            <a class="archive-post-title" href="/%E6%B5%8B%E8%AF%95/">测试</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span>
+            <a class="archive-post-title" href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">计算机系统基础</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span>
+            <a class="archive-post-title" href="/cse-lab1%E8%B8%A9%E5%9D%91/">cse-lab1踩坑</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/02</span>
+            <a class="archive-post-title" href="/inode%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/">inode文件系统</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span>
+            <a class="archive-post-title" href="/jpa%E4%BA%8B%E5%8A%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%A4%96%E9%94%AE%E6%AD%BB%E9%94%81/">JPA事务控制与外键死锁</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/24</span>
+            <a class="archive-post-title" href="/%E6%88%91%E7%9A%84%E7%94%BB/">我的画</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/23</span>
+            <a class="archive-post-title" href="/%E3%80%8A%E8%8B%8F%E4%B8%9C%E5%9D%A1%E4%BC%A0%E3%80%8B/">《苏东坡传》</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/22</span>
+            <a class="archive-post-title" href="/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/">《月亮与六便士》</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span>
+            <a class="archive-post-title" href="/%E9%9A%8F%E4%BE%BF%E5%86%99%E5%86%99/">随便写写</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span>
+            <a class="archive-post-title" href="/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/">柯柯的画</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span>
+            <a class="archive-post-title" href="/%E5%8F%AF%E5%8F%AF%E7%9A%84%E7%90%B4/">可可的琴</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span>
+            <a class="archive-post-title" href="/daily-report/">Daily Report</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span>
+            <a class="archive-post-title" href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/">机器学习概论</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span>
+            <a class="archive-post-title" href="/%E9%85%8D%E7%BD%AEhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E5%B9%B6%E6%9B%B4%E6%8D%A2%E5%A4%9A%E7%A7%8D%E4%B8%BB%E9%A2%98/">配置hexo博客，并更换多种主题</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span>
+            <a class="archive-post-title" href="/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%EF%BC%81/">欢迎来到我的博客！</a>
+        </li>
+    
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+            <span class="sidebar-tag-name" data-tags="ICS">
+                <span class="iconfont-archer">&#xe606;</span>
+                ICS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="复习">
+                <span class="iconfont-archer">&#xe606;</span>
+                复习
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="ipads面试">
+                <span class="iconfont-archer">&#xe606;</span>
+                ipads面试
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="mysql">
+                <span class="iconfont-archer">&#xe606;</span>
+                mysql
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="踩坑">
+                <span class="iconfont-archer">&#xe606;</span>
+                踩坑
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="配置">
+                <span class="iconfont-archer">&#xe606;</span>
+                配置
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="每日活动记录">
+                <span class="iconfont-archer">&#xe606;</span>
+                每日活动记录
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="随笔">
+                <span class="iconfont-archer">&#xe606;</span>
+                随笔
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="随键">
+                <span class="iconfont-archer">&#xe606;</span>
+                随键
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="git">
+                <span class="iconfont-archer">&#xe606;</span>
+                git
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="高级操作">
+                <span class="iconfont-archer">&#xe606;</span>
+                高级操作
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="练习">
+                <span class="iconfont-archer">&#xe606;</span>
+                练习
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="校园">
+                <span class="iconfont-archer">&#xe606;</span>
+                校园
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="线下课程">
+                <span class="iconfont-archer">&#xe606;</span>
+                线下课程
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="cse">
+                <span class="iconfont-archer">&#xe606;</span>
+                cse
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="绘画">
+                <span class="iconfont-archer">&#xe606;</span>
+                绘画
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="柯柯">
+                <span class="iconfont-archer">&#xe606;</span>
+                柯柯
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="月亮与六便士">
+                <span class="iconfont-archer">&#xe606;</span>
+                月亮与六便士
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="手办">
+                <span class="iconfont-archer">&#xe606;</span>
+                手办
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="可可">
+                <span class="iconfont-archer">&#xe606;</span>
+                可可
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="音乐">
+                <span class="iconfont-archer">&#xe606;</span>
+                音乐
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="古琴">
+                <span class="iconfont-archer">&#xe606;</span>
+                古琴
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="苏东坡传">
+                <span class="iconfont-archer">&#xe606;</span>
+                苏东坡传
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="雑談">
+                <span class="iconfont-archer">&#xe606;</span>
+                雑談
+            </span>
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="笔记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            笔记
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="数据库">
+            <span class="iconfont-archer">&#xe60a;</span>
+            数据库
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="cse">
+            <span class="iconfont-archer">&#xe60a;</span>
+            cse
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="hexo">
+            <span class="iconfont-archer">&#xe60a;</span>
+            hexo
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="日记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            日记
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="随笔">
+            <span class="iconfont-archer">&#xe60a;</span>
+            随笔
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="git">
+            <span class="iconfont-archer">&#xe60a;</span>
+            git
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="前端">
+            <span class="iconfont-archer">&#xe60a;</span>
+            前端
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="配置">
+            <span class="iconfont-archer">&#xe60a;</span>
+            配置
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="信">
+            <span class="iconfont-archer">&#xe60a;</span>
+            信
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="校园">
+            <span class="iconfont-archer">&#xe60a;</span>
+            校园
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="机器学习">
+            <span class="iconfont-archer">&#xe60a;</span>
+            机器学习
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="展厅">
+            <span class="iconfont-archer">&#xe60a;</span>
+            展厅
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="书架">
+            <span class="iconfont-archer">&#xe60a;</span>
+            书架
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="测试">
+            <span class="iconfont-archer">&#xe60a;</span>
+            测试
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="日本語">
+            <span class="iconfont-archer">&#xe60a;</span>
+            日本語
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="其他">
+            <span class="iconfont-archer">&#xe60a;</span>
+            其他
+        </span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "https://lulu010722.cn",
+        root: siteMetaRoot,
+        author: "LULU"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
+            <script src='https://cdn.jsdelivr.net/npm/mermaid@8.11.0/dist/mermaid.min.js'></script>
+            <script>
+                if (window.mermaid) {
+                    mermaid.initialize({theme: 'dark'});
+                }
+            </script>
+        
+    </body>
+</html>
