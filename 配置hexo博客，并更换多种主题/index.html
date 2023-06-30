@@ -27,7 +27,7 @@
 <meta property="og:description" content="hexo博客的基本维护方式 搭建过程可参考hexo博客搭建教程。 hexo提供了便捷的构建、部署功能。在本地添加了新的markdown日志或者图片之后，只需执行如下代码： 123456# 清除已有的构建目录，默认为publichexo clean# 构建新的静态文件，g是generate的缩写hexo g# 一条命令直接部署，d是deploy的缩写hexo d 就会把本地的public文件">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-09-16T07:51:06.000Z">
-<meta property="article:modified_time" content="2023-06-30T14:06:47.005Z">
+<meta property="article:modified_time" content="2023-06-30T14:49:10.131Z">
 <meta property="article:author" content="LULU">
 <meta property="article:tag" content="技术, 生活, 日记">
 <meta name="twitter:card" content="summary">
@@ -208,6 +208,19 @@
     <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
     <!-- algolia -->
     
+        <script>
+            var hits = JSON.parse('{"per_page":10}')
+            var labels = JSON.parse('{"input_placeholder":"搜索博客","hits_empty":"没有找到 ${query} 对应的结果","hits_stats":"在${time}ms内找到${hits}结果"}')
+
+            var algolia = {
+                applicationID: 'XU5QKROKPX',
+                apiKey: '966fd36579d241453f05a8c4e178212c',
+                indexName: 'blog',
+                hits: hits,
+                labels: labels
+            }
+        </script>
+    
     <!-- 百度统计  -->
     
     <!-- 谷歌统计  -->
@@ -298,7 +311,7 @@
     
         
     <!-- 404页  -->
-    
+            
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
@@ -341,10 +354,9 @@
 </div>
 
                 
-                <!-- 文章字数统计 -->
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">889</span>阅读时长: <span class="post-count reading-time">3 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">848</span>阅读时长: <span class="post-count reading-time">3 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -541,10 +553,6 @@ target="_blank" rel="noopener" href="https://hexo.io/themes/">hexo主题网站</
 </ol>
 <p>对于<strong>第二种</strong>方式下载的主题：</p>
 <p>在<strong>hexo配置文件</strong>中寻找<code>theme_config</code>属性，并加载。</p>
-<h1 id="ps已经证实">PS：已经证实</h1>
-<p>配置文件的优先级顺序为</p>
-<p><strong>根目录配置文件中的theme_config属性</strong> &gt;
-**_config.{主题}.yml** &gt; <strong>根目录配置文件</strong></p>
 <p><br></p>
 <h1 id="踩过的坑">踩过的坑</h1>
 <ol type="1">
@@ -562,8 +570,9 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
         <div class="license-wrapper">
             <p>原文作者：<a href="https://lulu010722.cn">LULU</a>
             <p>原文链接：<a href="https://lulu010722.cn/%E9%85%8D%E7%BD%AEhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E5%B9%B6%E6%9B%B4%E6%8D%A2%E5%A4%9A%E7%A7%8D%E4%B8%BB%E9%A2%98/">https://lulu010722.cn/%E9%85%8D%E7%BD%AEhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E5%B9%B6%E6%9B%B4%E6%8D%A2%E5%A4%9A%E7%A7%8D%E4%B8%BB%E9%A2%98/</a>
-            <p>发表日期：<a href="https://lulu010722.cn/%E9%85%8D%E7%BD%AEhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E5%B9%B6%E6%9B%B4%E6%8D%A2%E5%A4%9A%E7%A7%8D%E4%B8%BB%E9%A2%98/">September 16th 2022, 3:51:06 pm</a>
-            <p>更新日期：<a href="https://lulu010722.cn/%E9%85%8D%E7%BD%AEhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E5%B9%B6%E6%9B%B4%E6%8D%A2%E5%A4%9A%E7%A7%8D%E4%B8%BB%E9%A2%98/">June 30th 2023, 10:06:47 pm</a>
+            <!-- MARK! This is modified by LULU! -->
+            <p>发表日期：<a href="https://lulu010722.cn/%E9%85%8D%E7%BD%AEhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E5%B9%B6%E6%9B%B4%E6%8D%A2%E5%A4%9A%E7%A7%8D%E4%B8%BB%E9%A2%98/">2022-09-16 15:51:06</a>
+            <p>更新日期：<a href="https://lulu010722.cn/%E9%85%8D%E7%BD%AEhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E5%B9%B6%E6%9B%B4%E6%8D%A2%E5%A4%9A%E7%A7%8D%E4%B8%BB%E9%A2%98/">2023-06-30 22:49:10</a>
             <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -598,7 +607,9 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
 
             
     <div id="gitalk-container"></div>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+
+    <!-- MARK! This is modified by LULU! -->
+    <link rel="stylesheet" href="/gitalk.css">
     <script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
     <script>
         let idOption = '1663314666000'
@@ -773,7 +784,7 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
                 <div class="toc-catalog">
                     <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
                 </div>
-                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#hexo%E5%8D%9A%E5%AE%A2%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%B4%E6%8A%A4%E6%96%B9%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">hexo博客的基本维护方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEhexo"><span class="toc-number">2.</span> <span class="toc-text">配置hexo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E5%B9%B6%E9%85%8D%E7%BD%AE%E4%B8%BB%E9%A2%98"><span class="toc-number">3.</span> <span class="toc-text">下载并配置主题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%8A%A0%E8%BD%BD%E5%8E%9F%E7%90%86%E6%8E%A8%E6%B5%8B"><span class="toc-number">4.</span> <span class="toc-text">配置加载原理（推测）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ps%E5%B7%B2%E7%BB%8F%E8%AF%81%E5%AE%9E"><span class="toc-number">5.</span> <span class="toc-text">PS：已经证实</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91"><span class="toc-number">6.</span> <span class="toc-text">踩过的坑</span></a></li></ol>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#hexo%E5%8D%9A%E5%AE%A2%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%B4%E6%8A%A4%E6%96%B9%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">hexo博客的基本维护方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEhexo"><span class="toc-number">2.</span> <span class="toc-text">配置hexo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E5%B9%B6%E9%85%8D%E7%BD%AE%E4%B8%BB%E9%A2%98"><span class="toc-number">3.</span> <span class="toc-text">下载并配置主题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%8A%A0%E8%BD%BD%E5%8E%9F%E7%90%86%E6%8E%A8%E6%B5%8B"><span class="toc-number">4.</span> <span class="toc-text">配置加载原理（推测）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91"><span class="toc-number">5.</span> <span class="toc-text">踩过的坑</span></a></li></ol>
             </div>
         
         <!-- sidebar -->
@@ -897,26 +908,7 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
         
         
         
-        
-        
-        
-        
-        
     
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
         
         
@@ -1063,9 +1055,13 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 23
+        Total : 22
         </div>
         <!-- search  -->
+        
+            <div class="site-search site-search-loading popup-trigger">
+                <span class="iconfont-archer search-icon">&#xe627;</span>
+            </div>
         
     </div>
     
@@ -1077,18 +1073,6 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
             <div class="archive-year"> 2023 </div>
             <ul class="year-list">
             
-        
-        <li class="archive-post-item">
-            <span class="archive-post-date">06/27</span>
-            <a class="archive-post-title" href="/%E5%89%8D%E7%AB%AF%E7%BB%83%E4%B9%A0/">前端练习</a>
-        </li>
-    
-        
-        <li class="archive-post-item">
-            <span class="archive-post-date">06/27</span>
-            <a class="archive-post-title" href="/cname%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/">CNAME的必要性</a>
-        </li>
-    
         
         <li class="archive-post-item">
             <span class="archive-post-date">06/21</span>
@@ -1191,13 +1175,19 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
         
         <li class="archive-post-item">
             <span class="archive-post-date">09/18</span>
+            <a class="archive-post-title" href="/%E5%8F%AF%E5%8F%AF%E7%9A%84%E7%90%B4/">可可的琴</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span>
             <a class="archive-post-title" href="/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/">柯柯的画</a>
         </li>
     
         
         <li class="archive-post-item">
             <span class="archive-post-date">09/18</span>
-            <a class="archive-post-title" href="/%E5%8F%AF%E5%8F%AF%E7%9A%84%E7%90%B4/">可可的琴</a>
+            <a class="archive-post-title" href="/%E5%85%B3%E4%BA%8Earcher%E4%B8%BB%E9%A2%98%E7%9A%84%E4%B8%80%E4%BA%9B%E8%BF%9B%E9%98%B6%E9%85%8D%E7%BD%AE/">关于archer主题的一些进阶配置</a>
         </li>
     
         
@@ -1230,21 +1220,6 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
         
-            <span class="sidebar-tag-name" data-tags="ICS">
-                <span class="iconfont-archer">&#xe606;</span>
-                ICS
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="复习">
-                <span class="iconfont-archer">&#xe606;</span>
-                复习
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="ipads面试">
-                <span class="iconfont-archer">&#xe606;</span>
-                ipads面试
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="mysql">
                 <span class="iconfont-archer">&#xe606;</span>
                 mysql
@@ -1253,26 +1228,6 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
             <span class="sidebar-tag-name" data-tags="踩坑">
                 <span class="iconfont-archer">&#xe606;</span>
                 踩坑
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="配置">
-                <span class="iconfont-archer">&#xe606;</span>
-                配置
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="每日活动记录">
-                <span class="iconfont-archer">&#xe606;</span>
-                每日活动记录
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="随笔">
-                <span class="iconfont-archer">&#xe606;</span>
-                随笔
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="随键">
-                <span class="iconfont-archer">&#xe606;</span>
-                随键
             </span>
         
             <span class="sidebar-tag-name" data-tags="git">
@@ -1285,34 +1240,9 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
                 高级操作
             </span>
         
-            <span class="sidebar-tag-name" data-tags="练习">
-                <span class="iconfont-archer">&#xe606;</span>
-                练习
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="校园">
-                <span class="iconfont-archer">&#xe606;</span>
-                校园
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="线下课程">
-                <span class="iconfont-archer">&#xe606;</span>
-                线下课程
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="cse">
                 <span class="iconfont-archer">&#xe606;</span>
                 cse
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="绘画">
-                <span class="iconfont-archer">&#xe606;</span>
-                绘画
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="柯柯">
-                <span class="iconfont-archer">&#xe606;</span>
-                柯柯
             </span>
         
             <span class="sidebar-tag-name" data-tags="月亮与六便士">
@@ -1320,9 +1250,14 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
                 月亮与六便士
             </span>
         
-            <span class="sidebar-tag-name" data-tags="手办">
+            <span class="sidebar-tag-name" data-tags="苏东坡传">
                 <span class="iconfont-archer">&#xe606;</span>
-                手办
+                苏东坡传
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="雑談">
+                <span class="iconfont-archer">&#xe606;</span>
+                雑談
             </span>
         
             <span class="sidebar-tag-name" data-tags="可可">
@@ -1340,14 +1275,59 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
                 古琴
             </span>
         
-            <span class="sidebar-tag-name" data-tags="苏东坡传">
+            <span class="sidebar-tag-name" data-tags="绘画">
                 <span class="iconfont-archer">&#xe606;</span>
-                苏东坡传
+                绘画
             </span>
         
-            <span class="sidebar-tag-name" data-tags="雑談">
+            <span class="sidebar-tag-name" data-tags="每日活动记录">
                 <span class="iconfont-archer">&#xe606;</span>
-                雑談
+                每日活动记录
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="柯柯">
+                <span class="iconfont-archer">&#xe606;</span>
+                柯柯
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="校园">
+                <span class="iconfont-archer">&#xe606;</span>
+                校园
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="线下课程">
+                <span class="iconfont-archer">&#xe606;</span>
+                线下课程
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="随笔">
+                <span class="iconfont-archer">&#xe606;</span>
+                随笔
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="随键">
+                <span class="iconfont-archer">&#xe606;</span>
+                随键
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="手办">
+                <span class="iconfont-archer">&#xe606;</span>
+                手办
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="ICS">
+                <span class="iconfont-archer">&#xe606;</span>
+                ICS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="复习">
+                <span class="iconfont-archer">&#xe606;</span>
+                复习
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="ipads面试">
+                <span class="iconfont-archer">&#xe606;</span>
+                ipads面试
             </span>
         
     </div>
@@ -1361,11 +1341,6 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="笔记">
-            <span class="iconfont-archer">&#xe60a;</span>
-            笔记
-        </span>
-    
         <span class="sidebar-category-name" data-categories="数据库">
             <span class="iconfont-archer">&#xe60a;</span>
             数据库
@@ -1376,54 +1351,14 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
             cse
         </span>
     
-        <span class="sidebar-category-name" data-categories="hexo">
-            <span class="iconfont-archer">&#xe60a;</span>
-            hexo
-        </span>
-    
-        <span class="sidebar-category-name" data-categories="日记">
-            <span class="iconfont-archer">&#xe60a;</span>
-            日记
-        </span>
-    
-        <span class="sidebar-category-name" data-categories="随笔">
-            <span class="iconfont-archer">&#xe60a;</span>
-            随笔
-        </span>
-    
         <span class="sidebar-category-name" data-categories="git">
             <span class="iconfont-archer">&#xe60a;</span>
             git
         </span>
     
-        <span class="sidebar-category-name" data-categories="前端">
+        <span class="sidebar-category-name" data-categories="笔记">
             <span class="iconfont-archer">&#xe60a;</span>
-            前端
-        </span>
-    
-        <span class="sidebar-category-name" data-categories="配置">
-            <span class="iconfont-archer">&#xe60a;</span>
-            配置
-        </span>
-    
-        <span class="sidebar-category-name" data-categories="信">
-            <span class="iconfont-archer">&#xe60a;</span>
-            信
-        </span>
-    
-        <span class="sidebar-category-name" data-categories="校园">
-            <span class="iconfont-archer">&#xe60a;</span>
-            校园
-        </span>
-    
-        <span class="sidebar-category-name" data-categories="机器学习">
-            <span class="iconfont-archer">&#xe60a;</span>
-            机器学习
-        </span>
-    
-        <span class="sidebar-category-name" data-categories="展厅">
-            <span class="iconfont-archer">&#xe60a;</span>
-            展厅
+            笔记
         </span>
     
         <span class="sidebar-category-name" data-categories="书架">
@@ -1431,9 +1366,14 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
             书架
         </span>
     
-        <span class="sidebar-category-name" data-categories="测试">
+        <span class="sidebar-category-name" data-categories="信">
             <span class="iconfont-archer">&#xe60a;</span>
-            测试
+            信
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="配置">
+            <span class="iconfont-archer">&#xe60a;</span>
+            配置
         </span>
     
         <span class="sidebar-category-name" data-categories="日本語">
@@ -1441,9 +1381,39 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
             日本語
         </span>
     
+        <span class="sidebar-category-name" data-categories="展厅">
+            <span class="iconfont-archer">&#xe60a;</span>
+            展厅
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="日记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            日记
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="机器学习">
+            <span class="iconfont-archer">&#xe60a;</span>
+            机器学习
+        </span>
+    
         <span class="sidebar-category-name" data-categories="其他">
             <span class="iconfont-archer">&#xe60a;</span>
             其他
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="测试">
+            <span class="iconfont-archer">&#xe60a;</span>
+            测试
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="校园">
+            <span class="iconfont-archer">&#xe60a;</span>
+            校园
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="随笔">
+            <span class="iconfont-archer">&#xe60a;</span>
+            随笔
         </span>
     
     </div>
@@ -1478,6 +1448,28 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
         <!-- fancybox -->
         <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
         <!-- algolia -->
+        
+            <div class="site-search site-search-loading">
+    <div class="algolia-popup popup">
+        <div class="algolia-search">
+            <div class="algolia-search-input-icon">
+                <i class="fa fa-search"></i>
+            </div>
+            <div class="algolia-search-input" id="algolia-search-input"></div>
+            <div class="popup-btn-close">
+                <i class="iconfont-archer">&#xe609;</i>
+            </div>
+        </div>
+
+        <div class="algolia-results">
+            <div id="algolia-stats" class="algolia-stats"></div>
+            <div id="algolia-hits"></div>
+            <div id="algolia-pagination" class="algolia-pagination"></div>
+        </div>
+    </div>
+</div>
+
+            <script src="/scripts/search.js?v=20211217" defer></script>
         
         <!-- busuanzi -->
         

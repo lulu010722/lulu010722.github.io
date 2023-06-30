@@ -206,6 +206,19 @@
     <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
     <!-- algolia -->
     
+        <script>
+            var hits = JSON.parse('{"per_page":10}')
+            var labels = JSON.parse('{"input_placeholder":"搜索博客","hits_empty":"没有找到 ${query} 对应的结果","hits_stats":"在${time}ms内找到${hits}结果"}')
+
+            var algolia = {
+                applicationID: 'XU5QKROKPX',
+                apiKey: '966fd36579d241453f05a8c4e178212c',
+                indexName: 'blog',
+                hits: hits,
+                labels: labels
+            }
+        </script>
+    
     <!-- 百度统计  -->
     
     <!-- 谷歌统计  -->
@@ -285,7 +298,7 @@
     
         
     <!-- 文章页  -->
-    
+            
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-img" style="background-image: url(/images/leishen1.jpg)"></div>
     <div class="site-intro-meta">
@@ -438,83 +451,6 @@
             <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
             <div class="container container-unloaded">
                 <main class="main index-page">
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/">
-                
-                <span class="abstract-title-text">机器学习概论</span>
-            </a>
-            <div class="abstract-content">
-                <h1 id="nfl定理">NFL定理</h1>
-<p><strong>No Free Lunch Theorem</strong>：天下没有免费的午餐</p>
-<p>我们计算一个学习算法<span class="math inline">\(\mathcal{L}_a\)</span>的“训练集外误差”，有 <span class="math display">\[
-\begin{aligned}
-  E_{ote}(\mathcal{L}_a|X,f)=\sum_{h}\sum_{x\in\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne
-f(x))P(h|X,\mathcal{L}_a)
-\end{aligned}
-\]</span></p>
-<p>如果对于所有真实目标函数<span class="math inline">\(f\)</span>求和，则有 <span class="math display">\[
-\begin{aligned}
-  \sum_f E_{ote}(\mathcal{L}_a|X,f)&amp;=\sum_f\sum_h\sum_{x\in
-\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne f(x))P(h|X,\mathcal{L}_a)\\
-  &amp;=\sum_{x\in\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\sum_f\mathbb{I}(h(x)\ne
-f(x))\\
-  &amp;=\sum_{x\in
-\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\frac{1}{2}2^{|\mathcal{X}|}\\
-  &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in
-\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\\
-  &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in \mathcal{X}-X}P(x)\\
-\end{aligned}
-\]</span>
-我们可以看到，总误差与学习算法无关，也就是说，对于任意两个学习算法<span class="math inline">\(\mathcal{L}_a\)</span>，<span class="math inline">\(\mathcal{L}_b\)</span>，无论看上去<span class="math inline">\(\mathcal{L}_a\)</span>多复杂，多聪明，在期望的意义下，他们的性能是相同的。<del>（也就是说，随便瞎猜和复杂推导一样，不学了
-(*｀皿´*)ﾉ ）</del></p>
-<p><br></p>
-<h1 id="尝试证明auc计算公式">尝试证明AUC计算公式</h1>
-            </div>
-            <!-- read more -->
-            
-                <div class="abstract-read-more-button">
-                    <a href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/">
-                        <span style="margin-right: 0.2rem;">阅读全文</span>
-                        <i class="fas fa-angle-right"></i>
-                    </a>
-                </div>
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2023/06/30">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/09/16</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-        
-        
-            
-        
-        
-        <span class="post-category" data-categories="机器学习"">
-            <i class="fas fa-folder post-category-icon"></i>
-            <span class="post-category-text">
-                机器学习
-            </span>
-        </span>
-    
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
     
         
         
@@ -726,6 +662,16 @@ f(x))\\
         </div>
     
     
+        <div class="profile-link-item">
+            <a href="/about" class="about-me">
+                
+                    <i class="fas fa-id-card profile-item-icon"></i>
+                
+                ABOUT ME
+            </a>
+        </div>
+    
+    
         <div class="friends">
             <div>
                 
@@ -758,16 +704,6 @@ f(x))\\
                     </span>
                 
             
-        </div>
-    
-    
-        <div class="profile-link-item">
-            <a href="/about" class="about-me">
-                
-                    <i class="fas fa-id-card profile-item-icon"></i>
-                
-                ABOUT ME
-            </a>
         </div>
     
     
@@ -993,26 +929,7 @@ f(x))\\
         
         
         
-        
-        
-        
-        
-        
     
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
         
         
@@ -1159,9 +1076,13 @@ f(x))\\
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 23
+        Total : 22
         </div>
         <!-- search  -->
+        
+            <div class="site-search site-search-loading popup-trigger">
+                <span class="iconfont-archer search-icon">&#xe627;</span>
+            </div>
         
     </div>
     
@@ -1173,18 +1094,6 @@ f(x))\\
             <div class="archive-year"> 2023 </div>
             <ul class="year-list">
             
-        
-        <li class="archive-post-item">
-            <span class="archive-post-date">06/27</span>
-            <a class="archive-post-title" href="/%E5%89%8D%E7%AB%AF%E7%BB%83%E4%B9%A0/">前端练习</a>
-        </li>
-    
-        
-        <li class="archive-post-item">
-            <span class="archive-post-date">06/27</span>
-            <a class="archive-post-title" href="/cname%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/">CNAME的必要性</a>
-        </li>
-    
         
         <li class="archive-post-item">
             <span class="archive-post-date">06/21</span>
@@ -1287,13 +1196,19 @@ f(x))\\
         
         <li class="archive-post-item">
             <span class="archive-post-date">09/18</span>
+            <a class="archive-post-title" href="/%E5%8F%AF%E5%8F%AF%E7%9A%84%E7%90%B4/">可可的琴</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span>
             <a class="archive-post-title" href="/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/">柯柯的画</a>
         </li>
     
         
         <li class="archive-post-item">
             <span class="archive-post-date">09/18</span>
-            <a class="archive-post-title" href="/%E5%8F%AF%E5%8F%AF%E7%9A%84%E7%90%B4/">可可的琴</a>
+            <a class="archive-post-title" href="/%E5%85%B3%E4%BA%8Earcher%E4%B8%BB%E9%A2%98%E7%9A%84%E4%B8%80%E4%BA%9B%E8%BF%9B%E9%98%B6%E9%85%8D%E7%BD%AE/">关于archer主题的一些进阶配置</a>
         </li>
     
         
@@ -1326,21 +1241,6 @@ f(x))\\
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
         
-            <span class="sidebar-tag-name" data-tags="ICS">
-                <span class="iconfont-archer">&#xe606;</span>
-                ICS
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="复习">
-                <span class="iconfont-archer">&#xe606;</span>
-                复习
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="ipads面试">
-                <span class="iconfont-archer">&#xe606;</span>
-                ipads面试
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="mysql">
                 <span class="iconfont-archer">&#xe606;</span>
                 mysql
@@ -1349,26 +1249,6 @@ f(x))\\
             <span class="sidebar-tag-name" data-tags="踩坑">
                 <span class="iconfont-archer">&#xe606;</span>
                 踩坑
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="配置">
-                <span class="iconfont-archer">&#xe606;</span>
-                配置
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="每日活动记录">
-                <span class="iconfont-archer">&#xe606;</span>
-                每日活动记录
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="随笔">
-                <span class="iconfont-archer">&#xe606;</span>
-                随笔
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="随键">
-                <span class="iconfont-archer">&#xe606;</span>
-                随键
             </span>
         
             <span class="sidebar-tag-name" data-tags="git">
@@ -1381,34 +1261,9 @@ f(x))\\
                 高级操作
             </span>
         
-            <span class="sidebar-tag-name" data-tags="练习">
-                <span class="iconfont-archer">&#xe606;</span>
-                练习
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="校园">
-                <span class="iconfont-archer">&#xe606;</span>
-                校园
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="线下课程">
-                <span class="iconfont-archer">&#xe606;</span>
-                线下课程
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="cse">
                 <span class="iconfont-archer">&#xe606;</span>
                 cse
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="绘画">
-                <span class="iconfont-archer">&#xe606;</span>
-                绘画
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="柯柯">
-                <span class="iconfont-archer">&#xe606;</span>
-                柯柯
             </span>
         
             <span class="sidebar-tag-name" data-tags="月亮与六便士">
@@ -1416,9 +1271,14 @@ f(x))\\
                 月亮与六便士
             </span>
         
-            <span class="sidebar-tag-name" data-tags="手办">
+            <span class="sidebar-tag-name" data-tags="苏东坡传">
                 <span class="iconfont-archer">&#xe606;</span>
-                手办
+                苏东坡传
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="雑談">
+                <span class="iconfont-archer">&#xe606;</span>
+                雑談
             </span>
         
             <span class="sidebar-tag-name" data-tags="可可">
@@ -1436,14 +1296,59 @@ f(x))\\
                 古琴
             </span>
         
-            <span class="sidebar-tag-name" data-tags="苏东坡传">
+            <span class="sidebar-tag-name" data-tags="绘画">
                 <span class="iconfont-archer">&#xe606;</span>
-                苏东坡传
+                绘画
             </span>
         
-            <span class="sidebar-tag-name" data-tags="雑談">
+            <span class="sidebar-tag-name" data-tags="每日活动记录">
                 <span class="iconfont-archer">&#xe606;</span>
-                雑談
+                每日活动记录
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="柯柯">
+                <span class="iconfont-archer">&#xe606;</span>
+                柯柯
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="校园">
+                <span class="iconfont-archer">&#xe606;</span>
+                校园
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="线下课程">
+                <span class="iconfont-archer">&#xe606;</span>
+                线下课程
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="随笔">
+                <span class="iconfont-archer">&#xe606;</span>
+                随笔
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="随键">
+                <span class="iconfont-archer">&#xe606;</span>
+                随键
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="手办">
+                <span class="iconfont-archer">&#xe606;</span>
+                手办
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="ICS">
+                <span class="iconfont-archer">&#xe606;</span>
+                ICS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="复习">
+                <span class="iconfont-archer">&#xe606;</span>
+                复习
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="ipads面试">
+                <span class="iconfont-archer">&#xe606;</span>
+                ipads面试
             </span>
         
     </div>
@@ -1457,11 +1362,6 @@ f(x))\\
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="笔记">
-            <span class="iconfont-archer">&#xe60a;</span>
-            笔记
-        </span>
-    
         <span class="sidebar-category-name" data-categories="数据库">
             <span class="iconfont-archer">&#xe60a;</span>
             数据库
@@ -1472,54 +1372,14 @@ f(x))\\
             cse
         </span>
     
-        <span class="sidebar-category-name" data-categories="hexo">
-            <span class="iconfont-archer">&#xe60a;</span>
-            hexo
-        </span>
-    
-        <span class="sidebar-category-name" data-categories="日记">
-            <span class="iconfont-archer">&#xe60a;</span>
-            日记
-        </span>
-    
-        <span class="sidebar-category-name" data-categories="随笔">
-            <span class="iconfont-archer">&#xe60a;</span>
-            随笔
-        </span>
-    
         <span class="sidebar-category-name" data-categories="git">
             <span class="iconfont-archer">&#xe60a;</span>
             git
         </span>
     
-        <span class="sidebar-category-name" data-categories="前端">
+        <span class="sidebar-category-name" data-categories="笔记">
             <span class="iconfont-archer">&#xe60a;</span>
-            前端
-        </span>
-    
-        <span class="sidebar-category-name" data-categories="配置">
-            <span class="iconfont-archer">&#xe60a;</span>
-            配置
-        </span>
-    
-        <span class="sidebar-category-name" data-categories="信">
-            <span class="iconfont-archer">&#xe60a;</span>
-            信
-        </span>
-    
-        <span class="sidebar-category-name" data-categories="校园">
-            <span class="iconfont-archer">&#xe60a;</span>
-            校园
-        </span>
-    
-        <span class="sidebar-category-name" data-categories="机器学习">
-            <span class="iconfont-archer">&#xe60a;</span>
-            机器学习
-        </span>
-    
-        <span class="sidebar-category-name" data-categories="展厅">
-            <span class="iconfont-archer">&#xe60a;</span>
-            展厅
+            笔记
         </span>
     
         <span class="sidebar-category-name" data-categories="书架">
@@ -1527,9 +1387,14 @@ f(x))\\
             书架
         </span>
     
-        <span class="sidebar-category-name" data-categories="测试">
+        <span class="sidebar-category-name" data-categories="信">
             <span class="iconfont-archer">&#xe60a;</span>
-            测试
+            信
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="配置">
+            <span class="iconfont-archer">&#xe60a;</span>
+            配置
         </span>
     
         <span class="sidebar-category-name" data-categories="日本語">
@@ -1537,9 +1402,39 @@ f(x))\\
             日本語
         </span>
     
+        <span class="sidebar-category-name" data-categories="展厅">
+            <span class="iconfont-archer">&#xe60a;</span>
+            展厅
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="日记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            日记
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="机器学习">
+            <span class="iconfont-archer">&#xe60a;</span>
+            机器学习
+        </span>
+    
         <span class="sidebar-category-name" data-categories="其他">
             <span class="iconfont-archer">&#xe60a;</span>
             其他
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="测试">
+            <span class="iconfont-archer">&#xe60a;</span>
+            测试
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="校园">
+            <span class="iconfont-archer">&#xe60a;</span>
+            校园
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="随笔">
+            <span class="iconfont-archer">&#xe60a;</span>
+            随笔
         </span>
     
     </div>
@@ -1574,6 +1469,28 @@ f(x))\\
         <!-- fancybox -->
         <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
         <!-- algolia -->
+        
+            <div class="site-search site-search-loading">
+    <div class="algolia-popup popup">
+        <div class="algolia-search">
+            <div class="algolia-search-input-icon">
+                <i class="fa fa-search"></i>
+            </div>
+            <div class="algolia-search-input" id="algolia-search-input"></div>
+            <div class="popup-btn-close">
+                <i class="iconfont-archer">&#xe609;</i>
+            </div>
+        </div>
+
+        <div class="algolia-results">
+            <div id="algolia-stats" class="algolia-stats"></div>
+            <div id="algolia-hits"></div>
+            <div id="algolia-pagination" class="algolia-pagination"></div>
+        </div>
+    </div>
+</div>
+
+            <script src="/scripts/search.js?v=20211217" defer></script>
         
         <!-- busuanzi -->
         
