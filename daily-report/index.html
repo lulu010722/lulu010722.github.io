@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Daily Report - 冰化了还有棍儿</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="冰化了还有棍儿"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="冰化了还有棍儿"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="[TOC] 2022-09 16  搭建了hexo个人博客。 配置了两种主题：keep和archer。 添加了以pandoc为引擎的\(\LaTeX\)扩展。 两篇博客。 看了一点机器学习。 keep25分钟腿（腿已废）。  是收获满满的一天，希望自己能够坚持下来！加油！"><meta property="og:type" content="blog"><meta property="og:title" content="Daily Report"><meta property="og:url" content="https://lulu010722.cn/daily-report/"><meta property="og:site_name" content="冰化了还有棍儿"><meta property="og:description" content="[TOC] 2022-09 16  搭建了hexo个人博客。 配置了两种主题：keep和archer。 添加了以pandoc为引擎的\(\LaTeX\)扩展。 两篇博客。 看了一点机器学习。 keep25分钟腿（腿已废）。  是收获满满的一天，希望自己能够坚持下来！加油！"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://lulu010722.cn/img/og_image.png"><meta property="article:published_time" content="2022-09-16T15:09:22.000Z"><meta property="article:modified_time" content="2023-07-01T05:13:00.768Z"><meta property="article:author" content="LULU"><meta property="article:tag" content="每日活动记录"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://lulu010722.cn/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://lulu010722.cn/daily-report/"},"headline":"Daily Report","image":["https://lulu010722.cn/img/og_image.png"],"datePublished":"2022-09-16T15:09:22.000Z","dateModified":"2023-07-01T05:13:00.768Z","author":{"@type":"Person","name":"LULU"},"publisher":{"@type":"Organization","name":"冰化了还有棍儿","logo":{"@type":"ImageObject","url":"https://lulu010722.cn/img/logo.svg"}},"description":"[TOC]\r 2022-09\r 16\r \r 搭建了hexo个人博客。\r 配置了两种主题：keep和archer。\r 添加了以pandoc为引擎的\\(\\LaTeX\\)扩展。\r 两篇博客。\r 看了一点机器学习。\r keep25分钟腿（腿已废）。\r \r 是收获满满的一天，希望自己能够坚持下来！加油！"}</script><link rel="canonical" href="https://lulu010722.cn/daily-report/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body class="is-3-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="冰化了还有棍儿" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/lulu010722"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2022-09-16T15:09:22.000Z" title="2022/9/16 23:09:22">2022-09-16</time>发表</span><span class="level-item"><time dateTime="2023-07-01T05:13:00.768Z" title="2023/7/1 13:13:00">2023-07-01</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E6%97%A5%E8%AE%B0/">日记</a></span><span class="level-item" id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv">0</span>次访问</span></div></div><h1 class="title is-3 is-size-4-mobile">Daily Report</h1><div class="content"><p>[TOC]</p>
+<h1 id="section">2022-09</h1>
+<h2 id="section-1">16</h2>
+<ol type="1">
+<li>搭建了hexo个人博客。</li>
+<li>配置了两种主题：keep和archer。</li>
+<li>添加了以pandoc为引擎的<span
+class="math inline">\(\LaTeX\)</span>扩展。</li>
+<li>两篇博客。</li>
+<li>看了一点机器学习。</li>
+<li>keep25分钟腿（腿已废）。</li>
+</ol>
+<p><strong>是收获满满的一天，希望自己能够坚持下来！加油！</strong></p>
+<hr />
+<h2 id="section-2">17</h2>
+<ol type="1">
+<li>粗略看完了西瓜书第二章，发现概统中的一些概念已经忘了（比如假设检验）。</li>
+<li>配置了博客评论gitalk。</li>
+<li>修复了about页没有intro-image的bug（是因为<code>about</code>文件夹中的<code>index.md</code>没有加layout的front
+matter）。</li>
+<li>添加了404页（May the force be with you :)）。</li>
+<li>更新了about页~。</li>
+</ol>
+<hr />
+<h2 id="section-3">18</h2>
+<ol type="1">
+<li>对archer版权信息框和gitalk默认样式进行了微调，主要包括：
+<ol type="1">
+<li>取消了版权内容的条状下边框，对应<code>themes\archer\src\scss\_partial\_post-page.scss</code>。</li>
+<li>对版权日期显示格式进行了规范，对应<code>themes\archer\layout\post.ejs</code></li>
+<li>添加评论显示框的圆角，对应<code>source\gitalk.css</code>。</li>
+<li>取消了评论显示区的hover特效，对应<code>source\gitalk.css</code>。</li>
+<li>修改了在暗黑模式下，gitalk元信息区action按钮、version文本、编辑区、预览区、评论展示区的前景色，对应<code>themes\archer\src\scss\_dark\_partial\_comment\_gitalk-dark.scss</code>。</li>
+</ol></li>
+<li>配置了algolia搜索引擎，并配置了其自动更新索引的github工作流，并修复了pandoc依赖缺失的问题。参考<a
+target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/508457566">这一篇知乎</a>。</li>
+<li>提交了我的第一个github pull request，尝试修复archer主题的一个<a
+target="_blank" rel="noopener" href="https://github.com/fi3ework/hexo-theme-archer/pull/344">小bug</a>，即上面提到的1.5。已成功被merge，解锁了github成就！😍</li>
+<li>对博客仓库结构进行了调整。</li>
+<li>改用了另外的<a target="_blank" rel="noopener" href="https://sm.ms/">图床</a>。</li>
+<li>在博客相邻的标题间，添加了&lt;br&gt;。</li>
+</ol>
+<p>学习了很多github CI/CD的知识，包括github actions的workflow
+file怎么写，这个是真的恶心。😢</p>
+<hr />
+<h2 id="section-4">19</h2>
+<ol type="1">
+<li>应用体系架构作业一第一部分，虽然还要再修改一下。</li>
+<li>开始Pro Create！<a
+href="https://lulu010722.cn/%E6%88%91%E7%9A%84%E7%94%BB/">处女作</a>。</li>
+</ol>
+<hr />
+<h2 id="section-5">20</h2>
+<ol type="1">
+<li>博客首页摘要格式化功能开启。</li>
+<li>博客图片圆角。</li>
+<li>asa作业一第一题完成。</li>
+<li>keep20分钟核心。</li>
+</ol>
+<hr />
+<h2 id="section-6">21</h2>
+<ol type="1">
+<li>阅读《月亮与六便士》，至75%。</li>
+<li>修复了index页摘要标题行距bug。</li>
+</ol>
+<p>对于过日子来说，今天是碌碌无为的；可是，我它用来放飞了灵魂。</p>
+<hr />
+<h2 id="section-7">22</h2>
+<ol type="1">
+<li>读完《月亮与六便士》，并撰写了读后感。</li>
+<li>那封信。</li>
+<li>开始阅读《苏东坡传》。</li>
+<li>配置了cse lab1环境。</li>
+</ol>
+<hr />
+<h2 id="section-8">23</h2>
+<ol type="1">
+<li>修复了sidebar时间显示NaN/aN/aN的问题，原因是hexo配置文件中jsonContent字段的date设置为了false。</li>
+<li>自定义摘要长度，方法为在hexo配置文件中添加excerpt字段，并调节depth。</li>
+<li>修改了主页每页博客数量，目前为5。</li>
+<li>《苏东坡传》，20%。</li>
+<li>keep27分钟臀腿+核心。</li>
+</ol>
+<hr />
+<h2 id="section-9">24</h2>
+<ol type="1">
+<li><a
+href="https://lulu010722.cn/%E6%88%91%E7%9A%84%E7%94%BB/">炭治郎</a>临摹（其实是像素级抄袭~）。</li>
+<li>蝴蝶忍正在上色。</li>
+<li>《苏东坡传》，30%。</li>
+</ol>
+<p>今天是纯纯不务正业的一天啊哈哈哈~~。</p>
+<hr />
+<h2 id="section-10">25</h2>
+<ol type="1">
+<li><a
+href="https://lulu010722.cn/%E6%88%91%E7%9A%84%E7%94%BB/">香奈乎</a>完工。</li>
+<li>应用体系架构（后面就简称app吧）作业一完成，将遇到的坑总结在了<a
+href="https://lulu010722.cn/jpa%E4%BA%8B%E5%8A%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%A4%96%E9%94%AE%E6%AD%BB%E9%94%81/">新博客</a>。</li>
+<li>启用了博客的mermaid图表功能。</li>
+</ol>
+<hr />
+<h2 id="section-11">26</h2>
+<ol type="1">
+<li>控线练习3页。</li>
+</ol>
+<hr />
+<h2 id="section-12">27</h2>
+<ol type="1">
+<li>心理咨询。</li>
+<li>控线练习1页。</li>
+<li>跑步3.08km，用时16'17''。</li>
+</ol>
+<hr />
+<h2 id="section-13">28</h2>
+<ol type="1">
+<li>跑步3.06km，用时14'55''。</li>
+</ol>
+<hr />
+<h2 id="section-14">29</h2>
+<ol type="1">
+<li>编译原理lab2完成。</li>
+<li>控线练习1页。</li>
+<li>《苏东坡传》40%。</li>
+<li>博客公私仓库分离。</li>
+<li>跑步3.02km，用时14'21''。</li>
+</ol>
+<hr />
+<h2 id="section-15">30</h2>
+<ol type="1">
+<li>起草第二封信。</li>
+<li>《苏传》50%。</li>
+<li>跑步3.00km，用时14'46''。</li>
+</ol>
+<hr />
+<p><br></p>
+<h1 id="section-16">2022-10</h1>
+<h2 id="section-17">1</h2>
+<ol type="1">
+<li>和琛琛打网球1h。</li>
+<li>跑步3.03km，用时13'43''。</li>
+</ol>
+<p>与国同庆，今天给自己放个小假~。</p>
+<hr />
+<h2 id="section-18">2</h2>
+<ol type="1">
+<li>cse lab1 part1A完成。</li>
+<li>跑步3.03km，用时14'16''。</li>
+</ol>
+<hr />
+<h2 id="section-19">3</h2>
+<ol type="1">
+<li>cse lab1 part1B完成。</li>
+</ol>
+<p>好久不去ktv了，唱了很多日语歌，至少彼时彼刻，很开心。</p>
+<hr />
+<h2 id="section-20">4</h2>
+<ol type="1">
+<li>cse lab1 part1CD完成。</li>
+</ol>
+<hr />
+<h2 id="section-21">5</h2>
+<ol type="1">
+<li>白色相簿2ic50%。</li>
+</ol>
+<hr />
+<h2 id="section-22">6</h2>
+<ol type="1">
+<li>白色相簿2ic完成。</li>
+</ol>
+<p>好的作品，跨越爱好，跨越年代。还是小看了二次元的精神丰富度。</p>
+<hr />
+<h2 id="section-23">7</h2>
+<ol type="1">
+<li>cse-lab1 part2ABC完成<del>（虽然放弃了part2D的symlink）</del>。</li>
+<li>《苏传》60%。</li>
+</ol>
+<hr />
+<h2 id="section-24">8</h2>
+<ol type="1">
+<li>app作业二完成。</li>
+<li>推了一会wa2的cc。</li>
+</ol>
+<hr />
+<h2 id="section-25">9</h2>
+<ol type="1">
+<li>compiler复习，lab3环境准备。</li>
+<li>《苏传》70%。</li>
+</ol>
+<hr />
+<h2 id="section-26">10</h2>
+<ol type="1">
+<li>白2大三圣诞节。</li>
+<li>和巢老师谈话。</li>
+</ol>
+<hr />
+<h2 id="section-27">11</h2>
+<ol type="1">
+<li>白2cc雪菜线完结。</li>
+</ol>
+<hr />
+<h2 id="section-28">12</h2>
+<ol type="1">
+<li>ML作业1。</li>
+</ol>
+<hr />
+<h2 id="section-29">13</h2>
+<ol type="1">
+<li>音频上传。</li>
+</ol>
+<hr />
+<h2 id="section-30">14</h2>
+<ol type="1">
+<li>算法作业1完成。</li>
+<li>2.03km，10'28''。</li>
+</ol>
+<hr />
+<h2 id="section-31">15</h2>
+<ol type="1">
+<li>复习了ICS第七章。</li>
+<li>一个github issue，问题是post中表格头显示异常（已被解决）。</li>
+<li>3.17km，16'07''。</li>
+</ol>
+<hr />
+<h2 id="section-32">16</h2>
+<ol type="1">
+<li>复习了ICS第八章。</li>
+<li>两个PR，均已被merge。</li>
+<li>提出关于archer TOC的issue，已被响应<del>（甩锅）</del>。</li>
+<li>博客和archer仓库重构。</li>
+<li>2.01km，12'03''。</li>
+</ol>
+<p>尝试了在blog主仓库，添加archer作为子模块。期望达到的目标为：在日常更新主仓库的博客等内容时，可以同时对archer进行贡献或者个性化修改。archer的目录需要暴露给blog，因为blog需要用到archer中的文件进行页面渲染。有待探索。</p>
+<hr />
+<h2 id="section-33">17</h2>
+<ol type="1">
+<li><p>放弃github CI/CD，改用本地构建然后直接部署到public
+repo。原因有两个：</p>
+<ol type="1">
+<li>如果通过push到私有仓库，在远端构建并部署，则需要下载pandoc等依赖，比较复杂。</li>
+<li>actions/checkout@v3会将source的内容克隆到服务器上，但是克隆会覆盖文件的修改时间，导致博客页面上的所有博客的修改时间均为克隆时间，而git又没有提供解决办法。</li>
+</ol>
+<p>顺便写了个脚本<code>go.bat</code>，一步到位~。</p></li>
+<li><p>顺便解决了时区的问题。因为是本地构建，所以时间正常显示。</p></li>
+<li><p>学习了git submodule的使用方法，解决了昨天的遗留问题。总结在了<a
+href="https://lulu010722.cn/git%E2%80%94%E2%80%94%E4%BA%BA%E7%B1%BB%E5%A5%BD%E6%9C%8B%E5%8F%8B/">这篇博客中</a>。</p></li>
+</ol>
+<hr />
+<h2 id="section-34">18</h2>
+<ol type="1">
+<li>复习了ICS第九章。</li>
+<li>复习了compiler关于parser的部分，编写了部分lab3代码。</li>
+<li>3.09km，15'45''。</li>
+<li>写了一点点mine主题。</li>
+</ol>
+<hr />
+<h2 id="section-35">19</h2>
+<ol type="1">
+<li>更新了about页，因为突然想起来，VG100的项目也可以列进去~🤗。</li>
+<li>改了改日记里面对博客的引用，因为前几天改了permalink的格式。</li>
+<li>连追八集边缘行者😍。</li>
+<li>3.04km，12'53''。</li>
+<li>compiler lab3第一版<del>（虽然一直syntax error）</del>。</li>
+</ol>
+<hr />
+<h2 id="section-36">20</h2>
+<ol type="1">
+<li>3.15km，15'19''。</li>
+</ol>
+<hr />
+<h2 id="section-37">21</h2>
+<ol type="1">
+<li>看医生。</li>
+<li>研究了ipads面试论文，基本搞懂了机器学习辅助缓存的基本原理。</li>
+</ol>
+<hr />
+<h2 id="section-38">22</h2>
+<ol type="1">
+<li>ipads面试，自我感觉一般quq。</li>
+<li>完成了compiler的lab3。</li>
+<li>修补了cse lab1
+2d部分未完成的任务，同时将代码迁移到wsl上，避免后续挂载问题。</li>
+<li>3.53km，18'55''。</li>
+</ol>
+<hr />
+<h2 id="section-39">23</h2>
+<ol type="1">
+<li>散步<span class="math inline">\(n\)</span>圈（<span
+class="math inline">\(n\ge8\)</span>）。由于一直在聊天所以实在不记得了hhh。</li>
+</ol>
+<p>小法绝活练成（bushi）。另外，大概可能要开始写信了呀。</p>
+<hr />
+<h2 id="section-40">24</h2>
+<ol type="1">
+<li>第二封信。</li>
+</ol>
+<hr />
+<h2 id="section-41">25</h2>
+<ol type="1">
+<li>学长碎碎念。</li>
+</ol>
+<hr />
+<h2 id="section-42">26</h2>
+<ol type="1">
+<li>yh碎碎念，甚至帮做ppt了hhh。</li>
+</ol>
+<hr />
+<h2 id="section-43">27</h2>
+<ol type="1">
+<li>af碎碎念。</li>
+</ol>
+<p>这几天只剩下碎碎念了。。。</p>
+<hr />
+<h2 id="section-44">28</h2>
+<ol type="1">
+<li>aea作业4完成。</li>
+<li>理清了一些关于摘要，签名，证书的原理。</li>
+</ol>
+<hr />
+<h2 id="section-45">29</h2>
+<ol type="1">
+<li>完成cse lab2A part1 part2。</li>
+<li>直系学长东工大留学经验分享。听完感觉又有点信心了hh。</li>
+</ol>
+<hr />
+<h2 id="section-46">30</h2>
+<ol type="1">
+<li>完成cse lab2A part3。</li>
+<li>完成算法作业2。</li>
+</ol>
+<hr />
+<h2 id="section-47">31</h2>
+<ol type="1">
+<li>复习了compiler type checking，开工lab4。</li>
+<li>综合日语第二次，16课朗读+词汇背诵。</li>
+</ol>
+<hr />
+<p><br></p>
+<h1 id="section-48">2022-11</h1>
+<h2 id="section-49">1</h2>
+<ol type="1">
+<li>完成了大部分compiler lab4。</li>
+</ol>
+<h2 id="section-50">2</h2>
+<ol type="1">
+<li>完成了lab4。</li>
+<li>复习compiler，因为明天要考试了quq。</li>
+</ol>
+<hr />
+<h2 id="section-51">3</h2>
+<ol type="1">
+<li>compiler考试，发挥正常。</li>
+<li>看医生。</li>
+</ol>
+<hr />
+<h2 id="section-52">4</h2>
+<ol type="1">
+<li>《明朝那些事儿（一）——洪武大帝》10%。</li>
+<li>JLPT
+N1-N5的例题全都挑战了一遍，发现自己目前大概在N4-N3之间的水平。不过，利用中国人的汉语和英语加成，N2的读解文章也能大概看懂，需要更多练习听解。</li>
+<li>试做了2011.12
+N3真题，刨除尺度计分的因素，综合得分大概135分左右，超过了95分的及格线。已复盘。</li>
+</ol>
+<hr />
+<h2 id="section-53">5</h2>
+<ol type="1">
+<li>2011.07 N3，刨除尺度计分，146。已复盘。</li>
+<li>JLPTというアプリで単語を70個覚えました。</li>
+</ol>
+<hr />
+<h2 id="section-54">6</h2>
+<ol type="1">
+<li>新しい単語を７０（N2）＋１２０（N5）個覚えました。前に覚えた単語を７０個を復習した。</li>
+<li>2012.07 N3，言语部分-11分，读解-8分。</li>
+<li>简单了解了fair division和stable
+match的问题，准备周三与陶老师见面。</li>
+</ol>
+<hr />
+<h2 id="section-55">7</h2>
+<ol type="1">
+<li>新しい単語７０個。７０個を復習した。</li>
+</ol>
+<hr />
+<h2 id="section-56">8</h2>
+<ol type="1">
+<li>新しい単語７０個。７０個を復習した。</li>
+<li>陶老师的论文浅读。</li>
+</ol>
+<hr />
+<h2 id="section-57">9</h2>
+<ol type="1">
+<li>和陶老师进行了交流，基本介绍了研究方向和问题。</li>
+<li>新しい単語７０個。７０個を復習した。</li>
+</ol>
+<hr />
+<h2 id="section-58">10</h2>
+<ol type="1">
+<li>泉さんとご相談をしました。</li>
+<li>新しい単語３５個。７０個を復習した。</li>
+<li>cse lab2B完成。</li>
+<li>ML hw2完成。</li>
+<li>飛くんとジョギングをした。</li>
+</ol>
+<hr />
+<h2 id="section-59">11</h2>
+<ol type="1">
+<li>ML lab1完成。</li>
+<li>新しい単語３５個。３５個を復習した。</li>
+<li>2012.07 N3 听解-17分，总分144。复盘了言语，读解和部分听解。</li>
+<li>飛くんとジョギングをした。</li>
+</ol>
+<hr />
+<h2 id="section-60">12</h2>
+<ol type="1">
+<li>完成了algorithm
+assignment3。尝试学习tikz画图论用图，但是失败了。。</li>
+<li>JLPTでN3の模擬試験は参加しました。得点はまだ出ていない。でも、聴解問題はちょっと難しかったな。</li>
+<li>新しい単語３５個。</li>
+</ol>
+<hr />
+<h2 id="section-61">13</h2>
+<ol type="1">
+<li>Talked with Aysu.</li>
+<li>単語３５個。</li>
+<li>复习了cse部分知识。明天还要继续，否则后天寄了哇。。</li>
+</ol>
+<p>今天外卖能送到楼下了，本学期第一次在楼下取到外卖，有点怀念了😭。</p>
+<hr />
+<h2 id="section-62">14</h2>
+<ol type="1">
+<li>复习了cse，包括乐观并发控制，事务原子控制，谷歌文件系统，inode-based文件系统等等。</li>
+<li>単語３５個。</li>
+</ol>
+<p>今天连翘了三节课复习，结果晚上陈老师来问问题还是不会，哎，希望明天加油吧。。</p>
+<hr />
+<h2 id="section-63">15</h2>
+<ol type="1">
+<li>cse期中考，感觉发挥非常不好。</li>
+<li>単語７０個。</li>
+<li>2012.12 N3 言语-10，语法-4，听力-2，总分164！头一次上160hh。</li>
+<li>复习了一点compiler activation record内容。</li>
+</ol>
+<hr />
+<h2 id="section-64">16</h2>
+<ol type="1">
+<li>単語３５個。</li>
+</ol>
+<p><br></p>
+<p><br></p>
+<h1 id="section-65">2023-06</h1>
+<h2 id="section-66">27</h2>
+<ol type="1">
+<li>完成了一个较为美观的表单组件。</li>
+</ol>
+<h2 id="section-67">28</h2>
+<ol type="1">
+<li>遇到一个坑，那就是css的transition属性中，涉及时间一定要加单位，否则会被视为无效。</li>
+</ol>
+<h2 id="section-68">29</h2>
+<ol type="1">
+<li><code>react</code>的根节点默认被<code>StrictMode</code>包裹，不去掉的话，在开发时，会有多次重复渲染。</li>
+<li>当<code>Array</code>的内容是<code>undefined</code>时，使用<code>map</code>不会进行转换。</li>
+<li>用<code>react</code>函数式组件写了一半的贪吃蛇，太难了，发现只是有很多漏洞。</li>
+</ol>
+<h1 id="todo">TODO</h1>
+<ol type="1">
+<li>生成文件中大量空白。与<code>themes\archer\layout\_partial\sidebar\sidebar-archives.ejs</code>有关，大概需要学习ejs语法。</li>
+<li>自动检测&lt;br&gt;。</li>
+<li>TOC修改。</li>
+<li>archer本地搜索。根据<code>hexo-generator-searchdb</code>生成的文件编写js。</li>
+<li>一个idea：可以添加私有文章系统，通过手动输入秘钥来解锁。</li>
+</ol>
+</div><div class="article-licensing box"><div class="licensing-title"><p>Daily Report</p><p><a href="https://lulu010722.cn/daily-report/">https://lulu010722.cn/daily-report/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>LULU</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2022-09-16</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-07-01</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/%E6%AF%8F%E6%97%A5%E6%B4%BB%E5%8A%A8%E8%AE%B0%E5%BD%95/">每日活动记录</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">柯柯的画</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/"><span class="level-item">机器学习概论</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-3-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/images/avatar.png" alt="LULU"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">LULU</p><p class="is-size-6 is-block">我的博客</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>北京</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">23</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">17</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">24</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/lulu010722" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/lulu010722"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/cse/"><span class="level-start"><span class="level-item">cse</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/git/"><span class="level-start"><span class="level-item">git</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/hexo/"><span class="level-start"><span class="level-item">hexo</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B9%A6%E6%9E%B6/"><span class="level-start"><span class="level-item">书架</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%BF%A1/"><span class="level-start"><span class="level-item">信</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%85%B6%E4%BB%96/"><span class="level-start"><span class="level-item">其他</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B1%95%E5%8E%85/"><span class="level-start"><span class="level-item">展厅</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%97%A5%E6%9C%AC%E8%AA%9E/"><span class="level-start"><span class="level-item">日本語</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%97%A5%E8%AE%B0/"><span class="level-start"><span class="level-item">日记</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">机器学习</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A0%A1%E5%9B%AD/"><span class="level-start"><span class="level-item">校园</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%B5%8B%E8%AF%95/"><span class="level-start"><span class="level-item">测试</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%AC%94%E8%AE%B0/"><span class="level-start"><span class="level-item">笔记</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%85%8D%E7%BD%AE/"><span class="level-start"><span class="level-item">配置</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/"><span class="level-start"><span class="level-item">随笔</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/ICS/"><span class="tag">ICS</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/cse/"><span class="tag">cse</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/git/"><span class="tag">git</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ipads%E9%9D%A2%E8%AF%95/"><span class="tag">ipads面试</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mysql/"><span class="tag">mysql</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%A4%E7%90%B4/"><span class="tag">古琴</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%AF%E5%8F%AF/"><span class="tag">可可</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%8D%E4%B9%A0/"><span class="tag">复习</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%89%8B%E5%8A%9E/"><span class="tag">手办</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB/"><span class="tag">月亮与六便士</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9F%AF%E6%9F%AF/"><span class="tag">柯柯</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%A0%A1%E5%9B%AD/"><span class="tag">校园</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%AF%8F%E6%97%A5%E6%B4%BB%E5%8A%A8%E8%AE%B0%E5%BD%95/"><span class="tag">每日活动记录</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E4%B8%8B%E8%AF%BE%E7%A8%8B/"><span class="tag">线下课程</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%83%E4%B9%A0/"><span class="tag">练习</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%98%E7%94%BB/"><span class="tag">绘画</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%8B%8F%E4%B8%9C%E5%9D%A1%E4%BC%A0/"><span class="tag">苏东坡传</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%B8%A9%E5%9D%91/"><span class="tag">踩坑</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%85%8D%E7%BD%AE/"><span class="tag">配置</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%8F%E7%AC%94/"><span class="tag">随笔</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%8F%E9%94%AE/"><span class="tag">随键</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9B%91%E8%AB%87/"><span class="tag">雑談</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9F%B3%E4%B9%90/"><span class="tag">音乐</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%AB%98%E7%BA%A7%E6%93%8D%E4%BD%9C/"><span class="tag">高级操作</span><span class="tag">1</span></a></div></div></div></div></div><div class="column-right-shadow is-hidden-widescreen"></div></div><div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3"><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-06-27T15:39:09.000Z">2023-06-27</time></p><p class="title"><a href="/%E5%89%8D%E7%AB%AF%E7%BB%83%E4%B9%A0/">前端练习</a></p><p class="categories"><a href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-06-27T04:51:52.000Z">2023-06-27</time></p><p class="title"><a href="/cname%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/">CNAME的必要性</a></p><p class="categories"><a href="/categories/hexo/">hexo</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-06-21T06:03:34.000Z">2023-06-21</time></p><p class="title"><a href="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/">我的雷神🤗</a></p><p class="categories"><a href="/categories/%E5%B1%95%E5%8E%85/">展厅</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-05-14T12:55:28.000Z">2023-05-14</time></p><p class="title"><a href="/%E3%81%9F%E3%81%A0%E3%81%84%E3%81%BE/">ただいま</a></p><p class="categories"><a href="/categories/%E4%BF%A1/">信</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-11-10T12:12:14.000Z">2022-11-10</time></p><p class="title"><a href="/%E6%B3%89%E3%81%95%E3%82%93%E3%81%A8%E3%81%AE%E7%9B%B8%E8%AB%87/">泉さんとの相談</a></p><p class="categories"><a href="/categories/%E6%97%A5%E6%9C%AC%E8%AA%9E/">日本語</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2023/"><span class="level-start"><span class="level-item">2023</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2022/"><span class="level-start"><span class="level-item">2022</span></span><span class="level-end"><span class="level-item tag">19</span></span></a></li></ul></div></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="冰化了还有棍儿" height="28"></a><p class="is-size-7"><span>&copy; 2023 LULU</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">共<span id="busuanzi_value_site_uv">0</span>个访客</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/lulu010722"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
