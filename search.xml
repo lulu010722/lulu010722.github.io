@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CNAME的必要性</title>
+    <url>/cname%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/</url>
+    <content><![CDATA[<p>首先，如果不写<code>CNAME</code>的话，我们只能从<code>https://username.github.io</code>这个网址进行访问，但是显然如果有一个更好记忆的自定义域名会更好。</p>
+<p>于是，我在腾讯云上买了两个域名<code>lulu010722.cn</code>和<code>lulu010722/com</code>。</p>
+<p>之后需要在域名提供商处进行域名解析，一般是通过CNAME类型进行解析。</p>
+<p>最后，在项目目录中也需要添加<code>CNAME</code>文件，在其中输入使用的域名。</p>
+<p>之前一直不懂的地方就是这里，为什么腾讯云的域名已经解析到<code>github page</code>了，还是无法访问，现在推测，可能是权限问题。</p>
+<p>在将<code>CNAME</code>文件定义好之后，我们就可以从原本地址和新购买的地址进行访问了。</p>
+<p>不过，用原地址访问时，浏览器导航栏会自动切换为自定义地新网址。</p>
+]]></content>
+      <categories>
+        <category>配置</category>
+      </categories>
+      <tags>
+        <tag>配置</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JPA事务控制与外键死锁</title>
+    <url>/jpa%E4%BA%8B%E5%8A%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%A4%96%E9%94%AE%E6%AD%BB%E9%94%81/</url>
+    <content><![CDATA[<h1 id="问题背景">问题背景</h1>
+<p>在做app作业一的第二部分时，遇到了问题（自以为是问题，没想到老师是故意让我们发现这是个bug）。</p>
+<pre class="mermaid">flowchart LR;
+A(OrderController::createOrder) --> B(OrderService::createOrder);
+B --> C(OrderDao::addOne);
+B --> D(OrderItemDao::addList);</pre>
+<p>如图，在电子书服务系统<code>E-Book</code>中，我们进行订单创建，一个订单<code>order</code>中包含多个订单项<code>orderItem</code>。</p>
+<p>现在我们要对<code>OrderService::createOrder</code>，<code>OrderDao::saveOne</code>和<code>OrderItemDao::saveList</code>进行事务传播控制，分别简称三部分为A，B，C。</p>
+<p>若A和B设置为<code>REQUIRED</code>，而C设置为<code>REQUIRES_NEW</code>，则会出现死锁问题。</p>
+<p>源代码大致如下。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// OrderServiceImpl.java</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">createOrder</span><span class="params">(List&lt;Integer&gt; bookIds, Long userId)</span> &#123;</span><br><span class="line">    <span class="type">Order</span> <span class="variable">order</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Order</span>();</span><br><span class="line">    order.setUser(userDao.findOne(userId));</span><br><span class="line">    orderDao.addOne(order);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 准备orderItems的List</span></span><br><span class="line">    List&lt;OrderItem&gt; orderItems = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    ...;</span><br><span class="line">    </span><br><span class="line">    orderItemDao.addList(orderItems);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// OrderDaoImpl.java</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addOne</span><span class="params">(Order order)</span> &#123;</span><br><span class="line">    orderRepository.save(order);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// OrderItemDaoImpl.java</span></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addList</span><span class="params">(List&lt;OrderItem&gt; orderItems)</span> &#123;</span><br><span class="line">    orderItemRepository.saveList(orderItems);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行结果为死锁。</p>
+<p><br></p>
+<h1 id="原因分析">原因分析</h1>
+<p>在B执行后，由于与A处在同一事务一里，则事务一拿到了<code>order</code>表中新插入行的锁，不管事务隔离属性如何设置，其他事务均不可进行写操作。而在随后的C流程中，写入<code>orderItems</code>的时候，<code>order_item</code>表中有<code>order</code>的外键，于是他在给<code>order_item</code>新插入的数据上锁之外，也要在<code>order</code>表中对外键所指向的数据加锁。</p>
+<p>然而C是拿不到的，因为B已经拿到了。</p>
+<p>于是此时，C等待B放锁，但是同时，B又等待C结束返回，从而形成了死锁。</p>
+<p><br></p>
+<h1 id="解决方法">解决方法</h1>
+<p>该问题说明，并不是所有业务使用<code>REQUIRES_NEW</code>传播都可以，在此场景下，都使用默认的<code>REQUIRED</code>传播属性即可。</p>
+]]></content>
+      <categories>
+        <category>课程</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>踩坑</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>计算机系统基础</title>
     <url>/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<p>[TOC]</p>
@@ -802,38 +852,6 @@ style="font-size: 50px; font-weight: bold; color: #777; margin: 22px 0; line-hei
       </tags>
   </entry>
   <entry>
-    <title>JPA事务控制与外键死锁</title>
-    <url>/jpa%E4%BA%8B%E5%8A%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%A4%96%E9%94%AE%E6%AD%BB%E9%94%81/</url>
-    <content><![CDATA[<h1 id="问题背景">问题背景</h1>
-<p>在做app作业一的第二部分时，遇到了问题（自以为是问题，没想到老师是故意让我们发现这是个bug）。</p>
-<pre class="mermaid">flowchart LR;
-A(OrderController::createOrder) --> B(OrderService::createOrder);
-B --> C(OrderDao::addOne);
-B --> D(OrderItemDao::addList);</pre>
-<p>如图，在电子书服务系统<code>E-Book</code>中，我们进行订单创建，一个订单<code>order</code>中包含多个订单项<code>orderItem</code>。</p>
-<p>现在我们要对<code>OrderService::createOrder</code>，<code>OrderDao::saveOne</code>和<code>OrderItemDao::saveList</code>进行事务传播控制，分别简称三部分为A，B，C。</p>
-<p>若A和B设置为<code>REQUIRED</code>，而C设置为<code>REQUIRES_NEW</code>，则会出现死锁问题。</p>
-<p>源代码大致如下。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// OrderServiceImpl.java</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">createOrder</span><span class="params">(List&lt;Integer&gt; bookIds, Long userId)</span> &#123;</span><br><span class="line">    <span class="type">Order</span> <span class="variable">order</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Order</span>();</span><br><span class="line">    order.setUser(userDao.findOne(userId));</span><br><span class="line">    orderDao.addOne(order);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 准备orderItems的List</span></span><br><span class="line">    List&lt;OrderItem&gt; orderItems = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    ...;</span><br><span class="line">    </span><br><span class="line">    orderItemDao.addList(orderItems);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// OrderDaoImpl.java</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addOne</span><span class="params">(Order order)</span> &#123;</span><br><span class="line">    orderRepository.save(order);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// OrderItemDaoImpl.java</span></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addList</span><span class="params">(List&lt;OrderItem&gt; orderItems)</span> &#123;</span><br><span class="line">    orderItemRepository.saveList(orderItems);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>执行结果为死锁。</p>
-<p><br></p>
-<h1 id="原因分析">原因分析</h1>
-<p>在B执行后，由于与A处在同一事务一里，则事务一拿到了<code>order</code>表中新插入行的锁，不管事务隔离属性如何设置，其他事务均不可进行写操作。而在随后的C流程中，写入<code>orderItems</code>的时候，<code>order_item</code>表中有<code>order</code>的外键，于是他在给<code>order_item</code>新插入的数据上锁之外，也要在<code>order</code>表中对外键所指向的数据加锁。</p>
-<p>然而C是拿不到的，因为B已经拿到了。</p>
-<p>于是此时，C等待B放锁，但是同时，B又等待C结束返回，从而形成了死锁。</p>
-<p><br></p>
-<h1 id="解决方法">解决方法</h1>
-<p>该问题说明，并不是所有业务使用<code>REQUIRES_NEW</code>传播都可以，在此场景下，都使用默认的<code>REQUIRED</code>传播属性即可。</p>
-]]></content>
-      <categories>
-        <category>课程</category>
-      </categories>
-      <tags>
-        <tag>踩坑</tag>
-        <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>cse-lab2a踩坑</title>
     <url>/cse-lab2a%E8%B8%A9%E5%9D%91/</url>
     <content><![CDATA[<ol type="1">
@@ -851,24 +869,6 @@ B --> D(OrderItemDao::addList);</pre>
       </categories>
       <tags>
         <tag>踩坑</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CNAME的必要性</title>
-    <url>/cname%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/</url>
-    <content><![CDATA[<p>首先，如果不写<code>CNAME</code>的话，我们只能从<code>https://username.github.io</code>这个网址进行访问，但是显然如果有一个更好记忆的自定义域名会更好。</p>
-<p>于是，我在腾讯云上买了两个域名<code>lulu010722.cn</code>和<code>lulu010722/com</code>。</p>
-<p>之后需要在域名提供商处进行域名解析，一般是通过CNAME类型进行解析。</p>
-<p>最后，在项目目录中也需要添加<code>CNAME</code>文件，在其中输入使用的域名。</p>
-<p>之前一直不懂的地方就是这里，为什么腾讯云的域名已经解析到<code>github page</code>了，还是无法访问，现在推测，可能是权限问题。</p>
-<p>在将<code>CNAME</code>文件定义好之后，我们就可以从原本地址和新购买的地址进行访问了。</p>
-<p>不过，用原地址访问时，浏览器导航栏会自动切换为自定义地新网址。</p>
-]]></content>
-      <categories>
-        <category>配置</category>
-      </categories>
-      <tags>
-        <tag>配置</tag>
       </tags>
   </entry>
   <entry>
@@ -1547,31 +1547,6 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
       </categories>
   </entry>
   <entry>
-    <title>ただいま</title>
-    <url>/%E3%81%9F%E3%81%A0%E3%81%84%E3%81%BE/</url>
-    <content><![CDATA[<h1 id="ロジちゃん">ロジちゃん</h1>
-<p>ロジちゃんは既に家に帰ってきたね。無事で帰国しましたのは良かった!日本にいたこの半年間、交大よりもっとすばらしい世界を見たはずでしょう。各地の観光地に行ったり、自然風景を鑑賞したり、美しい日本式の建物を観覧したり、美味しい特色な美食を食べたりをするのには、僕はほんとに羨ましいな。でももちろん、一番大事なことは東大での勉強体験だ。</p>
-<p>その一方で、こちらの生活は、いつもと同じに退屈でした。特に君を失ったあと、もっと退屈になっちゃった。以前に二人は一緒に歩いた場所や小道も、なんか突然死んだみたい実感が感じました。湖の周りにあるベンチには、いつも恋人たちがデートをする。しかしそのなかには、私達がいるわけがなくなった。</p>
-<p>あぁ、覚えてきた。私はそのワイトアルバム2っていうゲイムをした。三人の物語をだいたいわかりました。言いたいのは、私はとある歌のなかに（歌名を忘れた）ひとつの歌詞に思い出ぶかいだ。何でしたっけ、「ずっとあなたの名前、何度も、何度も読んだ。夢の中のあなたも、振り返ることはない。」毎回聞くとすぐに泣きそうだ。でもせめて、春希は雪菜に少しの感情が残るんだ。しかし、私のロジちゃんは、永遠に私のことが嫌くなった。残念ですね。今残っているのは、嘆きしかないんだ。</p>
-<p>ロジちゃん、私は君を愛してるほど憎んでいます。それは君は間もなくわかります。だから驚かないでね。</p>
-<p>最後に、君は「私達は今生にはお夫婦になれなくて、来世も不可能です」って言ったはずだろう。じゃあ、ご要望のとおり、私は今から来世に死ぬまで、君を邪魔しないようにしましょう!しかし、もし来世というものがあったら、何故再来世があってはいけないの?あそこでまた待ち合わせるのも悪くないんじゃん?シシシ。私は先に失礼しますぞ!</p>
-<p>では、また再来世。</p>
-<p>最初から宇宙が終わるまで君をずうっと愛している憨憨</p>
-<hr />
-<h1 id="王氏の野郎">王氏の野郎</h1>
-<p>貴様はもう東京から帰りましたんだろう。日本で飢え死にしなかったのは不思議なんですね。ぶち殺されなかったのもありえないんだね。でもそれはちょうどいい。以下の言葉をちゃんと読みなさい。</p>
-<p>私はこの半年のあいだに、貴様をよく夢見てたよ。でも、夢の中で私達は何をしましたかのを知ってるかい?恐らくいいことではなかった。教えてあげよう。まず、貴様を誰もいない場所に連れて行って、死ぬまでレイプすること。また、貴様の顔に硫酸を撒くこと。貴様の自殺したい表情や涙を見るのは最高に快適だな!そして、爆弾を使って、両親と貴様を一緒に殺すこと。怖いですよねワァハーーーー。</p>
-<p>忘れないでね、貴様は何の才能もないやつだ。以前はそうだったし、未来もそうになります。アァ、忘れてた、貴様の唯一の才能は、男に顔やおっぱいや膣を出すことしかないんだよ。信じないですか?では十年あとに振り返って見なさい。そのときに、あんたはこれはどれほど正しい判断でしたのを理解していく。</p>
-<p>ずっと劣等感に落ち込んでた貴様は、ある人の影響で、どんどん自信が見つかたから、積極的に、そして社交を得意すぎる「牛膣病?」ようになりました。でも、貴様がそれは全く忘れた!何か「私達は性格が合わないから別れなければならない」っていう嘘を言って、その人を死んだネズミのように飛ばした。ホンマに偉かったね!すばらしいしか言えませんよ!</p>
-<p>でも実際は、私は安心です。君は昔に最も親密な人に対してさえも、そんなに残酷なやり方で飛ばすことにしました。では次に、その次に、同じ結局でおしまいになっちゃうんだろう?ハハハーーー。</p>
-<p>以上です。この王氏の野郎、永遠に会えないように!</p>
-<p>別れた後から宇宙が終わるまで貴様をずうっと憎んでいる俺様</p>
-]]></content>
-      <categories>
-        <category>日语</category>
-      </categories>
-  </entry>
-  <entry>
     <title>inode文件系统</title>
     <url>/inode%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/</url>
     <content><![CDATA[<h1 id="层架构">7层架构</h1>
@@ -1629,6 +1604,31 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
       <tags>
         <tag>cse</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>ただいま</title>
+    <url>/%E3%81%9F%E3%81%A0%E3%81%84%E3%81%BE/</url>
+    <content><![CDATA[<h1 id="ロジちゃん">ロジちゃん</h1>
+<p>ロジちゃんは既に家に帰ってきたね。無事で帰国しましたのは良かった!日本にいたこの半年間、交大よりもっとすばらしい世界を見たはずでしょう。各地の観光地に行ったり、自然風景を鑑賞したり、美しい日本式の建物を観覧したり、美味しい特色な美食を食べたりをするのには、僕はほんとに羨ましいな。でももちろん、一番大事なことは東大での勉強体験だ。</p>
+<p>その一方で、こちらの生活は、いつもと同じに退屈でした。特に君を失ったあと、もっと退屈になっちゃった。以前に二人は一緒に歩いた場所や小道も、なんか突然死んだみたい実感が感じました。湖の周りにあるベンチには、いつも恋人たちがデートをする。しかしそのなかには、私達がいるわけがなくなった。</p>
+<p>あぁ、覚えてきた。私はそのワイトアルバム2っていうゲイムをした。三人の物語をだいたいわかりました。言いたいのは、私はとある歌のなかに（歌名を忘れた）ひとつの歌詞に思い出ぶかいだ。何でしたっけ、「ずっとあなたの名前、何度も、何度も読んだ。夢の中のあなたも、振り返ることはない。」毎回聞くとすぐに泣きそうだ。でもせめて、春希は雪菜に少しの感情が残るんだ。しかし、私のロジちゃんは、永遠に私のことが嫌くなった。残念ですね。今残っているのは、嘆きしかないんだ。</p>
+<p>ロジちゃん、私は君を愛してるほど憎んでいます。それは君は間もなくわかります。だから驚かないでね。</p>
+<p>最後に、君は「私達は今生にはお夫婦になれなくて、来世も不可能です」って言ったはずだろう。じゃあ、ご要望のとおり、私は今から来世に死ぬまで、君を邪魔しないようにしましょう!しかし、もし来世というものがあったら、何故再来世があってはいけないの?あそこでまた待ち合わせるのも悪くないんじゃん?シシシ。私は先に失礼しますぞ!</p>
+<p>では、また再来世。</p>
+<p>最初から宇宙が終わるまで君をずうっと愛している憨憨</p>
+<hr />
+<h1 id="王氏の野郎">王氏の野郎</h1>
+<p>貴様はもう東京から帰りましたんだろう。日本で飢え死にしなかったのは不思議なんですね。ぶち殺されなかったのもありえないんだね。でもそれはちょうどいい。以下の言葉をちゃんと読みなさい。</p>
+<p>私はこの半年のあいだに、貴様をよく夢見てたよ。でも、夢の中で私達は何をしましたかのを知ってるかい?恐らくいいことではなかった。教えてあげよう。まず、貴様を誰もいない場所に連れて行って、死ぬまでレイプすること。また、貴様の顔に硫酸を撒くこと。貴様の自殺したい表情や涙を見るのは最高に快適だな!そして、爆弾を使って、両親と貴様を一緒に殺すこと。怖いですよねワァハーーーー。</p>
+<p>忘れないでね、貴様は何の才能もないやつだ。以前はそうだったし、未来もそうになります。アァ、忘れてた、貴様の唯一の才能は、男に顔やおっぱいや膣を出すことしかないんだよ。信じないですか?では十年あとに振り返って見なさい。そのときに、あんたはこれはどれほど正しい判断でしたのを理解していく。</p>
+<p>ずっと劣等感に落ち込んでた貴様は、ある人の影響で、どんどん自信が見つかたから、積極的に、そして社交を得意すぎる「牛膣病?」ようになりました。でも、貴様がそれは全く忘れた!何か「私達は性格が合わないから別れなければならない」っていう嘘を言って、その人を死んだネズミのように飛ばした。ホンマに偉かったね!すばらしいしか言えませんよ!</p>
+<p>でも実際は、私は安心です。君は昔に最も親密な人に対してさえも、そんなに残酷なやり方で飛ばすことにしました。では次に、その次に、同じ結局でおしまいになっちゃうんだろう?ハハハーーー。</p>
+<p>以上です。この王氏の野郎、永遠に会えないように!</p>
+<p>別れた後から宇宙が終わるまで貴様をずうっと憎んでいる俺様</p>
+]]></content>
+      <categories>
+        <category>日语</category>
+      </categories>
   </entry>
   <entry>
     <title>机器学习概论</title>
@@ -1702,7 +1702,7 @@ D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
     <title>柯柯的画</title>
     <url>/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/</url>
     <content><![CDATA[<h1 id="阿贝多">阿贝多</h1>
-
+<img src="/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/abeiduo.jpg" class="">
 <blockquote>
 <p>玩原神的时候被阿贝多的美貌感动到了，想当阿贝多的狗😍</p>
 </blockquote>
@@ -1744,6 +1744,17 @@ D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
 <h1 id="香奈乎">香奈乎</h1>
 <img src="/%E6%88%91%E7%9A%84%E7%94%BB/kanao.jpg" class="">
 <p><strong>日期</strong>：2022-9-25</p>
+]]></content>
+      <categories>
+        <category>展厅</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>我的雷神🤗</title>
+    <url>/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/</url>
+    <content><![CDATA[<img src="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/leishen1.jpg" class="">
+<hr />
+<img src="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/leishen2.jpg" class="">
 ]]></content>
       <categories>
         <category>展厅</category>
@@ -1899,17 +1910,6 @@ D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
       <tags>
         <tag>苏东坡传</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>我的雷神🤗</title>
-    <url>/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/</url>
-    <content><![CDATA[<img src="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/leishen1.jpg" class="">
-<hr />
-<img src="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/leishen2.jpg" class="">
-]]></content>
-      <categories>
-        <category>展厅</category>
-      </categories>
   </entry>
   <entry>
     <title>泉さんとの相談</title>
