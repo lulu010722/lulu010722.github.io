@@ -1,38 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>JPA事务控制与外键死锁</title>
-    <url>/jpa%E4%BA%8B%E5%8A%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%A4%96%E9%94%AE%E6%AD%BB%E9%94%81/</url>
-    <content><![CDATA[<h1 id="问题背景">问题背景</h1>
-<p>在做app作业一的第二部分时，遇到了问题（自以为是问题，没想到老师是故意让我们发现这是个bug）。</p>
-<pre class="mermaid">flowchart LR;
-A(OrderController::createOrder) --> B(OrderService::createOrder);
-B --> C(OrderDao::addOne);
-B --> D(OrderItemDao::addList);</pre>
-<p>如图，在电子书服务系统<code>E-Book</code>中，我们进行订单创建，一个订单<code>order</code>中包含多个订单项<code>orderItem</code>。</p>
-<p>现在我们要对<code>OrderService::createOrder</code>，<code>OrderDao::saveOne</code>和<code>OrderItemDao::saveList</code>进行事务传播控制，分别简称三部分为A，B，C。</p>
-<p>若A和B设置为<code>REQUIRED</code>，而C设置为<code>REQUIRES_NEW</code>，则会出现死锁问题。</p>
-<p>源代码大致如下。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// OrderServiceImpl.java</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">createOrder</span><span class="params">(List&lt;Integer&gt; bookIds, Long userId)</span> &#123;</span><br><span class="line">    <span class="type">Order</span> <span class="variable">order</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Order</span>();</span><br><span class="line">    order.setUser(userDao.findOne(userId));</span><br><span class="line">    orderDao.addOne(order);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 准备orderItems的List</span></span><br><span class="line">    List&lt;OrderItem&gt; orderItems = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    ...;</span><br><span class="line">    </span><br><span class="line">    orderItemDao.addList(orderItems);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// OrderDaoImpl.java</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addOne</span><span class="params">(Order order)</span> &#123;</span><br><span class="line">    orderRepository.save(order);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// OrderItemDaoImpl.java</span></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addList</span><span class="params">(List&lt;OrderItem&gt; orderItems)</span> &#123;</span><br><span class="line">    orderItemRepository.saveList(orderItems);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>执行结果为死锁。</p>
-<p><br></p>
-<h1 id="原因分析">原因分析</h1>
-<p>在B执行后，由于与A处在同一事务一里，则事务一拿到了<code>order</code>表中新插入行的锁，不管事务隔离属性如何设置，其他事务均不可进行写操作。而在随后的C流程中，写入<code>orderItems</code>的时候，<code>order_item</code>表中有<code>order</code>的外键，于是他在给<code>order_item</code>新插入的数据上锁之外，也要在<code>order</code>表中对外键所指向的数据加锁。</p>
-<p>然而C是拿不到的，因为B已经拿到了。</p>
-<p>于是此时，C等待B放锁，但是同时，B又等待C结束返回，从而形成了死锁。</p>
-<p><br></p>
-<h1 id="解决方法">解决方法</h1>
-<p>该问题说明，并不是所有业务使用<code>REQUIRES_NEW</code>传播都可以，在此场景下，都使用默认的<code>REQUIRED</code>传播属性即可。</p>
-]]></content>
-      <categories>
-        <category>课程</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>踩坑</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>计算机系统基础</title>
     <url>/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<p>[TOC]</p>
@@ -811,47 +779,36 @@ style="font-size: 50px; font-weight: bold; color: #777; margin: 22px 0; line-hei
       <categories>
         <category>课程</category>
       </categories>
-      <tags>
-        <tag>ICS</tag>
-        <tag>复习</tag>
-      </tags>
   </entry>
   <entry>
-    <title>CNAME的必要性</title>
-    <url>/cname%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/</url>
-    <content><![CDATA[<p>首先，如果不写<code>CNAME</code>的话，我们只能从<code>https://username.github.io</code>这个网址进行访问，但是显然如果有一个更好记忆的自定义域名会更好。</p>
-<p>于是，我在腾讯云上买了两个域名<code>lulu010722.cn</code>和<code>lulu010722/com</code>。</p>
-<p>之后需要在域名提供商处进行域名解析，一般是通过CNAME类型进行解析。</p>
-<p>最后，在项目目录中也需要添加<code>CNAME</code>文件，在其中输入使用的域名。</p>
-<p>之前一直不懂的地方就是这里，为什么腾讯云的域名已经解析到<code>github page</code>了，还是无法访问，现在推测，可能是权限问题。</p>
-<p>在将<code>CNAME</code>文件定义好之后，我们就可以从原本地址和新购买的地址进行访问了。</p>
-<p>不过，用原地址访问时，浏览器导航栏会自动切换为自定义地新网址。</p>
-]]></content>
-      <categories>
-        <category>配置</category>
-      </categories>
-      <tags>
-        <tag>配置</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>cse-lab2a踩坑</title>
-    <url>/cse-lab2a%E8%B8%A9%E5%9D%91/</url>
-    <content><![CDATA[<ol type="1">
-<li><p><code>ifstream::eof()</code>有bug。</p>
-<p>如果有一个文件<code>test.txt</code>，文件内容是：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1 a</span><br><span class="line">2 ab</span><br><span class="line">3 abc</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>（注意，最后有一个空行）</p>
-<p>则，当时用下面的代码时，会有问题。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">ifstream <span class="title">in</span><span class="params">(<span class="string">&quot;test.txt&quot;</span>)</span></span>;</span><br><span class="line">    <span class="keyword">while</span> (!in.<span class="built_in">eof</span>()) &#123;</span><br><span class="line">       	<span class="type">int</span> length;</span><br><span class="line">        in &gt;&gt; length;</span><br><span class="line">        <span class="type">char</span> tmp[length + <span class="number">1</span>];</span><br><span class="line">        in.<span class="built_in">read</span>(tmp, length);</span><br><span class="line">        cout &lt;&lt; tmp &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>原因在于，第三行读取完成后，不管是否将最后的换行符进行了消除，<code>eof()</code>会仍然返回false，因为只有当读到最后一个字符并尝试继续读的时候，该函数才会返回true。</p></li>
-</ol>
+    <title>JPA事务控制与外键死锁</title>
+    <url>/jpa%E4%BA%8B%E5%8A%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%A4%96%E9%94%AE%E6%AD%BB%E9%94%81/</url>
+    <content><![CDATA[<h1 id="问题背景">问题背景</h1>
+<p>在做app作业一的第二部分时，遇到了问题（自以为是问题，没想到老师是故意让我们发现这是个bug）。</p>
+<pre class="mermaid">flowchart LR;
+A(OrderController::createOrder) --> B(OrderService::createOrder);
+B --> C(OrderDao::addOne);
+B --> D(OrderItemDao::addList);</pre>
+<p>如图，在电子书服务系统<code>E-Book</code>中，我们进行订单创建，一个订单<code>order</code>中包含多个订单项<code>orderItem</code>。</p>
+<p>现在我们要对<code>OrderService::createOrder</code>，<code>OrderDao::saveOne</code>和<code>OrderItemDao::saveList</code>进行事务传播控制，分别简称三部分为A，B，C。</p>
+<p>若A和B设置为<code>REQUIRED</code>，而C设置为<code>REQUIRES_NEW</code>，则会出现死锁问题。</p>
+<p>源代码大致如下。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// OrderServiceImpl.java</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">createOrder</span><span class="params">(List&lt;Integer&gt; bookIds, Long userId)</span> &#123;</span><br><span class="line">    <span class="type">Order</span> <span class="variable">order</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Order</span>();</span><br><span class="line">    order.setUser(userDao.findOne(userId));</span><br><span class="line">    orderDao.addOne(order);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 准备orderItems的List</span></span><br><span class="line">    List&lt;OrderItem&gt; orderItems = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    ...;</span><br><span class="line">    </span><br><span class="line">    orderItemDao.addList(orderItems);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// OrderDaoImpl.java</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addOne</span><span class="params">(Order order)</span> &#123;</span><br><span class="line">    orderRepository.save(order);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// OrderItemDaoImpl.java</span></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addList</span><span class="params">(List&lt;OrderItem&gt; orderItems)</span> &#123;</span><br><span class="line">    orderItemRepository.saveList(orderItems);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行结果为死锁。</p>
+<p><br></p>
+<h1 id="原因分析">原因分析</h1>
+<p>在B执行后，由于与A处在同一事务一里，则事务一拿到了<code>order</code>表中新插入行的锁，不管事务隔离属性如何设置，其他事务均不可进行写操作。而在随后的C流程中，写入<code>orderItems</code>的时候，<code>order_item</code>表中有<code>order</code>的外键，于是他在给<code>order_item</code>新插入的数据上锁之外，也要在<code>order</code>表中对外键所指向的数据加锁。</p>
+<p>然而C是拿不到的，因为B已经拿到了。</p>
+<p>于是此时，C等待B放锁，但是同时，B又等待C结束返回，从而形成了死锁。</p>
+<p><br></p>
+<h1 id="解决方法">解决方法</h1>
+<p>该问题说明，并不是所有业务使用<code>REQUIRES_NEW</code>传播都可以，在此场景下，都使用默认的<code>REQUIRED</code>传播属性即可。</p>
 ]]></content>
       <categories>
         <category>课程</category>
       </categories>
       <tags>
-        <tag>踩坑</tag>
+        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -870,6 +827,21 @@ style="font-size: 50px; font-weight: bold; color: #777; margin: 22px 0; line-hei
       <tags>
         <tag>踩坑</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>CNAME的必要性</title>
+    <url>/cname%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/</url>
+    <content><![CDATA[<p>首先，如果不写<code>CNAME</code>的话，我们只能从<code>https://username.github.io</code>这个网址进行访问，但是显然如果有一个更好记忆的自定义域名会更好。</p>
+<p>于是，我在腾讯云上买了两个域名<code>lulu010722.cn</code>和<code>lulu010722/com</code>。</p>
+<p>之后需要在域名提供商处进行域名解析，一般是通过CNAME类型进行解析。</p>
+<p>最后，在项目目录中也需要添加<code>CNAME</code>文件，在其中输入使用的域名。</p>
+<p>之前一直不懂的地方就是这里，为什么腾讯云的域名已经解析到<code>github page</code>了，还是无法访问，现在推测，可能是权限问题。</p>
+<p>在将<code>CNAME</code>文件定义好之后，我们就可以从原本地址和新购买的地址进行访问了。</p>
+<p>不过，用原地址访问时，浏览器导航栏会自动切换为自定义地新网址。</p>
+]]></content>
+      <categories>
+        <category>配置</category>
+      </categories>
   </entry>
   <entry>
     <title>Daily Report</title>
@@ -1354,8 +1326,25 @@ assignment3。尝试学习tikz画图论用图，但是失败了。。</li>
       <categories>
         <category>日记</category>
       </categories>
+  </entry>
+  <entry>
+    <title>cse-lab2a踩坑</title>
+    <url>/cse-lab2a%E8%B8%A9%E5%9D%91/</url>
+    <content><![CDATA[<ol type="1">
+<li><p><code>ifstream::eof()</code>有bug。</p>
+<p>如果有一个文件<code>test.txt</code>，文件内容是：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1 a</span><br><span class="line">2 ab</span><br><span class="line">3 abc</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>（注意，最后有一个空行）</p>
+<p>则，当时用下面的代码时，会有问题。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">ifstream <span class="title">in</span><span class="params">(<span class="string">&quot;test.txt&quot;</span>)</span></span>;</span><br><span class="line">    <span class="keyword">while</span> (!in.<span class="built_in">eof</span>()) &#123;</span><br><span class="line">       	<span class="type">int</span> length;</span><br><span class="line">        in &gt;&gt; length;</span><br><span class="line">        <span class="type">char</span> tmp[length + <span class="number">1</span>];</span><br><span class="line">        in.<span class="built_in">read</span>(tmp, length);</span><br><span class="line">        cout &lt;&lt; tmp &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>原因在于，第三行读取完成后，不管是否将最后的换行符进行了消除，<code>eof()</code>会仍然返回false，因为只有当读到最后一个字符并尝试继续读的时候，该函数才会返回true。</p></li>
+</ol>
+]]></content>
+      <categories>
+        <category>课程</category>
+      </categories>
       <tags>
-        <tag>每日活动记录</tag>
+        <tag>踩坑</tag>
       </tags>
   </entry>
   <entry>
@@ -1419,9 +1408,6 @@ assignment3。尝试学习tikz画图论用图，但是失败了。。</li>
       <categories>
         <category>日记</category>
       </categories>
-      <tags>
-        <tag>随笔</tag>
-      </tags>
   </entry>
   <entry>
     <title>前端练习</title>
@@ -1438,6 +1424,53 @@ assignment3。尝试学习tikz画图论用图，但是失败了。。</li>
       </categories>
       <tags>
         <tag>前端</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git——人类好朋友</title>
+    <url>/git%E2%80%94%E2%80%94%E4%BA%BA%E7%B1%BB%E5%A5%BD%E6%9C%8B%E5%8F%8B/</url>
+    <content><![CDATA[<h1 id="本地远程分支创建和删除">本地/远程分支创建和删除</h1>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除本地分支</span></span><br><span class="line">git branch -d &lt;branch-name&gt;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除远程分支</span></span><br><span class="line">git push -d &lt;remote-name&gt; &lt;branch-name&gt;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除已经不存在于远程仓库的本地远程分支</span></span><br><span class="line">git remote prune &lt;remote-name&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="git-submodule初步运用">git submodule初步运用</h1>
+<p>实际场景：在博客主仓库中日常更新日志内容的同时，想要对主题仓库进行个性化修改，或者更进一步，对原主题仓库提出PR，进行contribute。主仓库需要拥有子仓库的文件内容，因为前者要根据后者的资源进行页面的渲染。</p>
+<p>这样，我们就需要在主仓库（blog）中包含子仓库（themes）。为了更方便地管理他们，需要使用git
+submodule。</p>
+<h2 id="原来的做法">原来的做法</h2>
+<p>将themes.git文件夹删除，使其失去版本控制，并将themes（.gitignore的除外）加入主仓库的版本控制。在本地的修改可以直接更新到主仓库，在github直接执行npm
+run build的CI任务即可。</p>
+<p><strong>但是</strong>，这样有很多问题。</p>
+<ol type="1">
+<li>如果遇到明显的bug，只能在本地修改，无法对原主题仓库进行贡献。</li>
+<li>原主题仓库更新后，本地无法通过git快捷的更新。</li>
+</ol>
+<h2 id="使用git-submodule">使用git submodule</h2>
+<p>git对于子模块的管理有如下几个关键点。</p>
+<ul>
+<li>首先，.git目录中会有一个modules目录，里面记录了所有子模块的版本控制信息。</li>
+<li>其次，在主仓库下，会创建一个.gitmodules文件，里面以条目的形式记录了子仓库名称，本地相对地址，以及远程仓库地址。</li>
+<li>最后，git会生成一个<strong>非常特殊</strong>的文件，他的文件模式是160000，与一般的100644文件不同。它在windows的资源管理器下并不可见。他被用于覆盖子模块真实的目录内容，仅仅以子模块的当前所在记录的hash值，存入该文件来代替。每当子模块更新，该文件也会更新。</li>
+</ul>
+<p>创建流程是：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">如果是第一次创建子模块，则项目中会出现两个新文件：.gitmodules和以relative-path为名的特殊文件。同时，该命令会将子模块克隆到本地的relative-path目录下。</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git submodule add &lt;url(https://github.com/username/submodule-repo.git)&gt; &lt;relative-path&gt;</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在主仓库，将更改提交并push到远程</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git add --all</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git commit -m &lt;msg&gt;</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git push origin master</span></span><br></pre></td></tr></table></figure>
+<p>此时，在主仓库中，relative-path对应的地方会出现一个链接，点击可以跳转到子模块的仓库。</p>
+<p>这就意味着，主仓库是没有子仓库的内容的，只保留了一个链接。</p>
+<p>想要获得子模块的内容，需要在workflow file里面加入新的CI任务。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 注意，该任务需要放在build之前</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">Fetch</span> <span class="string">submodule</span></span><br><span class="line"><span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">	<span class="string">git</span> <span class="string">submodule</span> <span class="string">sync</span></span><br><span class="line">	<span class="string">git</span> <span class="string">submodule</span> <span class="string">update</span> <span class="string">--init</span> <span class="string">--recursive</span></span><br></pre></td></tr></table></figure>
+<p>一般情况下，主仓库会获得子仓库的内容，并根据子仓库的内容build博客。</p>
+<h2 id="权限问题">权限问题</h2>
+<p>如果使用了ssh的仓库地址，则可能会出现权限问题。</p>
+<p>由于我的子仓库是公有仓库，所以简单的解决办法是，使用https的仓库地址。</p>
+<h2 id="与github-actionscheckoutv3集成">与github
+actions/checkout@v3集成</h2>
+<p>github仓库服务器每次运行CI/CD任务，其实都需要将主仓库克隆到本地。这是通过复用<code>actions/checkout@v3</code>实现的。而该action同时提供了对子模块的支持。只需要进行如下配置即可。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span></span><br><span class="line">  <span class="attr">uses:</span> <span class="string">actions/checkout@v3</span></span><br><span class="line">  <span class="attr">with:</span></span><br><span class="line">    <span class="attr">submodules:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>该配置还能自动在没有提供ssh-key的情况下，将<code>.gitmodules</code>中由ssh协议指定的url转换成https来使用。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -1497,53 +1530,6 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
       <categories>
         <category>配置</category>
       </categories>
-  </entry>
-  <entry>
-    <title>git——人类好朋友</title>
-    <url>/git%E2%80%94%E2%80%94%E4%BA%BA%E7%B1%BB%E5%A5%BD%E6%9C%8B%E5%8F%8B/</url>
-    <content><![CDATA[<h1 id="本地远程分支创建和删除">本地/远程分支创建和删除</h1>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除本地分支</span></span><br><span class="line">git branch -d &lt;branch-name&gt;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除远程分支</span></span><br><span class="line">git push -d &lt;remote-name&gt; &lt;branch-name&gt;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除已经不存在于远程仓库的本地远程分支</span></span><br><span class="line">git remote prune &lt;remote-name&gt;</span><br></pre></td></tr></table></figure>
-<h1 id="git-submodule初步运用">git submodule初步运用</h1>
-<p>实际场景：在博客主仓库中日常更新日志内容的同时，想要对主题仓库进行个性化修改，或者更进一步，对原主题仓库提出PR，进行contribute。主仓库需要拥有子仓库的文件内容，因为前者要根据后者的资源进行页面的渲染。</p>
-<p>这样，我们就需要在主仓库（blog）中包含子仓库（themes）。为了更方便地管理他们，需要使用git
-submodule。</p>
-<h2 id="原来的做法">原来的做法</h2>
-<p>将themes.git文件夹删除，使其失去版本控制，并将themes（.gitignore的除外）加入主仓库的版本控制。在本地的修改可以直接更新到主仓库，在github直接执行npm
-run build的CI任务即可。</p>
-<p><strong>但是</strong>，这样有很多问题。</p>
-<ol type="1">
-<li>如果遇到明显的bug，只能在本地修改，无法对原主题仓库进行贡献。</li>
-<li>原主题仓库更新后，本地无法通过git快捷的更新。</li>
-</ol>
-<h2 id="使用git-submodule">使用git submodule</h2>
-<p>git对于子模块的管理有如下几个关键点。</p>
-<ul>
-<li>首先，.git目录中会有一个modules目录，里面记录了所有子模块的版本控制信息。</li>
-<li>其次，在主仓库下，会创建一个.gitmodules文件，里面以条目的形式记录了子仓库名称，本地相对地址，以及远程仓库地址。</li>
-<li>最后，git会生成一个<strong>非常特殊</strong>的文件，他的文件模式是160000，与一般的100644文件不同。它在windows的资源管理器下并不可见。他被用于覆盖子模块真实的目录内容，仅仅以子模块的当前所在记录的hash值，存入该文件来代替。每当子模块更新，该文件也会更新。</li>
-</ul>
-<p>创建流程是：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">如果是第一次创建子模块，则项目中会出现两个新文件：.gitmodules和以relative-path为名的特殊文件。同时，该命令会将子模块克隆到本地的relative-path目录下。</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git submodule add &lt;url(https://github.com/username/submodule-repo.git)&gt; &lt;relative-path&gt;</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在主仓库，将更改提交并push到远程</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git add --all</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git commit -m &lt;msg&gt;</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git push origin master</span></span><br></pre></td></tr></table></figure>
-<p>此时，在主仓库中，relative-path对应的地方会出现一个链接，点击可以跳转到子模块的仓库。</p>
-<p>这就意味着，主仓库是没有子仓库的内容的，只保留了一个链接。</p>
-<p>想要获得子模块的内容，需要在workflow file里面加入新的CI任务。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 注意，该任务需要放在build之前</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">Fetch</span> <span class="string">submodule</span></span><br><span class="line"><span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">	<span class="string">git</span> <span class="string">submodule</span> <span class="string">sync</span></span><br><span class="line">	<span class="string">git</span> <span class="string">submodule</span> <span class="string">update</span> <span class="string">--init</span> <span class="string">--recursive</span></span><br></pre></td></tr></table></figure>
-<p>一般情况下，主仓库会获得子仓库的内容，并根据子仓库的内容build博客。</p>
-<h2 id="权限问题">权限问题</h2>
-<p>如果使用了ssh的仓库地址，则可能会出现权限问题。</p>
-<p>由于我的子仓库是公有仓库，所以简单的解决办法是，使用https的仓库地址。</p>
-<h2 id="与github-actionscheckoutv3集成">与github
-actions/checkout@v3集成</h2>
-<p>github仓库服务器每次运行CI/CD任务，其实都需要将主仓库克隆到本地。这是通过复用<code>actions/checkout@v3</code>实现的。而该action同时提供了对子模块的支持。只需要进行如下配置即可。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span></span><br><span class="line">  <span class="attr">uses:</span> <span class="string">actions/checkout@v3</span></span><br><span class="line">  <span class="attr">with:</span></span><br><span class="line">    <span class="attr">submodules:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>该配置还能自动在没有提供ssh-key的情况下，将<code>.gitmodules</code>中由ssh协议指定的url转换成https来使用。</p>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
   </entry>
   <entry>
     <title>ただいま</title>
@@ -1685,36 +1671,6 @@ D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
       </tags>
   </entry>
   <entry>
-    <title>解封了，吗？</title>
-    <url>/%E8%A7%A3%E5%B0%81%E4%BA%86%EF%BC%8C%E5%90%97%EF%BC%9F/</url>
-    <content><![CDATA[<p>如果不算开学第一天上午那可怜的一节课的话，时至今日，贵交学子已经至少半年没有上过一节正常的线下课程了。</p>
-<p>然而我上线下课程第一天的感受却是，不习惯。</p>
-<p>各个课程均有几节课的延迟，现在转接到线下，根本无所适从。</p>
-<p>当初强迫线上骂声一片，现在强迫线下甚至也有骂声一片。</p>
-<p>这一切都是一场游戏吧。</p>
-]]></content>
-      <categories>
-        <category>日记</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>可可的琴</title>
-    <url>/%E5%8F%AF%E5%8F%AF%E7%9A%84%E7%90%B4/</url>
-    <content><![CDATA[<h1 id="寒鸦戏水">寒鸦戏水</h1>
-<audio id="audio" controls="" preload="none">
-<source src="/assets/寒鸦戏水.mp3">
-</audio>
-<blockquote>
-<p>等我一会儿~</p>
-</blockquote>
-<p><strong>演奏者</strong>：可可同学，可爱的可</p>
-<p><strong>曲目</strong>：寒鸦戏水</p>
-]]></content>
-      <categories>
-        <category>展厅</category>
-      </categories>
-  </entry>
-  <entry>
     <title>柯柯的画</title>
     <url>/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/</url>
     <content><![CDATA[<h1 id="阿贝多">阿贝多</h1>
@@ -1727,6 +1683,19 @@ D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
 ]]></content>
       <categories>
         <category>展厅</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>解封了，吗？</title>
+    <url>/%E8%A7%A3%E5%B0%81%E4%BA%86%EF%BC%8C%E5%90%97%EF%BC%9F/</url>
+    <content><![CDATA[<p>如果不算开学第一天上午那可怜的一节课的话，时至今日，贵交学子已经至少半年没有上过一节正常的线下课程了。</p>
+<p>然而我上线下课程第一天的感受却是，不习惯。</p>
+<p>各个课程均有几节课的延迟，现在转接到线下，根本无所适从。</p>
+<p>当初强迫线上骂声一片，现在强迫线下甚至也有骂声一片。</p>
+<p>这一切都是一场游戏吧。</p>
+]]></content>
+      <categories>
+        <category>日记</category>
       </categories>
   </entry>
   <entry>
@@ -1743,6 +1712,23 @@ D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
 <h1 id="香奈乎">香奈乎</h1>
 <img src="/%E6%88%91%E7%9A%84%E7%94%BB/kanao.jpg" class="">
 <p><strong>日期</strong>：2022-9-25</p>
+]]></content>
+      <categories>
+        <category>展厅</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>可可的琴</title>
+    <url>/%E5%8F%AF%E5%8F%AF%E7%9A%84%E7%90%B4/</url>
+    <content><![CDATA[<h1 id="寒鸦戏水">寒鸦戏水</h1>
+<audio id="audio" controls="" preload="none">
+<source src="/assets/寒鸦戏水.mp3">
+</audio>
+<blockquote>
+<p>等我一会儿~</p>
+</blockquote>
+<p><strong>演奏者</strong>：可可同学，可爱的可</p>
+<p><strong>曲目</strong>：寒鸦戏水</p>
 ]]></content>
       <categories>
         <category>展厅</category>
@@ -1808,9 +1794,6 @@ D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
       <categories>
         <category>书架</category>
       </categories>
-      <tags>
-        <tag>月亮与六便士</tag>
-      </tags>
   </entry>
   <entry>
     <title>我的雷神🤗</title>
@@ -1822,64 +1805,6 @@ D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
       <categories>
         <category>展厅</category>
       </categories>
-  </entry>
-  <entry>
-    <title>测试</title>
-    <url>/%E6%B5%8B%E8%AF%95/</url>
-    <content><![CDATA[<h1
-id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的一级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的一级标题</h1>
-<h2
-id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的二级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的二级标题</h2>
-<h3
-id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的三级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的三级标题</h3>
-<h1 id="表格测试">表格测试</h1>
-<table>
-<thead>
-<tr class="header">
-<th>1</th>
-<th>2</th>
-<th>3</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>甲</td>
-<td>乙</td>
-<td>丙</td>
-</tr>
-</tbody>
-</table>
-<h1 id="latex测试"><span class="math inline">\(\LaTeX\)</span>测试</h1>
-<p>行内<span class="math inline">\(f(x)=\sin(x)\)</span>。</p>
-<p>公式块 <span class="math display">\[
-\begin{aligned}
-    \sum_f E_{ote}(\mathcal{L}_a|X,f)&amp;=\sum_f\sum_h\sum_{x\in
-\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne f(x))P(h|X,\mathcal{L}_a)\\
-    &amp;=\sum_{x\in\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\sum_f\mathbb{I}(h(x)\ne
-f(x))\\
-    &amp;=\sum_{x\in
-\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\frac{1}{2}2^{|\mathcal{X}|}\\
-    &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in
-\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\\
-    &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in \mathcal{X}-X}P(x)\\
-\end{aligned}
-\]</span></p>
-<h1 id="toc测试">TOC测试</h1>
-<h1 id="一级标题1">一级标题1</h1>
-<h2 id="二级标题1">二级标题1</h2>
-<h3 id="三级标题1">三级标题1</h3>
-<h3 id="三级标题2">三级标题2</h3>
-<h3 id="三级标题3">三级标题3</h3>
-<h3 id="三级标题4">三级标题4</h3>
-<h2 id="二级标题2">二级标题2</h2>
-<h3 id="三级标题">三级标题</h3>
-<h4 id="四级标题">四级标题</h4>
-<h5 id="五级标题">五级标题</h5>
-<h6 id="六级标题">六级标题</h6>
-<p><strong>加粗</strong></p>
-<p>正文</p>
-<p><em>斜体</em></p>
-]]></content>
   </entry>
   <entry>
     <title>《苏东坡传》</title>
@@ -1964,9 +1889,77 @@ f(x))\\
       <categories>
         <category>书架</category>
       </categories>
-      <tags>
-        <tag>苏东坡传</tag>
-      </tags>
+  </entry>
+  <entry>
+    <title>测试</title>
+    <url>/%E6%B5%8B%E8%AF%95/</url>
+    <content><![CDATA[<h1
+id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的一级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的一级标题</h1>
+<h2
+id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的二级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的二级标题</h2>
+<h3
+id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的三级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的三级标题</h3>
+<h1 id="表格测试">表格测试</h1>
+<table>
+<thead>
+<tr class="header">
+<th>1</th>
+<th>2</th>
+<th>3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>甲</td>
+<td>乙</td>
+<td>丙</td>
+</tr>
+</tbody>
+</table>
+<h1 id="latex测试"><span class="math inline">\(\LaTeX\)</span>测试</h1>
+<p>行内<span class="math inline">\(f(x)=\sin(x)\)</span>。</p>
+<p>公式块 <span class="math display">\[
+\begin{aligned}
+    \sum_f E_{ote}(\mathcal{L}_a|X,f)&amp;=\sum_f\sum_h\sum_{x\in
+\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne f(x))P(h|X,\mathcal{L}_a)\\
+    &amp;=\sum_{x\in\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\sum_f\mathbb{I}(h(x)\ne
+f(x))\\
+    &amp;=\sum_{x\in
+\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\frac{1}{2}2^{|\mathcal{X}|}\\
+    &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in
+\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\\
+    &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in \mathcal{X}-X}P(x)\\
+\end{aligned}
+\]</span></p>
+<h1 id="toc测试">TOC测试</h1>
+<h1 id="一级标题1">一级标题1</h1>
+<h2 id="二级标题1">二级标题1</h2>
+<h3 id="三级标题1">三级标题1</h3>
+<h3 id="三级标题2">三级标题2</h3>
+<h3 id="三级标题3">三级标题3</h3>
+<h3 id="三级标题4">三级标题4</h3>
+<h2 id="二级标题2">二级标题2</h2>
+<h3 id="三级标题">三级标题</h3>
+<h4 id="四级标题">四级标题</h4>
+<h5 id="五级标题">五级标题</h5>
+<h6 id="六级标题">六级标题</h6>
+<p><strong>加粗</strong></p>
+<p>正文</p>
+<p><em>斜体</em></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>欢迎来到我的博客！</title>
+    <url>/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%EF%BC%81/</url>
+    <content><![CDATA[<p>这是我的第一篇博客</p>
+<p>以后会经常在这里记录一些我的学习经历</p>
+<p>包括各种技术的踩坑之旅</p>
+<p><strong>加油</strong></p>
+<p><strong>頑張って！</strong>❤</p>
+]]></content>
+      <categories>
+        <category>日记</category>
+      </categories>
   </entry>
   <entry>
     <title>泉さんとの相談</title>
@@ -2029,22 +2022,6 @@ f(x))\\
 ]]></content>
       <categories>
         <category>日语</category>
-      </categories>
-      <tags>
-        <tag>杂谈</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>欢迎来到我的博客！</title>
-    <url>/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%EF%BC%81/</url>
-    <content><![CDATA[<p>这是我的第一篇博客</p>
-<p>以后会经常在这里记录一些我的学习经历</p>
-<p>包括各种技术的踩坑之旅</p>
-<p><strong>加油</strong></p>
-<p><strong>頑張って！</strong>❤</p>
-]]></content>
-      <categories>
-        <category>日记</category>
       </categories>
   </entry>
 </search>
