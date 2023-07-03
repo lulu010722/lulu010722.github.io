@@ -33,7 +33,7 @@
 <meta name="twitter:card" content="summary">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="icon" href="/images/hexo.svg">
     
     <title>随便写写 · 冰化了还有棍儿</title>
     <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
@@ -341,11 +341,6 @@
                     <span class="post-intro-time">2022/09/20</span>
                     <!-- busuanzi -->
                     
-                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
-                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
-                            <span id="busuanzi_value_page_pv"></span>
-                        </span>
-                    
                     <!-- 文章分享 -->
                     <span class="share-wrapper">
                         <span class="iconfont-archer share-icon">&#xe71d;</span>
@@ -607,6 +602,27 @@
     <!-- timeliness note -->
     <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
     
+        <script>
+            (function () {
+                const time = document.getElementsByClassName('post-intro-time')[0]
+                const post = document.getElementsByTagName("article")[0]
+                if (time === undefined || post === undefined) {
+                    return
+                }
+
+                const pubTime = new Date(time.innerText)
+                const now = Date.now()
+                const interval = parseInt(now - pubTime)
+                const days = parseInt(interval / 86400000)
+                const outdated_threshold = parseInt(180)
+                if (interval > outdated_threshold * 24 * 3600 * 1000) {
+                    post.innerHTML = '<div class="note note-warning">' +
+                    `<div class="title">文章时效性提示</div><p>这是一篇发布于 ${days} 天前的文章，部分信息可能已发生改变，请注意甄别。` +
+                    '</p></div>' + post.innerHTML;
+                }
+            })();
+        </script>
+    
     <!-- Mathjax -->
     
         
@@ -708,13 +724,6 @@
     <!-- website approve for Chinese user -->
     
     <!-- 不蒜子  -->
-    
-        <div class="busuanzi-container">
-            
-             
-                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
-            
-        </div>
     	
 </footer>
 
@@ -865,6 +874,8 @@
         
         
     
+        
+        
         
         
         
@@ -1186,14 +1197,14 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
         
-            <span class="sidebar-tag-name" data-tags="踩坑">
-                <span class="iconfont-archer">&#xe606;</span>
-                踩坑
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="mysql">
                 <span class="iconfont-archer">&#xe606;</span>
                 mysql
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="踩坑">
+                <span class="iconfont-archer">&#xe606;</span>
+                踩坑
             </span>
         
             <span class="sidebar-tag-name" data-tags="前端">
@@ -1206,14 +1217,14 @@
                 git
             </span>
         
-            <span class="sidebar-tag-name" data-tags="机器学习">
-                <span class="iconfont-archer">&#xe606;</span>
-                机器学习
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="cse">
                 <span class="iconfont-archer">&#xe606;</span>
                 cse
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="机器学习">
+                <span class="iconfont-archer">&#xe606;</span>
+                机器学习
             </span>
         
     </div>
@@ -1232,14 +1243,14 @@
             课程
         </span>
     
-        <span class="sidebar-category-name" data-categories="配置">
-            <span class="iconfont-archer">&#xe60a;</span>
-            配置
-        </span>
-    
         <span class="sidebar-category-name" data-categories="日记">
             <span class="iconfont-archer">&#xe60a;</span>
             日记
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="配置">
+            <span class="iconfont-archer">&#xe60a;</span>
+            配置
         </span>
     
         <span class="sidebar-category-name" data-categories="技术">
@@ -1297,8 +1308,6 @@
         
         <!-- busuanzi -->
         
-            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
-        
         <!-- CNZZ -->
         
         <!-- async load share.js -->
@@ -1306,6 +1315,13 @@
             <script src="/scripts/share.js?v=20211217" async></script>
         
         <!-- mermaid -->
+        
+            <script src='https://cdn.jsdelivr.net/npm/mermaid@8.11.0/dist/mermaid.min.js'></script>
+            <script>
+                if (window.mermaid) {
+                    mermaid.initialize({theme: 'dark'});
+                }
+            </script>
         
     </body>
 </html>

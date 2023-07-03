@@ -781,23 +781,6 @@ style="font-size: 50px; font-weight: bold; color: #777; margin: 22px 0; line-hei
       </categories>
   </entry>
   <entry>
-    <title>cse-lab1踩坑</title>
-    <url>/cse-lab1%E8%B8%A9%E5%9D%91/</url>
-    <content><![CDATA[<ol type="1">
-<li>memcpy与strncpy。</li>
-<li>get_inode需要在堆中分配内存。</li>
-<li>局部字符数组最好初始化为0。</li>
-<li>ino的block不要随便free，有可能free掉别人的合法block。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>课程</category>
-      </categories>
-      <tags>
-        <tag>踩坑</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JPA事务控制与外键死锁</title>
     <url>/jpa%E4%BA%8B%E5%8A%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%A4%96%E9%94%AE%E6%AD%BB%E9%94%81/</url>
     <content><![CDATA[<h1 id="问题背景">问题背景</h1>
@@ -827,103 +810,6 @@ B --> D(OrderItemDao::addList);</pre>
       <tags>
         <tag>mysql</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>cse-lab2a踩坑</title>
-    <url>/cse-lab2a%E8%B8%A9%E5%9D%91/</url>
-    <content><![CDATA[<ol type="1">
-<li><p><code>ifstream::eof()</code>有bug。</p>
-<p>如果有一个文件<code>test.txt</code>，文件内容是：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1 a</span><br><span class="line">2 ab</span><br><span class="line">3 abc</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>（注意，最后有一个空行）</p>
-<p>则，当时用下面的代码时，会有问题。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">ifstream <span class="title">in</span><span class="params">(<span class="string">&quot;test.txt&quot;</span>)</span></span>;</span><br><span class="line">    <span class="keyword">while</span> (!in.<span class="built_in">eof</span>()) &#123;</span><br><span class="line">       	<span class="type">int</span> length;</span><br><span class="line">        in &gt;&gt; length;</span><br><span class="line">        <span class="type">char</span> tmp[length + <span class="number">1</span>];</span><br><span class="line">        in.<span class="built_in">read</span>(tmp, length);</span><br><span class="line">        cout &lt;&lt; tmp &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>原因在于，第三行读取完成后，不管是否将最后的换行符进行了消除，<code>eof()</code>会仍然返回false，因为只有当读到最后一个字符并尝试继续读的时候，该函数才会返回true。</p></li>
-</ol>
-]]></content>
-      <categories>
-        <category>课程</category>
-      </categories>
-      <tags>
-        <tag>踩坑</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CNAME的必要性</title>
-    <url>/cname%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/</url>
-    <content><![CDATA[<p>首先，如果不写<code>CNAME</code>的话，我们只能从<code>https://username.github.io</code>这个网址进行访问，但是显然如果有一个更好记忆的自定义域名会更好。</p>
-<p>于是，我在腾讯云上买了两个域名<code>lulu010722.cn</code>和<code>lulu010722.com</code>。</p>
-<p>之后需要在域名提供商处进行域名解析，一般是通过CNAME类型进行解析。</p>
-<p>最后，在项目目录中也需要添加<code>CNAME</code>文件，在其中输入使用的域名。</p>
-<p>之前一直不懂的地方就是这里，为什么腾讯云的域名已经解析到<code>github page</code>了，还是无法访问，现在推测，可能是权限问题。</p>
-<p>在将<code>CNAME</code>文件定义好之后，我们就可以从原本地址和新购买的地址进行访问了。</p>
-<p>不过，用原地址访问时，浏览器导航栏会自动切换为自定义地新网址。</p>
-]]></content>
-      <categories>
-        <category>配置</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>随便写写</title>
-    <url>/%E9%9A%8F%E4%BE%BF%E5%86%99%E5%86%99/</url>
-    <content><![CDATA[<blockquote>
-<p><em>与其称之为”随笔“，倒不如称之为”随键“</em></p>
-<p><em>旁人有感而发，大都落笔成文</em></p>
-<p><em>而我不同，我触键成章</em></p>
-</blockquote>
-<h1 id="又一次鄙视自己的灵魂">又一次鄙视自己的灵魂</h1>
-<p>躺在床上，虽然很困，但是仍执着地拿着手机的时候，其实是在期望着在偌大的网络世界找到什么。</p>
-<p>不过我不幸运，要么什么也找不到，要么自以为找到了，但是一觉醒来，生活和自己，都没变。</p>
-<p>偶然想起，三四年前，给一位我特别尊敬的老师写过的一首诗。</p>
-<blockquote>
-<center>
-<h2 id="赠师普">赠师普</h2>
-<blockquote>
-<p>三月末，高考将至，颇念吾师增普旧恩，特献丑赋诗一篇，兼与同门高徒兴达，瑞嵩，家鑫，子扬等共勉</p>
-</blockquote>
-<p>十载光华空回轮，</p>
-<p>一朝幸甚入师门。</p>
-<p>要问师普何服我，</p>
-<p>学富才高撼余心。</p>
-<p>忽叹往岁虚无度，</p>
-<p>幸觉宏图尚可伸。</p>
-<p>今当远走高飞去，</p>
-<p>莫敢寸阴忘师恩。</p>
-</blockquote>
-<p>如果细读，不难发现，平仄构造最工整的一联，是颈联。</p>
-<p>三年前的我，不会想到，今天的他自己，面对着这十四个字，百感交集。</p>
-<p>“虚无”二字，像是带着线的针，先后扎进我的各个求学阶段，缝合在一起，聚成了我的青春。</p>
-<p><br></p>
-<blockquote>
-<p>第一次，当它本可进取时，却故作谦卑；</p>
-<p>第二次，当它在空虚时，用爱欲来填充；</p>
-<p>第三次，在困难和容易之间，它选择了容易；</p>
-<p>第四次，它犯了错，却借由别人也会犯错来宽慰自己；</p>
-<p>第五次，它自由软弱，却把它认为是生命的坚韧；</p>
-<p>第六次，当它鄙夷一张丑恶的嘴脸时，却不知那正是自己面具中的一副；</p>
-<p>第七次，它侧身于生活的污泥中，虽不甘心，却又畏首畏尾。</p>
-<p><br></p>
-<p><em>——纪伯伦《我曾七次鄙视自己的灵魂》</em></p>
-</blockquote>
-<p>也许这就是好的作品吧，在你还没有静心拜读的时候，他就能以这种直白的方式，使远隔重洋，穿越时空的我们，同频共振。</p>
-<p>初看，自觉最贴合我的应该是第二条；又看，又觉得这一、三、四难道说的不是我？</p>
-<p><br></p>
-<p>我以为，构成了我的，绝不仅仅是出生时被基因刻下的属性，而是在时间的坐标轴上，所遇过的人和事，不同程度地决定了我当下的状态。人们总是错觉地认为，自己的经历太独特，如果条件允许，可将自己的前半生写成小说。我更倾向于认为，其实人遇到的每一件单独的事都并不独特，而是这些事的组合具有随机性，是千变万化的，从而塑造了每一个人的无限可能。对于我，这个组合是：</p>
-<ol type="1">
-<li>作为家族中我辈唯一的男孩，被生养在一个重男轻女的家庭；</li>
-<li>在祖辈和父辈的溺爱中长大；</li>
-<li>在学业上一帆风顺，但是并不是因为充分的拼搏和努力，也许只是一点聪明劲儿和运气；</li>
-<li>溺爱的同时，又缺爱，至少是缺乏我所希望的关爱；</li>
-<li>幼年天生丽质，被捧杀为“班草”，如今面色蜡黄，百孔千疮。</li>
-</ol>
-<p>好像一场化学反应的五种原料，被放进了时间的熔炉，任凭他们彼此碰撞，时而奇光四射，时而烟雾缭绕，也不管最后出落成了什么，它都原原本本地把我展现出来。这些都不是我能控制的，但却被生硬地加进了我的人生。</p>
-<p>我不能重来，我只能继续向这个熔炉里，继续添加，纵使不知是一剂稳定剂还是催化剂，我也只能，继续添加。</p>
-<p>因为在解构完成之后，总要继续建构，否则就是顾影自怜，亦或是孤芳自赏了罢。</p>
-<p>笔者实在不知所云，看官见谅。</p>
-]]></content>
-      <categories>
-        <category>日记</category>
-      </categories>
   </entry>
   <entry>
     <title>Daily Report</title>
@@ -1416,6 +1302,120 @@ assignment3。尝试学习tikz画图论用图，但是失败了。。</li>
       </categories>
   </entry>
   <entry>
+    <title>cse-lab1踩坑</title>
+    <url>/cse-lab1%E8%B8%A9%E5%9D%91/</url>
+    <content><![CDATA[<ol type="1">
+<li>memcpy与strncpy。</li>
+<li>get_inode需要在堆中分配内存。</li>
+<li>局部字符数组最好初始化为0。</li>
+<li>ino的block不要随便free，有可能free掉别人的合法block。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>课程</category>
+      </categories>
+      <tags>
+        <tag>踩坑</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>cse-lab2a踩坑</title>
+    <url>/cse-lab2a%E8%B8%A9%E5%9D%91/</url>
+    <content><![CDATA[<ol type="1">
+<li><p><code>ifstream::eof()</code>有bug。</p>
+<p>如果有一个文件<code>test.txt</code>，文件内容是：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1 a</span><br><span class="line">2 ab</span><br><span class="line">3 abc</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>（注意，最后有一个空行）</p>
+<p>则，当时用下面的代码时，会有问题。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">ifstream <span class="title">in</span><span class="params">(<span class="string">&quot;test.txt&quot;</span>)</span></span>;</span><br><span class="line">    <span class="keyword">while</span> (!in.<span class="built_in">eof</span>()) &#123;</span><br><span class="line">       	<span class="type">int</span> length;</span><br><span class="line">        in &gt;&gt; length;</span><br><span class="line">        <span class="type">char</span> tmp[length + <span class="number">1</span>];</span><br><span class="line">        in.<span class="built_in">read</span>(tmp, length);</span><br><span class="line">        cout &lt;&lt; tmp &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>原因在于，第三行读取完成后，不管是否将最后的换行符进行了消除，<code>eof()</code>会仍然返回false，因为只有当读到最后一个字符并尝试继续读的时候，该函数才会返回true。</p></li>
+</ol>
+]]></content>
+      <categories>
+        <category>课程</category>
+      </categories>
+      <tags>
+        <tag>踩坑</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CNAME的必要性</title>
+    <url>/cname%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/</url>
+    <content><![CDATA[<p>首先，如果不写<code>CNAME</code>的话，我们只能从<code>https://username.github.io</code>这个网址进行访问，但是显然如果有一个更好记忆的自定义域名会更好。</p>
+<p>于是，我在腾讯云上买了两个域名<code>lulu010722.cn</code>和<code>lulu010722.com</code>。</p>
+<p>之后需要在域名提供商处进行域名解析，一般是通过CNAME类型进行解析。</p>
+<p>最后，在项目目录中也需要添加<code>CNAME</code>文件，在其中输入使用的域名。</p>
+<p>之前一直不懂的地方就是这里，为什么腾讯云的域名已经解析到<code>github page</code>了，还是无法访问，现在推测，可能是权限问题。</p>
+<p>在将<code>CNAME</code>文件定义好之后，我们就可以从原本地址和新购买的地址进行访问了。</p>
+<p>不过，用原地址访问时，浏览器导航栏会自动切换为自定义地新网址。</p>
+]]></content>
+      <categories>
+        <category>配置</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>随便写写</title>
+    <url>/%E9%9A%8F%E4%BE%BF%E5%86%99%E5%86%99/</url>
+    <content><![CDATA[<blockquote>
+<p><em>与其称之为”随笔“，倒不如称之为”随键“</em></p>
+<p><em>旁人有感而发，大都落笔成文</em></p>
+<p><em>而我不同，我触键成章</em></p>
+</blockquote>
+<h1 id="又一次鄙视自己的灵魂">又一次鄙视自己的灵魂</h1>
+<p>躺在床上，虽然很困，但是仍执着地拿着手机的时候，其实是在期望着在偌大的网络世界找到什么。</p>
+<p>不过我不幸运，要么什么也找不到，要么自以为找到了，但是一觉醒来，生活和自己，都没变。</p>
+<p>偶然想起，三四年前，给一位我特别尊敬的老师写过的一首诗。</p>
+<blockquote>
+<center>
+<h2 id="赠师普">赠师普</h2>
+<blockquote>
+<p>三月末，高考将至，颇念吾师增普旧恩，特献丑赋诗一篇，兼与同门高徒兴达，瑞嵩，家鑫，子扬等共勉</p>
+</blockquote>
+<p>十载光华空回轮，</p>
+<p>一朝幸甚入师门。</p>
+<p>要问师普何服我，</p>
+<p>学富才高撼余心。</p>
+<p>忽叹往岁虚无度，</p>
+<p>幸觉宏图尚可伸。</p>
+<p>今当远走高飞去，</p>
+<p>莫敢寸阴忘师恩。</p>
+</blockquote>
+<p>如果细读，不难发现，平仄构造最工整的一联，是颈联。</p>
+<p>三年前的我，不会想到，今天的他自己，面对着这十四个字，百感交集。</p>
+<p>“虚无”二字，像是带着线的针，先后扎进我的各个求学阶段，缝合在一起，聚成了我的青春。</p>
+<p><br></p>
+<blockquote>
+<p>第一次，当它本可进取时，却故作谦卑；</p>
+<p>第二次，当它在空虚时，用爱欲来填充；</p>
+<p>第三次，在困难和容易之间，它选择了容易；</p>
+<p>第四次，它犯了错，却借由别人也会犯错来宽慰自己；</p>
+<p>第五次，它自由软弱，却把它认为是生命的坚韧；</p>
+<p>第六次，当它鄙夷一张丑恶的嘴脸时，却不知那正是自己面具中的一副；</p>
+<p>第七次，它侧身于生活的污泥中，虽不甘心，却又畏首畏尾。</p>
+<p><br></p>
+<p><em>——纪伯伦《我曾七次鄙视自己的灵魂》</em></p>
+</blockquote>
+<p>也许这就是好的作品吧，在你还没有静心拜读的时候，他就能以这种直白的方式，使远隔重洋，穿越时空的我们，同频共振。</p>
+<p>初看，自觉最贴合我的应该是第二条；又看，又觉得这一、三、四难道说的不是我？</p>
+<p><br></p>
+<p>我以为，构成了我的，绝不仅仅是出生时被基因刻下的属性，而是在时间的坐标轴上，所遇过的人和事，不同程度地决定了我当下的状态。人们总是错觉地认为，自己的经历太独特，如果条件允许，可将自己的前半生写成小说。我更倾向于认为，其实人遇到的每一件单独的事都并不独特，而是这些事的组合具有随机性，是千变万化的，从而塑造了每一个人的无限可能。对于我，这个组合是：</p>
+<ol type="1">
+<li>作为家族中我辈唯一的男孩，被生养在一个重男轻女的家庭；</li>
+<li>在祖辈和父辈的溺爱中长大；</li>
+<li>在学业上一帆风顺，但是并不是因为充分的拼搏和努力，也许只是一点聪明劲儿和运气；</li>
+<li>溺爱的同时，又缺爱，至少是缺乏我所希望的关爱；</li>
+<li>幼年天生丽质，被捧杀为“班草”，如今面色蜡黄，百孔千疮。</li>
+</ol>
+<p>好像一场化学反应的五种原料，被放进了时间的熔炉，任凭他们彼此碰撞，时而奇光四射，时而烟雾缭绕，也不管最后出落成了什么，它都原原本本地把我展现出来。这些都不是我能控制的，但却被生硬地加进了我的人生。</p>
+<p>我不能重来，我只能继续向这个熔炉里，继续添加，纵使不知是一剂稳定剂还是催化剂，我也只能，继续添加。</p>
+<p>因为在解构完成之后，总要继续建构，否则就是顾影自怜，亦或是孤芳自赏了罢。</p>
+<p>笔者实在不知所云，看官见谅。</p>
+]]></content>
+      <categories>
+        <category>日记</category>
+      </categories>
+  </entry>
+  <entry>
     <title>前端练习</title>
     <url>/%E5%89%8D%E7%AB%AF%E7%BB%83%E4%B9%A0/</url>
     <content><![CDATA[<img src="/%E5%89%8D%E7%AB%AF%E7%BB%83%E4%B9%A0/register_form.png" class="">
@@ -1563,61 +1563,6 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
       </categories>
   </entry>
   <entry>
-    <title>机器学习概论</title>
-    <url>/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/</url>
-    <content><![CDATA[<h1 id="nfl定理">NFL定理</h1>
-<p><strong>No Free Lunch Theorem</strong>：天下没有免费的午餐</p>
-<p>我们计算一个学习算法<span
-class="math inline">\(\mathcal{L}_a\)</span>的“训练集外误差”，有 <span
-class="math display">\[
-\begin{aligned}
-  E_{ote}(\mathcal{L}_a|X,f)=\sum_{h}\sum_{x\in\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne
-f(x))P(h|X,\mathcal{L}_a)
-\end{aligned}
-\]</span></p>
-<p>如果对于所有真实目标函数<span
-class="math inline">\(f\)</span>求和，则有 <span class="math display">\[
-\begin{aligned}
-  \sum_f E_{ote}(\mathcal{L}_a|X,f)&amp;=\sum_f\sum_h\sum_{x\in
-\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne f(x))P(h|X,\mathcal{L}_a)\\
-  &amp;=\sum_{x\in\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\sum_f\mathbb{I}(h(x)\ne
-f(x))\\
-  &amp;=\sum_{x\in
-\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\frac{1}{2}2^{|\mathcal{X}|}\\
-  &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in
-\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\\
-  &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in \mathcal{X}-X}P(x)\\
-\end{aligned}
-\]</span>
-我们可以看到，总误差与学习算法无关，也就是说，对于任意两个学习算法<span
-class="math inline">\(\mathcal{L}_a\)</span>，<span
-class="math inline">\(\mathcal{L}_b\)</span>，无论看上去<span
-class="math inline">\(\mathcal{L}_a\)</span>多复杂，多聪明，在期望的意义下，他们的性能是相同的。<del>（也就是说，随便瞎猜和复杂推导一样，不学了
-(*｀皿´*)ﾉ ）</del></p>
-<p><br></p>
-<h1 id="尝试证明auc计算公式">尝试证明AUC计算公式</h1>
-<p>排序损失<span
-class="math inline">\(\mathcal{l}_{rank}\)</span>被定义为</p>
-<p><span class="math display">\[
-\begin{aligned}
-  \mathcal{l}_{rank} = \frac{1}{m^+m^-}\sum_{x^+\in D^+}\sum_{x^-\in
-D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
-\frac{1}{2}\mathbb{I}(f(x^+)=f(x^-))\right)
-\end{aligned}
-\]</span></p>
-<p>对于一个ROC图，我们有如下关系： <span class="math display">\[
-\text{AUC}=1-\mathcal{l}_{rank}
-\]</span></p>
-<p>（代入理想模型和随机模型，发现是对的。。）</p>
-]]></content>
-      <categories>
-        <category>课程</category>
-      </categories>
-      <tags>
-        <tag>机器学习</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>inode文件系统</title>
     <url>/inode%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/</url>
     <content><![CDATA[<h1 id="层架构">7层架构</h1>
@@ -1674,6 +1619,61 @@ D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
       </categories>
       <tags>
         <tag>cse</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>机器学习概论</title>
+    <url>/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/</url>
+    <content><![CDATA[<h1 id="nfl定理">NFL定理</h1>
+<p><strong>No Free Lunch Theorem</strong>：天下没有免费的午餐</p>
+<p>我们计算一个学习算法<span
+class="math inline">\(\mathcal{L}_a\)</span>的“训练集外误差”，有 <span
+class="math display">\[
+\begin{aligned}
+  E_{ote}(\mathcal{L}_a|X,f)=\sum_{h}\sum_{x\in\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne
+f(x))P(h|X,\mathcal{L}_a)
+\end{aligned}
+\]</span></p>
+<p>如果对于所有真实目标函数<span
+class="math inline">\(f\)</span>求和，则有 <span class="math display">\[
+\begin{aligned}
+  \sum_f E_{ote}(\mathcal{L}_a|X,f)&amp;=\sum_f\sum_h\sum_{x\in
+\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne f(x))P(h|X,\mathcal{L}_a)\\
+  &amp;=\sum_{x\in\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\sum_f\mathbb{I}(h(x)\ne
+f(x))\\
+  &amp;=\sum_{x\in
+\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\frac{1}{2}2^{|\mathcal{X}|}\\
+  &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in
+\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\\
+  &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in \mathcal{X}-X}P(x)\\
+\end{aligned}
+\]</span>
+我们可以看到，总误差与学习算法无关，也就是说，对于任意两个学习算法<span
+class="math inline">\(\mathcal{L}_a\)</span>，<span
+class="math inline">\(\mathcal{L}_b\)</span>，无论看上去<span
+class="math inline">\(\mathcal{L}_a\)</span>多复杂，多聪明，在期望的意义下，他们的性能是相同的。<del>（也就是说，随便瞎猜和复杂推导一样，不学了
+(*｀皿´*)ﾉ ）</del></p>
+<p><br></p>
+<h1 id="尝试证明auc计算公式">尝试证明AUC计算公式</h1>
+<p>排序损失<span
+class="math inline">\(\mathcal{l}_{rank}\)</span>被定义为</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \mathcal{l}_{rank} = \frac{1}{m^+m^-}\sum_{x^+\in D^+}\sum_{x^-\in
+D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
+\frac{1}{2}\mathbb{I}(f(x^+)=f(x^-))\right)
+\end{aligned}
+\]</span></p>
+<p>对于一个ROC图，我们有如下关系： <span class="math display">\[
+\text{AUC}=1-\mathcal{l}_{rank}
+\]</span></p>
+<p>（代入理想模型和随机模型，发现是对的。。）</p>
+]]></content>
+      <categories>
+        <category>课程</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
       </tags>
   </entry>
   <entry>
@@ -1897,64 +1897,6 @@ D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
       </categories>
   </entry>
   <entry>
-    <title>测试</title>
-    <url>/%E6%B5%8B%E8%AF%95/</url>
-    <content><![CDATA[<h1
-id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的一级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的一级标题</h1>
-<h2
-id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的二级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的二级标题</h2>
-<h3
-id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的三级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的三级标题</h3>
-<h1 id="表格测试">表格测试</h1>
-<table>
-<thead>
-<tr class="header">
-<th>1</th>
-<th>2</th>
-<th>3</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>甲</td>
-<td>乙</td>
-<td>丙</td>
-</tr>
-</tbody>
-</table>
-<h1 id="latex测试"><span class="math inline">\(\LaTeX\)</span>测试</h1>
-<p>行内<span class="math inline">\(f(x)=\sin(x)\)</span>。</p>
-<p>公式块 <span class="math display">\[
-\begin{aligned}
-    \sum_f E_{ote}(\mathcal{L}_a|X,f)&amp;=\sum_f\sum_h\sum_{x\in
-\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne f(x))P(h|X,\mathcal{L}_a)\\
-    &amp;=\sum_{x\in\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\sum_f\mathbb{I}(h(x)\ne
-f(x))\\
-    &amp;=\sum_{x\in
-\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\frac{1}{2}2^{|\mathcal{X}|}\\
-    &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in
-\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\\
-    &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in \mathcal{X}-X}P(x)\\
-\end{aligned}
-\]</span></p>
-<h1 id="toc测试">TOC测试</h1>
-<h1 id="一级标题1">一级标题1</h1>
-<h2 id="二级标题1">二级标题1</h2>
-<h3 id="三级标题1">三级标题1</h3>
-<h3 id="三级标题2">三级标题2</h3>
-<h3 id="三级标题3">三级标题3</h3>
-<h3 id="三级标题4">三级标题4</h3>
-<h2 id="二级标题2">二级标题2</h2>
-<h3 id="三级标题">三级标题</h3>
-<h4 id="四级标题">四级标题</h4>
-<h5 id="五级标题">五级标题</h5>
-<h6 id="六级标题">六级标题</h6>
-<p><strong>加粗</strong></p>
-<p>正文</p>
-<p><em>斜体</em></p>
-]]></content>
-  </entry>
-  <entry>
     <title>泉さんとの相談</title>
     <url>/%E6%B3%89%E3%81%95%E3%82%93%E3%81%A8%E3%81%AE%E7%9B%B8%E8%AB%87/</url>
     <content><![CDATA[<blockquote>
@@ -2016,6 +1958,64 @@ f(x))\\
       <categories>
         <category>日语</category>
       </categories>
+  </entry>
+  <entry>
+    <title>测试</title>
+    <url>/%E6%B5%8B%E8%AF%95/</url>
+    <content><![CDATA[<h1
+id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的一级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的一级标题</h1>
+<h2
+id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的二级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的二级标题</h2>
+<h3
+id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的三级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的三级标题</h3>
+<h1 id="表格测试">表格测试</h1>
+<table>
+<thead>
+<tr class="header">
+<th>1</th>
+<th>2</th>
+<th>3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>甲</td>
+<td>乙</td>
+<td>丙</td>
+</tr>
+</tbody>
+</table>
+<h1 id="latex测试"><span class="math inline">\(\LaTeX\)</span>测试</h1>
+<p>行内<span class="math inline">\(f(x)=\sin(x)\)</span>。</p>
+<p>公式块 <span class="math display">\[
+\begin{aligned}
+    \sum_f E_{ote}(\mathcal{L}_a|X,f)&amp;=\sum_f\sum_h\sum_{x\in
+\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne f(x))P(h|X,\mathcal{L}_a)\\
+    &amp;=\sum_{x\in\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\sum_f\mathbb{I}(h(x)\ne
+f(x))\\
+    &amp;=\sum_{x\in
+\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\frac{1}{2}2^{|\mathcal{X}|}\\
+    &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in
+\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\\
+    &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in \mathcal{X}-X}P(x)\\
+\end{aligned}
+\]</span></p>
+<h1 id="toc测试">TOC测试</h1>
+<h1 id="一级标题1">一级标题1</h1>
+<h2 id="二级标题1">二级标题1</h2>
+<h3 id="三级标题1">三级标题1</h3>
+<h3 id="三级标题2">三级标题2</h3>
+<h3 id="三级标题3">三级标题3</h3>
+<h3 id="三级标题4">三级标题4</h3>
+<h2 id="二级标题2">二级标题2</h2>
+<h3 id="三级标题">三级标题</h3>
+<h4 id="四级标题">四级标题</h4>
+<h5 id="五级标题">五级标题</h5>
+<h6 id="六级标题">六级标题</h6>
+<p><strong>加粗</strong></p>
+<p>正文</p>
+<p><em>斜体</em></p>
+]]></content>
   </entry>
   <entry>
     <title>欢迎来到我的博客！</title>
