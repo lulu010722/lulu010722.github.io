@@ -32,6 +32,26 @@ B --> D(OrderItemDao::addList);</pre>
       </tags>
   </entry>
   <entry>
+    <title>cse-lab2a踩坑</title>
+    <url>/cse-lab2a%E8%B8%A9%E5%9D%91/</url>
+    <content><![CDATA[<ol type="1">
+<li><p><code>ifstream::eof()</code>有bug。</p>
+<p>如果有一个文件<code>test.txt</code>，文件内容是：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1 a</span><br><span class="line">2 ab</span><br><span class="line">3 abc</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>（注意，最后有一个空行）</p>
+<p>则，当时用下面的代码时，会有问题。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">ifstream <span class="title">in</span><span class="params">(<span class="string">&quot;test.txt&quot;</span>)</span></span>;</span><br><span class="line">    <span class="keyword">while</span> (!in.<span class="built_in">eof</span>()) &#123;</span><br><span class="line">       	<span class="type">int</span> length;</span><br><span class="line">        in &gt;&gt; length;</span><br><span class="line">        <span class="type">char</span> tmp[length + <span class="number">1</span>];</span><br><span class="line">        in.<span class="built_in">read</span>(tmp, length);</span><br><span class="line">        cout &lt;&lt; tmp &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>原因在于，第三行读取完成后，不管是否将最后的换行符进行了消除，<code>eof()</code>会仍然返回false，因为只有当读到最后一个字符并尝试继续读的时候，该函数才会返回true。</p></li>
+</ol>
+]]></content>
+      <categories>
+        <category>课程</category>
+      </categories>
+      <tags>
+        <tag>踩坑</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>计算机系统基础</title>
     <url>/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<p>[TOC]</p>
@@ -844,26 +864,6 @@ style="font-size: 50px; font-weight: bold; color: #777; margin: 22px 0; line-hei
       </tags>
   </entry>
   <entry>
-    <title>cse-lab2a踩坑</title>
-    <url>/cse-lab2a%E8%B8%A9%E5%9D%91/</url>
-    <content><![CDATA[<ol type="1">
-<li><p><code>ifstream::eof()</code>有bug。</p>
-<p>如果有一个文件<code>test.txt</code>，文件内容是：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1 a</span><br><span class="line">2 ab</span><br><span class="line">3 abc</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>（注意，最后有一个空行）</p>
-<p>则，当时用下面的代码时，会有问题。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">ifstream <span class="title">in</span><span class="params">(<span class="string">&quot;test.txt&quot;</span>)</span></span>;</span><br><span class="line">    <span class="keyword">while</span> (!in.<span class="built_in">eof</span>()) &#123;</span><br><span class="line">       	<span class="type">int</span> length;</span><br><span class="line">        in &gt;&gt; length;</span><br><span class="line">        <span class="type">char</span> tmp[length + <span class="number">1</span>];</span><br><span class="line">        in.<span class="built_in">read</span>(tmp, length);</span><br><span class="line">        cout &lt;&lt; tmp &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>原因在于，第三行读取完成后，不管是否将最后的换行符进行了消除，<code>eof()</code>会仍然返回false，因为只有当读到最后一个字符并尝试继续读的时候，该函数才会返回true。</p></li>
-</ol>
-]]></content>
-      <categories>
-        <category>课程</category>
-      </categories>
-      <tags>
-        <tag>踩坑</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Daily Report</title>
     <url>/daily-report/</url>
     <content><![CDATA[<h1 id="section">2022-09</h1>
@@ -1543,6 +1543,86 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
       </categories>
   </entry>
   <entry>
+    <title>机器学习概论</title>
+    <url>/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/</url>
+    <content><![CDATA[<h1 id="nfl定理">NFL定理</h1>
+<p><strong>No Free Lunch Theorem</strong>：天下没有免费的午餐</p>
+<p>我们计算一个学习算法<span
+class="math inline">\(\mathcal{L}_a\)</span>的“训练集外误差”，有 <span
+class="math display">\[
+\begin{aligned}
+  E_{ote}(\mathcal{L}_a|X,f)=\sum_{h}\sum_{x\in\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne
+f(x))P(h|X,\mathcal{L}_a)
+\end{aligned}
+\]</span></p>
+<p>如果对于所有真实目标函数<span
+class="math inline">\(f\)</span>求和，则有 <span class="math display">\[
+\begin{aligned}
+  \sum_f E_{ote}(\mathcal{L}_a|X,f)&amp;=\sum_f\sum_h\sum_{x\in
+\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne f(x))P(h|X,\mathcal{L}_a)\\
+  &amp;=\sum_{x\in\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\sum_f\mathbb{I}(h(x)\ne
+f(x))\\
+  &amp;=\sum_{x\in
+\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\frac{1}{2}2^{|\mathcal{X}|}\\
+  &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in
+\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\\
+  &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in \mathcal{X}-X}P(x)\\
+\end{aligned}
+\]</span>
+我们可以看到，总误差与学习算法无关，也就是说，对于任意两个学习算法<span
+class="math inline">\(\mathcal{L}_a\)</span>，<span
+class="math inline">\(\mathcal{L}_b\)</span>，无论看上去<span
+class="math inline">\(\mathcal{L}_a\)</span>多复杂，多聪明，在期望的意义下，他们的性能是相同的。<del>（也就是说，随便瞎猜和复杂推导一样，不学了
+(*｀皿´*)ﾉ ）</del></p>
+<p><br></p>
+<h1 id="尝试证明auc计算公式">尝试证明AUC计算公式</h1>
+<p>排序损失<span
+class="math inline">\(\mathcal{l}_{rank}\)</span>被定义为</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \mathcal{l}_{rank} = \frac{1}{m^+m^-}\sum_{x^+\in D^+}\sum_{x^-\in
+D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
+\frac{1}{2}\mathbb{I}(f(x^+)=f(x^-))\right)
+\end{aligned}
+\]</span></p>
+<p>对于一个ROC图，我们有如下关系： <span class="math display">\[
+\text{AUC}=1-\mathcal{l}_{rank}
+\]</span></p>
+<p>（代入理想模型和随机模型，发现是对的。。）</p>
+]]></content>
+      <categories>
+        <category>课程</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ただいま</title>
+    <url>/%E3%81%9F%E3%81%A0%E3%81%84%E3%81%BE/</url>
+    <content><![CDATA[<h1 id="ロジちゃん">ロジちゃん</h1>
+<p>ロジちゃんは既に家に帰ってきたね。無事で帰国しましたのは良かった!日本にいたこの半年間、交大よりもっとすばらしい世界を見たはずでしょう。各地の観光地に行ったり、自然風景を鑑賞したり、美しい日本式の建物を観覧したり、美味しい特色な美食を食べたりをするのには、僕はほんとに羨ましいな。でももちろん、一番大事なことは東大での勉強体験だ。</p>
+<p>その一方で、こちらの生活は、いつもと同じに退屈でした。特に君を失ったあと、もっと退屈になっちゃった。以前に二人は一緒に歩いた場所や小道も、なんか突然死んだみたい実感が感じました。湖の周りにあるベンチには、いつも恋人たちがデートをする。しかしそのなかには、私達がいるわけがなくなった。</p>
+<p>あぁ、覚えてきた。私はそのワイトアルバム2っていうゲイムをした。三人の物語をだいたいわかりました。言いたいのは、私はとある歌のなかに（歌名を忘れた）ひとつの歌詞に思い出ぶかいだ。何でしたっけ、「ずっとあなたの名前、何度も、何度も読んだ。夢の中のあなたも、振り返ることはない。」毎回聞くとすぐに泣きそうだ。でもせめて、春希は雪菜に少しの感情が残るんだ。しかし、私のロジちゃんは、永遠に私のことが嫌くなった。残念ですね。今残っているのは、嘆きしかないんだ。</p>
+<p>ロジちゃん、私は君を愛してるほど憎んでいます。それは君は間もなくわかります。だから驚かないでね。</p>
+<p>最後に、君は「私達は今生にはお夫婦になれなくて、来世も不可能です」って言ったはずだろう。じゃあ、ご要望のとおり、私は今から来世に死ぬまで、君を邪魔しないようにしましょう!しかし、もし来世というものがあったら、何故再来世があってはいけないの?あそこでまた待ち合わせるのも悪くないんじゃん?シシシ。私は先に失礼しますぞ!</p>
+<p>では、また再来世。</p>
+<p>最初から宇宙が終わるまで君をずうっと愛している憨憨</p>
+<hr />
+<h1 id="王氏の野郎">王氏の野郎</h1>
+<p>貴様はもう東京から帰りましたんだろう。日本で飢え死にしなかったのは不思議なんですね。ぶち殺されなかったのもありえないんだね。でもそれはちょうどいい。以下の言葉をちゃんと読みなさい。</p>
+<p>私はこの半年のあいだに、貴様をよく夢見てたよ。でも、夢の中で私達は何をしましたかのを知ってるかい?恐らくいいことではなかった。教えてあげよう。まず、貴様を誰もいない場所に連れて行って、死ぬまでレイプすること。また、貴様の顔に硫酸を撒くこと。貴様の自殺したい表情や涙を見るのは最高に快適だな!そして、爆弾を使って、両親と貴様を一緒に殺すこと。怖いですよねワァハーーーー。</p>
+<p>忘れないでね、貴様は何の才能もないやつだ。以前はそうだったし、未来もそうになります。アァ、忘れてた、貴様の唯一の才能は、男に顔やおっぱいや膣を出すことしかないんだよ。信じないですか?では十年あとに振り返って見なさい。そのときに、あんたはこれはどれほど正しい判断でしたのを理解していく。</p>
+<p>ずっと劣等感に落ち込んでた貴様は、ある人の影響で、どんどん自信が見つかたから、積極的に、そして社交を得意すぎる「牛膣病?」ようになりました。でも、貴様がそれは全く忘れた!何か「私達は性格が合わないから別れなければならない」っていう嘘を言って、その人を死んだネズミのように飛ばした。ホンマに偉かったね!すばらしいしか言えませんよ!</p>
+<p>でも実際は、私は安心です。君は昔に最も親密な人に対してさえも、そんなに残酷なやり方で飛ばすことにしました。では次に、その次に、同じ結局でおしまいになっちゃうんだろう?ハハハーーー。</p>
+<p>以上です。この王氏の野郎、永遠に会えないように!</p>
+<p>別れた後から宇宙が終わるまで貴様をずうっと憎んでいる俺様</p>
+]]></content>
+      <categories>
+        <category>日语</category>
+      </categories>
+  </entry>
+  <entry>
     <title>inode文件系统</title>
     <url>/inode%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/</url>
     <content><![CDATA[<h1 id="层架构">7层架构</h1>
@@ -1602,28 +1682,16 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
       </tags>
   </entry>
   <entry>
-    <title>ただいま</title>
-    <url>/%E3%81%9F%E3%81%A0%E3%81%84%E3%81%BE/</url>
-    <content><![CDATA[<h1 id="ロジちゃん">ロジちゃん</h1>
-<p>ロジちゃんは既に家に帰ってきたね。無事で帰国しましたのは良かった!日本にいたこの半年間、交大よりもっとすばらしい世界を見たはずでしょう。各地の観光地に行ったり、自然風景を鑑賞したり、美しい日本式の建物を観覧したり、美味しい特色な美食を食べたりをするのには、僕はほんとに羨ましいな。でももちろん、一番大事なことは東大での勉強体験だ。</p>
-<p>その一方で、こちらの生活は、いつもと同じに退屈でした。特に君を失ったあと、もっと退屈になっちゃった。以前に二人は一緒に歩いた場所や小道も、なんか突然死んだみたい実感が感じました。湖の周りにあるベンチには、いつも恋人たちがデートをする。しかしそのなかには、私達がいるわけがなくなった。</p>
-<p>あぁ、覚えてきた。私はそのワイトアルバム2っていうゲイムをした。三人の物語をだいたいわかりました。言いたいのは、私はとある歌のなかに（歌名を忘れた）ひとつの歌詞に思い出ぶかいだ。何でしたっけ、「ずっとあなたの名前、何度も、何度も読んだ。夢の中のあなたも、振り返ることはない。」毎回聞くとすぐに泣きそうだ。でもせめて、春希は雪菜に少しの感情が残るんだ。しかし、私のロジちゃんは、永遠に私のことが嫌くなった。残念ですね。今残っているのは、嘆きしかないんだ。</p>
-<p>ロジちゃん、私は君を愛してるほど憎んでいます。それは君は間もなくわかります。だから驚かないでね。</p>
-<p>最後に、君は「私達は今生にはお夫婦になれなくて、来世も不可能です」って言ったはずだろう。じゃあ、ご要望のとおり、私は今から来世に死ぬまで、君を邪魔しないようにしましょう!しかし、もし来世というものがあったら、何故再来世があってはいけないの?あそこでまた待ち合わせるのも悪くないんじゃん?シシシ。私は先に失礼しますぞ!</p>
-<p>では、また再来世。</p>
-<p>最初から宇宙が終わるまで君をずうっと愛している憨憨</p>
-<hr />
-<h1 id="王氏の野郎">王氏の野郎</h1>
-<p>貴様はもう東京から帰りましたんだろう。日本で飢え死にしなかったのは不思議なんですね。ぶち殺されなかったのもありえないんだね。でもそれはちょうどいい。以下の言葉をちゃんと読みなさい。</p>
-<p>私はこの半年のあいだに、貴様をよく夢見てたよ。でも、夢の中で私達は何をしましたかのを知ってるかい?恐らくいいことではなかった。教えてあげよう。まず、貴様を誰もいない場所に連れて行って、死ぬまでレイプすること。また、貴様の顔に硫酸を撒くこと。貴様の自殺したい表情や涙を見るのは最高に快適だな!そして、爆弾を使って、両親と貴様を一緒に殺すこと。怖いですよねワァハーーーー。</p>
-<p>忘れないでね、貴様は何の才能もないやつだ。以前はそうだったし、未来もそうになります。アァ、忘れてた、貴様の唯一の才能は、男に顔やおっぱいや膣を出すことしかないんだよ。信じないですか?では十年あとに振り返って見なさい。そのときに、あんたはこれはどれほど正しい判断でしたのを理解していく。</p>
-<p>ずっと劣等感に落ち込んでた貴様は、ある人の影響で、どんどん自信が見つかたから、積極的に、そして社交を得意すぎる「牛膣病?」ようになりました。でも、貴様がそれは全く忘れた!何か「私達は性格が合わないから別れなければならない」っていう嘘を言って、その人を死んだネズミのように飛ばした。ホンマに偉かったね!すばらしいしか言えませんよ!</p>
-<p>でも実際は、私は安心です。君は昔に最も親密な人に対してさえも、そんなに残酷なやり方で飛ばすことにしました。では次に、その次に、同じ結局でおしまいになっちゃうんだろう?ハハハーーー。</p>
-<p>以上です。この王氏の野郎、永遠に会えないように!</p>
-<p>別れた後から宇宙が終わるまで貴様をずうっと憎んでいる俺様</p>
+    <title>解封了，吗？</title>
+    <url>/%E8%A7%A3%E5%B0%81%E4%BA%86%EF%BC%8C%E5%90%97%EF%BC%9F/</url>
+    <content><![CDATA[<p>如果不算开学第一天上午那可怜的一节课的话，时至今日，贵交学子已经至少半年没有上过一节正常的线下课程了。</p>
+<p>然而我上线下课程第一天的感受却是，不习惯。</p>
+<p>各个课程均有几节课的延迟，现在转接到线下，根本无所适从。</p>
+<p>当初强迫线上骂声一片，现在强迫线下甚至也有骂声一片。</p>
+<p>这一切都是一场游戏吧。</p>
 ]]></content>
       <categories>
-        <category>日语</category>
+        <category>日记</category>
       </categories>
   </entry>
   <entry>
@@ -1639,74 +1707,6 @@ g。否则部署之后，服务器无法获得图片等静态资源文件。</li
 ]]></content>
       <categories>
         <category>展厅</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>机器学习概论</title>
-    <url>/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/</url>
-    <content><![CDATA[<h1 id="nfl定理">NFL定理</h1>
-<p><strong>No Free Lunch Theorem</strong>：天下没有免费的午餐</p>
-<p>我们计算一个学习算法<span
-class="math inline">\(\mathcal{L}_a\)</span>的“训练集外误差”，有 <span
-class="math display">\[
-\begin{aligned}
-  E_{ote}(\mathcal{L}_a|X,f)=\sum_{h}\sum_{x\in\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne
-f(x))P(h|X,\mathcal{L}_a)
-\end{aligned}
-\]</span></p>
-<p>如果对于所有真实目标函数<span
-class="math inline">\(f\)</span>求和，则有 <span class="math display">\[
-\begin{aligned}
-  \sum_f E_{ote}(\mathcal{L}_a|X,f)&amp;=\sum_f\sum_h\sum_{x\in
-\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne f(x))P(h|X,\mathcal{L}_a)\\
-  &amp;=\sum_{x\in\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\sum_f\mathbb{I}(h(x)\ne
-f(x))\\
-  &amp;=\sum_{x\in
-\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\frac{1}{2}2^{|\mathcal{X}|}\\
-  &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in
-\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\\
-  &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in \mathcal{X}-X}P(x)\\
-\end{aligned}
-\]</span>
-我们可以看到，总误差与学习算法无关，也就是说，对于任意两个学习算法<span
-class="math inline">\(\mathcal{L}_a\)</span>，<span
-class="math inline">\(\mathcal{L}_b\)</span>，无论看上去<span
-class="math inline">\(\mathcal{L}_a\)</span>多复杂，多聪明，在期望的意义下，他们的性能是相同的。<del>（也就是说，随便瞎猜和复杂推导一样，不学了
-(*｀皿´*)ﾉ ）</del></p>
-<p><br></p>
-<h1 id="尝试证明auc计算公式">尝试证明AUC计算公式</h1>
-<p>排序损失<span
-class="math inline">\(\mathcal{l}_{rank}\)</span>被定义为</p>
-<p><span class="math display">\[
-\begin{aligned}
-  \mathcal{l}_{rank} = \frac{1}{m^+m^-}\sum_{x^+\in D^+}\sum_{x^-\in
-D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
-\frac{1}{2}\mathbb{I}(f(x^+)=f(x^-))\right)
-\end{aligned}
-\]</span></p>
-<p>对于一个ROC图，我们有如下关系： <span class="math display">\[
-\text{AUC}=1-\mathcal{l}_{rank}
-\]</span></p>
-<p>（代入理想模型和随机模型，发现是对的。。）</p>
-]]></content>
-      <categories>
-        <category>课程</category>
-      </categories>
-      <tags>
-        <tag>机器学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解封了，吗？</title>
-    <url>/%E8%A7%A3%E5%B0%81%E4%BA%86%EF%BC%8C%E5%90%97%EF%BC%9F/</url>
-    <content><![CDATA[<p>如果不算开学第一天上午那可怜的一节课的话，时至今日，贵交学子已经至少半年没有上过一节正常的线下课程了。</p>
-<p>然而我上线下课程第一天的感受却是，不习惯。</p>
-<p>各个课程均有几节课的延迟，现在转接到线下，根本无所适从。</p>
-<p>当初强迫线上骂声一片，现在强迫线下甚至也有骂声一片。</p>
-<p>这一切都是一场游戏吧。</p>
-]]></content>
-      <categories>
-        <category>日记</category>
       </categories>
   </entry>
   <entry>
@@ -1920,19 +1920,6 @@ D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
       </categories>
   </entry>
   <entry>
-    <title>欢迎来到我的博客！</title>
-    <url>/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%EF%BC%81/</url>
-    <content><![CDATA[<p>这是我的第一篇博客</p>
-<p>以后会经常在这里记录一些我的学习经历</p>
-<p>包括各种技术的踩坑之旅</p>
-<p><strong>加油</strong></p>
-<p><strong>頑張って！</strong>❤</p>
-]]></content>
-      <categories>
-        <category>日记</category>
-      </categories>
-  </entry>
-  <entry>
     <title>测试</title>
     <url>/%E6%B5%8B%E8%AF%95/</url>
     <content><![CDATA[<h1
@@ -2051,6 +2038,19 @@ f(x))\\
 ]]></content>
       <categories>
         <category>日语</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>欢迎来到我的博客！</title>
+    <url>/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%EF%BC%81/</url>
+    <content><![CDATA[<p>这是我的第一篇博客</p>
+<p>以后会经常在这里记录一些我的学习经历</p>
+<p>包括各种技术的踩坑之旅</p>
+<p><strong>加油</strong></p>
+<p><strong>頑張って！</strong>❤</p>
+]]></content>
+      <categories>
+        <category>日记</category>
       </categories>
   </entry>
 </search>
