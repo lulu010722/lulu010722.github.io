@@ -1323,17 +1323,10 @@ assignment3。尝试学习tikz画图论用图，但是失败了。。</li>
 <li>学习了一点<code>next.js</code>框架，是为了给<code>react</code>做路由的。</li>
 <li>学习了一点<code>go</code>。</li>
 </ol>
-<h2 id="section-72">4</h2>
+<h1 id="section-72">2023-08</h1>
+<h2 id="section-73">1</h2>
 <ol type="1">
-<li>我总感觉病情又复发了，感觉什么都没意思，感觉自己长得丑，非常丑，皮肤也超级差，专业知识也没有增进，对于该世界没有任何价值。一死了之真是一个好方法，但是总会有很多人阻止我那样做，我又是一个不敢自伤的懦夫，上吊、割腕、卧轨还有切腹这种事情我断然是不敢做，只有唯一一招便是绝食，可是总是失败啊。啊，抑郁，这是病，也许并不是真相，可虽然是病，却无法痊愈，只得控制。明天会是什么样子，谁会知道？谁来告诉我啊？</li>
-</ol>
-<h1 id="todo">TODO</h1>
-<ol type="1">
-<li>生成文件中大量空白。与<code>themes\archer\layout\_partial\sidebar\sidebar-archives.ejs</code>有关，大概需要学习ejs语法。</li>
-<li>自动检测&lt;br&gt;。</li>
-<li>TOC修改。</li>
-<li>archer本地搜索。根据<code>hexo-generator-searchdb</code>生成的文件编写js。</li>
-<li>一个idea：可以添加私有文章系统，通过手动输入秘钥来解锁。</li>
+<li>leetcode 4，寻找两个数组中第k小的值，经典算法。</li>
 </ol>
 ]]></content>
       <categories>
