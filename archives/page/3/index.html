@@ -432,142 +432,6 @@
             
         
         <article class="index-post">
-            <a class="abstract-title" href="/daily-report/">
-                
-                    <span class="iconfont-archer stick-top">&#xe63d;</span>
-                
-                <span class="abstract-title-text">Daily Report</span>
-            </a>
-            <div class="abstract-content">
-                <h1 id="section">2022-09</h1>
-<h2 id="section-1">16</h2>
-<ol type="1">
-<li>搭建了hexo个人博客。</li>
-<li>配置了两种主题：keep和archer。</li>
-<li>添加了以pandoc为引擎的<span class="math inline">\(\LaTeX\)</span>扩展。</li>
-<li>两篇博客。</li>
-<li>看了一点机器学习。</li>
-<li>keep25分钟腿（腿已废）。</li>
-</ol>
-<p><strong>是收获满满的一天，希望自己能够坚持下来！加油！</strong></p>
-<hr>
-<h2 id="section-2">17</h2>
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2023/08/25">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/09/16</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/">
-                
-                <span class="abstract-title-text">机器学习概论</span>
-            </a>
-            <div class="abstract-content">
-                <h1 id="nfl定理">NFL定理</h1>
-<p><strong>No Free Lunch Theorem</strong>：天下没有免费的午餐</p>
-<p>我们计算一个学习算法<span class="math inline">\(\mathcal{L}_a\)</span>的“训练集外误差”，有 <span class="math display">\[
-\begin{aligned}
-  E_{ote}(\mathcal{L}_a|X,f)=\sum_{h}\sum_{x\in\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne
-f(x))P(h|X,\mathcal{L}_a)
-\end{aligned}
-\]</span></p>
-<p>如果对于所有真实目标函数<span class="math inline">\(f\)</span>求和，则有 <span class="math display">\[
-\begin{aligned}
-  \sum_f E_{ote}(\mathcal{L}_a|X,f)&amp;=\sum_f\sum_h\sum_{x\in
-\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne f(x))P(h|X,\mathcal{L}_a)\\
-  &amp;=\sum_{x\in\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\sum_f\mathbb{I}(h(x)\ne
-f(x))\\
-  &amp;=\sum_{x\in
-\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\frac{1}{2}2^{|\mathcal{X}|}\\
-  &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in
-\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\\
-  &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in \mathcal{X}-X}P(x)\\
-\end{aligned}
-\]</span>
-我们可以看到，总误差与学习算法无关，也就是说，对于任意两个学习算法<span class="math inline">\(\mathcal{L}_a\)</span>，<span class="math inline">\(\mathcal{L}_b\)</span>，无论看上去<span class="math inline">\(\mathcal{L}_a\)</span>多复杂，多聪明，在期望的意义下，他们的性能是相同的。<del>（也就是说，随便瞎猜和复杂推导一样，不学了
-(*｀皿´*)ﾉ ）</del></p>
-<p><br></p>
-<h1 id="尝试证明auc计算公式">尝试证明AUC计算公式</h1>
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2023/07/01">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/09/16</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="机器学习">机器学习</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/%E9%85%8D%E7%BD%AEhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E5%B9%B6%E6%9B%B4%E6%8D%A2%E5%A4%9A%E7%A7%8D%E4%B8%BB%E9%A2%98/">
-                
-                <span class="abstract-title-text">配置hexo博客，并更换多种主题</span>
-            </a>
-            <div class="abstract-content">
-                <h1 id="hexo博客的基本维护方式">hexo博客的基本维护方式</h1>
-<p>搭建过程可参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/ai_green/article/details/121675790">hexo博客搭建教程</a>。</p>
-<p>hexo提供了便捷的构建、部署功能。在本地添加了新的markdown日志或者图片之后，只需执行如下代码：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">清除已有的构建目录，默认为public</span></span><br><span class="line">hexo clean</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">构建新的静态文件，g是generate的缩写</span></span><br><span class="line">hexo g</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">一条命令直接部署，d是deploy的缩写</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-<p>就会把本地的public文件夹push到对应的github仓库，并将网站自动部署到
-<code>&#123;github用户名&#125;.github.io</code>。</p>
-<p>此外，如果想要维护本地源文件，还可以单独创建一个私有github仓库，用于存放source文件中的源文件等等。</p>
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2023/07/01">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/09/16</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
             <a class="abstract-title" href="/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%EF%BC%81/">
                 
                 <span class="abstract-title-text">欢迎来到我的博客！</span>
@@ -805,52 +669,7 @@ f(x))\\
         
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
     
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
         
         
@@ -989,7 +808,7 @@ f(x))\\
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 24
+        Total : 21
         </div>
         <!-- search  -->
         
@@ -1003,12 +822,6 @@ f(x))\\
             <div class="archive-year"> 2023 </div>
             <ul class="year-list">
             
-        
-        <li class="archive-post-item">
-            <span class="archive-post-date">07/06</span>
-            <a class="archive-post-title" href="/%E3%83%AD%E3%82%B8/">ロジ</a>
-        </li>
-    
         
         <li class="archive-post-item">
             <span class="archive-post-date">06/27</span>
@@ -1052,12 +865,6 @@ f(x))\\
         <li class="archive-post-item">
             <span class="archive-post-date">10/29</span>
             <a class="archive-post-title" href="/cse-lab2a%E8%B8%A9%E5%9D%91/">cse-lab2a踩坑</a>
-        </li>
-    
-        
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/24</span>
-            <a class="archive-post-title" href="/%E8%A7%A3%E5%B0%81%E4%BA%86%EF%BC%8C%E5%90%97%EF%BC%9F/">解封了，吗？</a>
         </li>
     
         
@@ -1112,12 +919,6 @@ f(x))\\
         <li class="archive-post-item">
             <span class="archive-post-date">09/22</span>
             <a class="archive-post-title" href="/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/">《月亮与六便士》</a>
-        </li>
-    
-        
-        <li class="archive-post-item">
-            <span class="archive-post-date">09/20</span>
-            <a class="archive-post-title" href="/%E9%9A%8F%E4%BE%BF%E5%86%99%E5%86%99/">随便写写</a>
         </li>
     
         

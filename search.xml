@@ -847,6 +847,474 @@ B --> D(OrderItemDao::addList);</pre>
       </tags>
   </entry>
   <entry>
+    <title>cse-lab1踩坑</title>
+    <url>/cse-lab1%E8%B8%A9%E5%9D%91/</url>
+    <content><![CDATA[<ol type="1">
+<li>memcpy与strncpy。</li>
+<li>get_inode需要在堆中分配内存。</li>
+<li>局部字符数组最好初始化为0。</li>
+<li>ino的block不要随便free，有可能free掉别人的合法block。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>课程</category>
+      </categories>
+      <tags>
+        <tag>踩坑</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git——人类好朋友</title>
+    <url>/git%E2%80%94%E2%80%94%E4%BA%BA%E7%B1%BB%E5%A5%BD%E6%9C%8B%E5%8F%8B/</url>
+    <content><![CDATA[<h1 id="本地远程分支创建和删除">本地/远程分支创建和删除</h1>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除本地分支</span></span><br><span class="line">git branch -d &lt;branch-name&gt;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除远程分支</span></span><br><span class="line">git push -d &lt;remote-name&gt; &lt;branch-name&gt;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除已经不存在于远程仓库的本地远程分支</span></span><br><span class="line">git remote prune &lt;remote-name&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="git-submodule初步运用">git submodule初步运用</h1>
+<p>实际场景：在博客主仓库中日常更新日志内容的同时，想要对主题仓库进行个性化修改，或者更进一步，对原主题仓库提出PR，进行contribute。主仓库需要拥有子仓库的文件内容，因为前者要根据后者的资源进行页面的渲染。</p>
+<p>这样，我们就需要在主仓库（blog）中包含子仓库（themes）。为了更方便地管理他们，需要使用git
+submodule。</p>
+<h2 id="原来的做法">原来的做法</h2>
+<p>将themes.git文件夹删除，使其失去版本控制，并将themes（.gitignore的除外）加入主仓库的版本控制。在本地的修改可以直接更新到主仓库，在github直接执行npm
+run build的CI任务即可。</p>
+<p><strong>但是</strong>，这样有很多问题。</p>
+<ol type="1">
+<li>如果遇到明显的bug，只能在本地修改，无法对原主题仓库进行贡献。</li>
+<li>原主题仓库更新后，本地无法通过git快捷的更新。</li>
+</ol>
+<h2 id="使用git-submodule">使用git submodule</h2>
+<p>git对于子模块的管理有如下几个关键点。</p>
+<ul>
+<li>首先，.git目录中会有一个modules目录，里面记录了所有子模块的版本控制信息。</li>
+<li>其次，在主仓库下，会创建一个.gitmodules文件，里面以条目的形式记录了子仓库名称，本地相对地址，以及远程仓库地址。</li>
+<li>最后，git会生成一个<strong>非常特殊</strong>的文件，他的文件模式是160000，与一般的100644文件不同。它在windows的资源管理器下并不可见。他被用于覆盖子模块真实的目录内容，仅仅以子模块的当前所在记录的hash值，存入该文件来代替。每当子模块更新，该文件也会更新。</li>
+</ul>
+<p>创建流程是：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">如果是第一次创建子模块，则项目中会出现两个新文件：.gitmodules和以relative-path为名的特殊文件。同时，该命令会将子模块克隆到本地的relative-path目录下。</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git submodule add &lt;url(https://github.com/username/submodule-repo.git)&gt; &lt;relative-path&gt;</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在主仓库，将更改提交并push到远程</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git add --all</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git commit -m &lt;msg&gt;</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git push origin master</span></span><br></pre></td></tr></table></figure>
+<p>此时，在主仓库中，relative-path对应的地方会出现一个链接，点击可以跳转到子模块的仓库。</p>
+<p>这就意味着，主仓库是没有子仓库的内容的，只保留了一个链接。</p>
+<p>想要获得子模块的内容，需要在workflow file里面加入新的CI任务。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 注意，该任务需要放在build之前</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">Fetch</span> <span class="string">submodule</span></span><br><span class="line"><span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">	<span class="string">git</span> <span class="string">submodule</span> <span class="string">sync</span></span><br><span class="line">	<span class="string">git</span> <span class="string">submodule</span> <span class="string">update</span> <span class="string">--init</span> <span class="string">--recursive</span></span><br></pre></td></tr></table></figure>
+<p>一般情况下，主仓库会获得子仓库的内容，并根据子仓库的内容build博客。</p>
+<h2 id="权限问题">权限问题</h2>
+<p>如果使用了ssh的仓库地址，则可能会出现权限问题。</p>
+<p>由于我的子仓库是公有仓库，所以简单的解决办法是，使用https的仓库地址。</p>
+<h2 id="与github-actionscheckoutv3集成">与github
+actions/checkout@v3集成</h2>
+<p>github仓库服务器每次运行CI/CD任务，其实都需要将主仓库克隆到本地。这是通过复用<code>actions/checkout@v3</code>实现的。而该action同时提供了对子模块的支持。只需要进行如下配置即可。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span></span><br><span class="line">  <span class="attr">uses:</span> <span class="string">actions/checkout@v3</span></span><br><span class="line">  <span class="attr">with:</span></span><br><span class="line">    <span class="attr">submodules:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>该配置还能自动在没有提供ssh-key的情况下，将<code>.gitmodules</code>中由ssh协议指定的url转换成https来使用。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>inode文件系统</title>
+    <url>/inode%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<h1 id="层架构">7层架构</h1>
+<h2 id="block-layer">Block Layer</h2>
+<p>将block的序数，映射到block中实际的数据。</p>
+<p><strong>块大小的权衡</strong></p>
+<p>太小，则bitmap所需空间太大。</p>
+<p>太大，则内部浪费可能比较严重。</p>
+<p><br></p>
+<h2 id="file-layer">File Layer</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct inode</span><br><span class="line">	integer block_nums[N]</span><br><span class="line">	integer size</span><br></pre></td></tr></table></figure>
+<p>N决定了一个文件最大有多大。</p>
+<p>与块大小的权衡一样，N的大小也存在权衡。</p>
+<p><strong>解决措施</strong>：多级inode。</p>
+<p>inode的block_nums中的元素可以指向另外一个inode，类似于多级页表。</p>
+<p>个人理解，在block层上又封装了一层inode的原因，就是因为inode可以做多级操作，否则就和block相同了，区别仅仅是更大。</p>
+<p><br></p>
+<h2 id="inode-number-layer">Inode Number Layer</h2>
+<p>将inode放在一张表里，这样可以通过index来访问某一inode。</p>
+<p><br></p>
+<h2 id="file-name-layer">File Name Layer</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct inode</span><br><span class="line">	integer block_nums[N]</span><br><span class="line">	integer size</span><br><span class="line">	integer type // 记录inode类型，包含常规文件，目录，和符号链接等等</span><br></pre></td></tr></table></figure>
+<h2 id="path-name-layer">Path Name Layer</h2>
+<p>链接link。</p>
+<p>可以将多个文件名映射到同一个inode。</p>
+<p>除了.和..，不允许对目录进行链接，否则可能会出现“外存泄露”。</p>
+<p><strong>重命名-1</strong></p>
+<ol type="1">
+<li>UNLINK(to_name)</li>
+<li>LINK(from_name, to_name)</li>
+<li>UNLINK(from_name)</li>
+</ol>
+<p>但是这种实现有问题，当1和2之前出现了failure时，to_name没了，但是from_name还在。</p>
+<p><strong>重命名-2</strong></p>
+<ol type="1">
+<li>LINK(from_name, to_name)</li>
+<li>UNLINK(from_name)</li>
+</ol>
+<p><br></p>
+<h2 id="absolute-path-name-layer">Absolute Path Name Layer</h2>
+<p>根目录/。其.和..都指向/。</p>
+<p><br></p>
+<h2 id="symbolic-link-layer">Symbolic Link Layer</h2>
+<p>跨存储设备。</p>
+<p>通过文件名进行链接。</p>
+<p>其大小指的是文件名字符串长度。</p>
+<p><strong>问题</strong>：如果通过symbolic link进入了一个目录，再运行cd
+..，则会进入哪个目录？</p>
+<p><strong>答案</strong>：会进入原目录，而不是实际目录的上层目录。</p>
+<p>因为cd ..会被bash先解析，这是一种优化。</p>
+]]></content>
+      <categories>
+        <category>课程</category>
+      </categories>
+      <tags>
+        <tag>cse</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>配置hexo博客，并更换多种主题</title>
+    <url>/%E9%85%8D%E7%BD%AEhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E5%B9%B6%E6%9B%B4%E6%8D%A2%E5%A4%9A%E7%A7%8D%E4%B8%BB%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="hexo博客的基本维护方式">hexo博客的基本维护方式</h1>
+<p>搭建过程可参考<a
+href="https://blog.csdn.net/ai_green/article/details/121675790">hexo博客搭建教程</a>。</p>
+<p>hexo提供了便捷的构建、部署功能。在本地添加了新的markdown日志或者图片之后，只需执行如下代码：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">清除已有的构建目录，默认为public</span></span><br><span class="line">hexo clean</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">构建新的静态文件，g是generate的缩写</span></span><br><span class="line">hexo g</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">一条命令直接部署，d是deploy的缩写</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<p>就会把本地的public文件夹push到对应的github仓库，并将网站自动部署到
+<code>&#123;github用户名&#125;.github.io</code>。</p>
+<p>此外，如果想要维护本地源文件，还可以单独创建一个私有github仓库，用于存放source文件中的源文件等等。</p>
+<p>（已弃用，请看<a
+href="https://lulu010722.com/2022/09/18/%E5%85%B3%E4%BA%8Earcher%E4%B8%BB%E9%A2%98%E7%9A%84%E4%B8%80%E4%BA%9B%E8%BF%9B%E9%98%B6%E9%85%8D%E7%BD%AE/">进阶配置</a>）</p>
+<p><br></p>
+<h1 id="配置hexo">配置hexo</h1>
+<p>hexo的默认在配置文件是根目录下的<code>_config.yml</code>，称之为<strong>hexo配置文件</strong>。更改其中的属性，可以改变网页的默认文本和样式。</p>
+<p>其中的theme项默认的值是auto，我们可以更改这一个属性的值，来更换不同主题。</p>
+<p><br></p>
+<h1 id="下载并配置主题">下载并配置主题</h1>
+<p>要更换主题，需要在<a
+href="https://hexo.io/themes/">hexo主题网站</a>选择喜欢的主题进行下载安装。</p>
+<p>有两种方式。</p>
+<p><strong>第一种（所有主题均支持）</strong>：将主题对应的仓库克隆到<code>/themes/&#123;主题名&#125;</code>文件夹下。例如，对于archer主题，可以执行如下代码：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--depth=1表示，仅克隆最近一次commit</span></span><br><span class="line">git clone https://github.com/fi3ework/hexo-theme-archer.git themes/archer --depth=1</span><br></pre></td></tr></table></figure>
+<p>克隆完成后，在<code>archer</code>文件夹的配置文件<code>_config.yml</code>中进行修改。</p>
+<p><strong>注意！每个主题的仓库中都有一个<code>_config.yml</code>文件，称之为主题配置文件，与根目录下的<code>_config.yml</code>文件是不同的。</strong></p>
+<p><strong>第二种（仅部分主题支持）</strong>：通过npm下载主题对应的依赖包。例如，对于keep主题而言，可以执行如下代码：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-theme-keep --save</span><br></pre></td></tr></table></figure>
+<p>下载完成后，themes文件夹下不会出现对应的文件夹。若想对该主题进行配置，需要在hexo配置文件中，添加theme_config项，在theme_config属性后，添加主题配置属性。</p>
+<p><br></p>
+<h1 id="配置加载原理推测">配置加载原理（推测）</h1>
+<p>首先，hexo加载根目录下的<strong>hexo配置文件</strong>，若发现theme的值不为默认的auto，则顺序进行如下过程：</p>
+<p>对于<strong>第一种</strong>方式下载的主题：</p>
+<ol type="1">
+<li>在根目录中搜索<code>_config.&#123;主题名称&#125;.yml</code>文件，如果找到，则继续加载该配置文件中的内容，否则，</li>
+<li>在<code>themes</code>文件夹中寻找主题名称对应的文件夹，如果找到，则加载<code>themes/&#123;主题名称&#125;/_config.yml</code>文件。若文件夹或者配置文件没有找到，则会报错。</li>
+</ol>
+<p>对于<strong>第二种</strong>方式下载的主题：</p>
+<p>在<strong>hexo配置文件</strong>中寻找<code>theme_config</code>属性，并加载。</p>
+<h1 id="ps已经证实">PS：已经证实</h1>
+<p>配置文件的优先级顺序为</p>
+<p><strong>根目录配置文件中的theme_config属性</strong> &gt;
+**_config.{主题}.yml** &gt; <strong>根目录配置文件</strong></p>
+<p><br></p>
+<h1 id="踩过的坑">踩过的坑</h1>
+<ol type="1">
+<li>首先，更改了主题名称之后，<strong>一定要清除原来的构建目录并重新构建</strong>，也就是运行hexo
+clean &amp;&amp; hexo g。</li>
+<li>不能手动在github的仓库设置里面添加custom
+domain，因为这样每次部署后，自定义的域名都会丢失。需要在<code>source/</code>下创建一个<strong>CNAME</strong>的文件，将自定义域名写入。</li>
+<li>如果添加了文件等静态资源，需要hexo
+g。否则部署之后，服务器无法获得图片等静态资源文件。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>配置</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>机器学习概论</title>
+    <url>/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/</url>
+    <content><![CDATA[<h1 id="nfl定理">NFL定理</h1>
+<p><strong>No Free Lunch Theorem</strong>：天下没有免费的午餐</p>
+<p>我们计算一个学习算法<span
+class="math inline">\(\mathcal{L}_a\)</span>的“训练集外误差”，有 <span
+class="math display">\[
+\begin{aligned}
+  E_{ote}(\mathcal{L}_a|X,f)=\sum_{h}\sum_{x\in\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne
+f(x))P(h|X,\mathcal{L}_a)
+\end{aligned}
+\]</span></p>
+<p>如果对于所有真实目标函数<span
+class="math inline">\(f\)</span>求和，则有 <span class="math display">\[
+\begin{aligned}
+  \sum_f E_{ote}(\mathcal{L}_a|X,f)&amp;=\sum_f\sum_h\sum_{x\in
+\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne f(x))P(h|X,\mathcal{L}_a)\\
+  &amp;=\sum_{x\in\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\sum_f\mathbb{I}(h(x)\ne
+f(x))\\
+  &amp;=\sum_{x\in
+\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\frac{1}{2}2^{|\mathcal{X}|}\\
+  &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in
+\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\\
+  &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in \mathcal{X}-X}P(x)\\
+\end{aligned}
+\]</span>
+我们可以看到，总误差与学习算法无关，也就是说，对于任意两个学习算法<span
+class="math inline">\(\mathcal{L}_a\)</span>，<span
+class="math inline">\(\mathcal{L}_b\)</span>，无论看上去<span
+class="math inline">\(\mathcal{L}_a\)</span>多复杂，多聪明，在期望的意义下，他们的性能是相同的。<del>（也就是说，随便瞎猜和复杂推导一样，不学了
+(*｀皿´*)ﾉ ）</del></p>
+<p><br></p>
+<h1 id="尝试证明auc计算公式">尝试证明AUC计算公式</h1>
+<p>排序损失<span
+class="math inline">\(\mathcal{l}_{rank}\)</span>被定义为</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \mathcal{l}_{rank} = \frac{1}{m^+m^-}\sum_{x^+\in D^+}\sum_{x^-\in
+D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
+\frac{1}{2}\mathbb{I}(f(x^+)=f(x^-))\right)
+\end{aligned}
+\]</span></p>
+<p>对于一个ROC图，我们有如下关系： <span class="math display">\[
+\text{AUC}=1-\mathcal{l}_{rank}
+\]</span></p>
+<p>（代入理想模型和随机模型，发现是对的。。）</p>
+]]></content>
+      <categories>
+        <category>课程</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>我的画</title>
+    <url>/%E6%88%91%E7%9A%84%E7%94%BB/</url>
+    <content><![CDATA[<h1 id="pro-create">Pro Create</h1>
+<img src="/%E6%88%91%E7%9A%84%E7%94%BB/procreate.jpg" class="">
+<p><strong>日期</strong>：2022-9-19</p>
+<p><br></p>
+<h1 id="炭治郎">炭治郎</h1>
+<img src="/%E6%88%91%E7%9A%84%E7%94%BB/tanjirou.jpg" class="">
+<p><strong>日期</strong>：2022-9-24</p>
+<p><br></p>
+<h1 id="香奈乎">香奈乎</h1>
+<img src="/%E6%88%91%E7%9A%84%E7%94%BB/kanao.jpg" class="">
+<p><strong>日期</strong>：2022-9-25</p>
+]]></content>
+      <categories>
+        <category>展厅</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>前端练习</title>
+    <url>/%E5%89%8D%E7%AB%AF%E7%BB%83%E4%B9%A0/</url>
+    <content><![CDATA[<img src="/%E5%89%8D%E7%AB%AF%E7%BB%83%E4%B9%A0/register_form.png" class="">
+<img src="/%E5%89%8D%E7%AB%AF%E7%BB%83%E4%B9%A0/register_form_error.png" class="">
+<p>用了react的useState钩子，不过总感觉有很多赘余的部分，比如四个输入框的信息分别维护，而不是统一由一个四个元素组成的变量控制。</p>
+<p>接下来可以尝试做一个贪吃蛇。</p>
+<p><del>（已经失败了。。）</del></p>
+<p>主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useState &#125; <span class="keyword">from</span> <span class="string">&quot;react&quot;</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;./App.css&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">InputItem</span> = (<span class="params">&#123; handleInput, title, placeholder, error, isError &#125;</span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        <span class="language-xml"><span class="tag">&lt;&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">p</span> <span class="attr">className</span>=<span class="string">&quot;entry-name&quot;</span>&gt;</span>&#123;title&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">input</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">className</span>=<span class="string">&quot;input&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">type</span>=<span class="string">&quot;text&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">placeholder</span>=<span class="string">&#123;placeholder&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">onBlur</span>=<span class="string">&#123;(e)</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-xml">                    handleInput(e.target.value, title)</span></span><br><span class="line"><span class="language-xml">                &#125;&#125;</span></span><br><span class="line"><span class="language-xml">            /&gt;</span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">p</span> <span class="attr">className</span>=<span class="string">&quot;error&quot;</span>&gt;</span>&#123;isError &amp;&amp; error&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/&gt;</span></span></span><br><span class="line">    )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> [username, setUsername] = <span class="title function_">useState</span>(<span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">const</span> [email, setEmail] = <span class="title function_">useState</span>(<span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">const</span> [password, setPassword] = <span class="title function_">useState</span>(<span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">const</span> [confirm, setConfirm] = <span class="title function_">useState</span>(<span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> [usernameError, setUsernameError] = <span class="title function_">useState</span>(<span class="literal">false</span>)</span><br><span class="line">    <span class="keyword">const</span> [emailError, setEmailError] = <span class="title function_">useState</span>(<span class="literal">false</span>)</span><br><span class="line">    <span class="keyword">const</span> [passwordError, setPasswordError] = <span class="title function_">useState</span>(<span class="literal">false</span>)</span><br><span class="line">    <span class="keyword">const</span> [confirmError, setConfirmError] = <span class="title function_">useState</span>(<span class="literal">false</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">handleInput</span> = (<span class="params">value, title</span>) =&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span> (title === <span class="string">&quot;Username&quot;</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (value &amp;&amp; value.<span class="property">length</span> &gt;= <span class="number">3</span>) &#123;</span><br><span class="line">                <span class="title function_">setUsernameError</span>(<span class="literal">false</span>)</span><br><span class="line">                <span class="title function_">setUsername</span>(value)</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="title function_">setUsernameError</span>(<span class="literal">true</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (title === <span class="string">&quot;Email&quot;</span>) &#123;</span><br><span class="line">            <span class="keyword">const</span> emailReg =</span><br><span class="line">                <span class="regexp">/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/</span></span><br><span class="line">            <span class="keyword">if</span> (value &amp;&amp; emailReg.<span class="title function_">test</span>(value)) &#123;</span><br><span class="line">                <span class="title function_">setEmailError</span>(<span class="literal">false</span>)</span><br><span class="line">                <span class="title function_">setEmail</span>(value)</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="title function_">setEmailError</span>(<span class="literal">true</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (title === <span class="string">&quot;Password&quot;</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (value &amp;&amp; value.<span class="property">length</span> &gt;= <span class="number">6</span>) &#123;</span><br><span class="line">                <span class="title function_">setPasswordError</span>(<span class="literal">false</span>)</span><br><span class="line">                <span class="title function_">setPassword</span>(value)</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="title function_">setPasswordError</span>(<span class="literal">true</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (value &amp;&amp; value === password) <span class="title function_">setConfirmError</span>(<span class="literal">false</span>)</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="title function_">setConfirmError</span>(<span class="literal">true</span>)</span><br><span class="line">                <span class="title function_">setConfirm</span>(<span class="literal">true</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">handleClick</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span> (username === <span class="string">&quot;&quot;</span>) <span class="title function_">setUsernameError</span>(<span class="literal">true</span>)</span><br><span class="line">        <span class="keyword">if</span> (email === <span class="string">&quot;&quot;</span>) <span class="title function_">setEmailError</span>(<span class="literal">true</span>)</span><br><span class="line">        <span class="keyword">if</span> (password === <span class="string">&quot;&quot;</span>) <span class="title function_">setPasswordError</span>(<span class="literal">true</span>)</span><br><span class="line">        <span class="keyword">if</span> (confirm === <span class="string">&quot;&quot;</span>) <span class="title function_">setConfirmError</span>(<span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (</span><br><span class="line">            username !== <span class="string">&quot;&quot;</span> &amp;&amp;</span><br><span class="line">            !usernameError &amp;&amp;</span><br><span class="line">            !emailError &amp;&amp;</span><br><span class="line">            !passwordError &amp;&amp;</span><br><span class="line">            !confirmError</span><br><span class="line">        ) &#123;</span><br><span class="line">            <span class="title function_">alert</span>(<span class="string">&quot;Register succeeded.&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;App&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">h2</span> <span class="attr">className</span>=<span class="string">&quot;title&quot;</span>&gt;</span>Register With Us<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">InputItem</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">handleInput</span>=<span class="string">&#123;handleInput&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">title</span>=<span class="string">&quot;Username&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">placeholder</span>=<span class="string">&quot;Enter username&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">isError</span>=<span class="string">&#123;usernameError&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">error</span>=<span class="string">&quot;Username must be at least 3 characters&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">InputItem</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">handleInput</span>=<span class="string">&#123;handleInput&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">title</span>=<span class="string">&quot;Email&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">placeholder</span>=<span class="string">&quot;Enter email&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">isError</span>=<span class="string">&#123;emailError&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">error</span>=<span class="string">&quot;Email is not valid&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">InputItem</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">handleInput</span>=<span class="string">&#123;handleInput&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">title</span>=<span class="string">&quot;Password&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">placeholder</span>=<span class="string">&quot;Enter password&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">isError</span>=<span class="string">&#123;passwordError&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">error</span>=<span class="string">&quot;Password must be at least 6 characters&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">InputItem</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">handleInput</span>=<span class="string">&#123;handleInput&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">title</span>=<span class="string">&quot;Confirm Password&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">placeholder</span>=<span class="string">&quot;Enter password again&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">isError</span>=<span class="string">&#123;confirmError&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">error</span>=<span class="string">&quot;Passwords are not the same&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">button</span> <span class="attr">className</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">onClick</span>=<span class="string">&#123;handleClick&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                Submit</span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    )</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>目前暂时没想好怎么把这四个输入框统一管理起来。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>前端</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>可可的琴</title>
+    <url>/%E5%8F%AF%E5%8F%AF%E7%9A%84%E7%90%B4/</url>
+    <content><![CDATA[<h1 id="寒鸦戏水">寒鸦戏水</h1>
+<audio id="audio" controls="" preload="none">
+<source src="/assets/寒鸦戏水.mp3">
+</audio>
+<blockquote>
+<p>等我一会儿~</p>
+</blockquote>
+<p><strong>演奏者</strong>：可可同学，可爱的可</p>
+<p><strong>曲目</strong>：寒鸦戏水</p>
+]]></content>
+      <categories>
+        <category>展厅</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>泉さんとの相談</title>
+    <url>/%E6%B3%89%E3%81%95%E3%82%93%E3%81%A8%E3%81%AE%E7%9B%B8%E8%AB%87/</url>
+    <content><![CDATA[<blockquote>
+<p>とっても突然ですけど、申し訳ございません。私は、泉さんに言いたいことがあるから。</p>
+<p>一年半くらい前に、王路児さんは私の彼女になりましたのは、もうお覚えでしょうか。私たちは素晴らしい時間を過ごしました。少なくとも私はそう思いました。しかし、三ヶ月くらい前に、私たちは別かれてしまいました。</p>
+<p>私は今までも、毎日とっても苦しんで過ごしていたんでした。毎日、いったいどうやってその人の心を取り戻せるのかとずうっと考えていました。</p>
+<p>彼女は今、東京大学で交換留学しています。それは、泉さんはもう知っていましたかもしれません。彼女は、日本の研究環境はとても自由で楽しそうだと思いましたから、卒業した東大の修士に申し込むつもりです。</p>
+<p>彼女は、うちの大学でいい成績を持ち、日本語は中学からずっと勉強していたからすごく上手、東大で交換留学した経験もありますから、東大の修士に合格する可能性が高いんです。</p>
+<p>だから、復縁する思いを持っている私は、一緒に東大の修士になれるように、頑張りたいんです。だからこそ、私は今、真面目に日本語を独学したり、TOEFLに合格するために英語も勉強したりしています。</p>
+<p>でもさあ、それはばかばかしいといわれてしまうかもしれませんね。泉さんはどう思うんですか？ずっと前から泉さんを尊敬しているので、今日はわざと泉さんのご意見を伺います。</p>
+<p>（今、ただN３のレベルので、以上の書いた言語は間違いがたくさんありますかもしれないのは、すみません。）</p>
+</blockquote>
+<p><br></p>
+<blockquote>
+<p>お久ぶりです。返事が遅れてごめんなさい。</p>
+<p>まず、言いたいことは大体わかりました。日本語本当に上手になったね。</p>
+<p>お二人が別れたと聞いてとても残念です。</p>
+<p>卢くんがまだ王さんとお付き合いするために勉強を頑張っているのも立派だと思います。</p>
+<p>でも、なぜ別かれてしまったのかは冷静に考えたほうがいいと思います。</p>
+<p>今東京と上海は遠く、簡単には会いに行けないと思います。そのことだけが原因で別れたのなら、卢くんも東京に留学すれば、またお付き合いできると思います。</p>
+<p>一方で、王さんは東京で勉強に集中したくて別れた可能性はありませんか？それのも別かれる前に喧嘩とかしてないですか？そのような場合、東京に来れてもまだお付き合いできるとは限りませんよね。</p>
+<p>私は卢さんの努力をばかばかしいとは絶対に言いません。でも、一度卢くんご自身で別れるまでの経緯を振り返ってみて、今の努力が報われるか考えてみてはどうでしょうか？</p>
+</blockquote>
+<p><br></p>
+<blockquote>
+<p>ご返事してくださってすごく嬉しかったです。ありがとうございます！</p>
+<p>泉さんのおっしゃる通りです。問題の核心は、私たちの別れる原因です。</p>
+<p>ちょっと複雑ですが、なるべく日本語でご説明いたします。</p>
+<p>彼女は、私は生まれた今まで最も好きになった女の子でした。それに加えて、私はもう交通大学のようないい大学（少なくとも中国で）が合格しましたので、自分の人生はこれからきっと最高でうまくいけますと思っていたから、勉強を頑張らないようになってしまいました。頑張らなくても、未来にはきっといい仕事といい妻ができると思っていたから。まあ、もちろん今更思えば、それはとっても幼稚な考えだけでした。</p>
+<p>それで、彼女はますます、私の向上心が足りないと思うことになります。嫌気もだんだん増えました。</p>
+<p>それに対して、私は、彼女は私と一緒にいるのに、十分な時間を割いていないと思いますから、先に「別れよう」といいました。でも、それは本気ではなかった。私をもっと大切にしてもらうためだけの腹立たしい言葉でした。しかし、彼女は「じゃあ、そうしよう。君はこの一年に私のそばにいてくれてありがとう。もっと適した彼女が見つけるように。」といいました。</p>
+<p>別れた後、私はどうしても彼女を忘れられなかった。</p>
+<p>以前の自分をよく反省します。確かにその「この人生はもう最高だ」という思いはとっても幼稚なだと思います。</p>
+<p>だからこそ、いま努力するのが始まりたいんです。でも、彼女はもう二度と私のことに好きにならないかもしれないとか、新しい男の子のことに好きになるかもしれないとかと思うと、私はすぐにすごく落ち込んでしまいます。努力する気も一瞬でなくなってしまいます。</p>
+<p>こんなにたくさん愚痴を言って、ほんとにごめんなさい。でも、いま私はとてもつらく生きています。どうすればいいのかもよくわかりません。泉さんから、優しい言葉を言っていただきたいんです。ご迷惑をかけて申し訳ございません。</p>
+</blockquote>
+<p><br></p>
+<blockquote>
+<p>また返事遅れてすみません！木曜金曜は仕事が長引いて返事できませんでした。</p>
+<p>なるほど、お互いの勉強への姿勢の違いがあったのなら、別れてもしょうがない気がします。</p>
+<p>立派な大学を出れば立派な人生を送れると思ってしまう気持ちはわかります。別に怠惰だなんて思わないよ。</p>
+<p>一方で、夢中になれる勉強があると時間がいくらあっても足りないんですよね。王さんの気持ちもわかります。</p>
+<p>結局は二人の時間の使い方の違いでしかなくて、別れたのも仕方なかったんじゃないかと思います。</p>
+<p>それでも卢くんが復縁したいなら、勉強を頑張るよりもお互いの価値観を理解することが大事かもしれません。お互いが勉強や仕事に夢中になったら、結局すれ違いで別れてしまうことになるかもしれませんよ？</p>
+<p>だから、不安に思いながら勉強するくらいなら、王さんに連絡してみるのはどうでしょうか？お互い価値観の違いを知ってもお付き合いを続けられるか、話してみてはどうでしょうか？</p>
+<p>もちろん王さんはもう彼氏がいるかもしれませんが、それで知らずに思い悩むよりはマシだと思いますよ。「案ずるより産むがやすし」です。</p>
+</blockquote>
+<p><br></p>
+<blockquote>
+<p>返事がちょっと遅れるので謝る必要が全然ありません！泉さんは優しい言葉を言ってくれて、それだけで元気づけられました。</p>
+<p>お忙しいところで、こんなに面倒な質問をするのが、恥ずかしくてすみません。</p>
+<p>実は、彼女に連絡することができませんからこそ、二人の周りの人を相談するんでした。</p>
+<p>でも、彼女は日本へ出発する前に、私たちは約束しました。彼女はどうしても私と恋愛を続けたくないから、私は「じゃあ、私は君を放して、君は日本へ行こう。でもせめて、半年後に君は帰国した学校帰った時には、二人はもう一回会おうはどうでしょうか？」って言った。彼女は同意しました。</p>
+<p>この間に、彼女は新しい彼氏ができないことを祈っていました(笑)。そして、私もこの半年くらいの時間に、もっと優れた自分をその人に見せるように、自分を変えてやる。結局はどうになるのは予想できないんですが、そうしなきゃならないんだよね。</p>
+<p>それより、もし未来には私は本当に東京へ行ったら、ぜひ泉さんのお宅を訪ねて伺います！楽しみですね。</p>
+<p>ちなみに、私は最近lineのアカウントができた。もしよければ、交換してもいいですか？</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>日语</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>《月亮与六便士》</title>
+    <url>/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/</url>
+    <content><![CDATA[<blockquote>
+<p>满地都是六便士，他却抬头看见了月亮。</p>
+</blockquote>
+<p>其实，上面这句话，并非出自原书。起初是对毛姆的《人性的弱点》的匿名评论，被刘瑜概括成了这句话。毛姆很喜欢月亮和六便士的比喻，便以此为题，开始进行他下一篇长篇小说的创作。</p>
+<img src="/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/liubianshi.png" class="">
+<p>思特里克兰德是一个极为勇敢的天才，同时也是一个人性的罪犯。</p>
+<p>故事开篇，他已然是一个小有成就的股票经纪人，有一个漂亮贤惠的妻子，和一对健康活泼的儿女。但是，一个人的处境越安逸，越稳定，想要跳出这种枷锁，便越需要非凡的勇气。当思特里克兰德决定去往巴黎，再也不回来的时候，那给读者的感觉，是多种情感的复合。是费解，是好奇，是愤怒，同时也在读者心中悄然树立他非凡的形象。</p>
+<p>他来到巴黎，本就不富裕的生活，很快就变得更加落魄。此时，施特略夫对他的帮助，是不被理解的，甚至是有违常理的。施特略夫是这本书里一个悲剧人物，笔者从他的身上看到了自己的影子。他是一个一味讨好的人，是一个无法拒绝别人的人，甚至是没有尊严的人。毛姆笔下的“我”，对它的态度是同情，而又轻蔑。</p>
+<p>没有底线地付出自己的好，会把一个人变得低价值，而低价值的人所展现出的善良，又经常会被践踏。这是人性的弱点，有些人会下意识地慕强，对于低价值的人，他们唯恐避之不及。另一方面，只有低价值的人，才会无限制地对别人好。他无法通过自己的外在的或内在的魅力吸引他人，所以只能通过一些廉价的讨好，来维持与他人的关系，无论是爱情，友情还是社交。这些人被亲近的人用“善良“夸赞，殊不知那恰恰不是真心的善良，而是一种软弱。这听起来或许很残酷，可是，可怜之人必有可恨之处。他们在讨好别人的简单模式，和提升自己的困难模式之中，选择了前者，来维持一些肤浅的，一碰就碎的关系，可谓是舍本逐末。施特略夫惹人同情，可是，对于他自己的悲剧，我认为他不无责任。他那近乎无耻的善意，虽然拯救了思特里克兰德的生命，但是仍然遭人唾弃，这就是人性。</p>
+<p>害死了布兰特，伤透了施特略夫，在被问及，“你是否对这些事，曾经抱有过一点内疚的情感？”时，思特里克兰德的回答是，“我为什么要内疚？”他丝毫不受影响，即使他的身上，已经搭上了一条人命。他的冷漠深入骨髓，任何道德或伦理，在他这里无法奏效。他作为一个人，是一个道德的罪犯，然而他确实是一个真正自由的人。</p>
+<p>他在马赛的生活我认为可以忽略，仅仅以艰难困苦代替即可。</p>
+<p>在塔希提岛，他真正找到了自己一直寻找的心灵归处。他找到了一个真正爱他的女人，他又有了几个孩子，虽然这些对他而言，轻如鸿毛。他开始在山中一间偏僻又简陋的屋子里，开始自己的创作。上帝首先是夺走了他的眼睛，然而这无法阻止他沉浸在那个涂满壁画的屋子里，直到他被夺去了生命，连同他那惊世骇俗的壁画屋一起。</p>
+<p><br></p>
+<p>多看了几篇他人的书评，仔细琢磨了书中的次要人物，也有新发现。</p>
+<p>思特里克兰德太太是一个精明有城府的人，他善于伪装自己，即使她的丈夫早已抛弃他二十余年，她还是对外人维持着一种平安无事的假象。书中有这样一段话：</p>
+<blockquote>
+<p>在她破碎的心中，爱情受辱的苦闷是否掺杂着虚荣心受损的痛苦，这在年轻的我看来是肮脏的，这种怀疑令我不安。</p>
+</blockquote>
+<p>她的悲伤是不单纯的，其中怀有对社会地位丧失，对自身颜面扫地的虚荣。</p>
+<p>而布兰特，她没有选择，幼年遭遇使她没有办法拒绝当时的施特略夫，从而嫁给了一个她不爱的男人。当听说丈夫要带思特里克兰德回家养病，她的恐惧，也许是害怕自己真的会压抑不住性的呼唤，做出有悖伦理的事。这在当时的英国社会，是饱受唾弃的。</p>
+<p><br></p>
+<p>本想补充些什么，终于想不出，便放些名句摘抄不妨。</p>
+<blockquote>
+<p>她这么说毫无贬低之意，反倒充满深情，她好像希望通过承认他最差的一面，来保护他免受朋友诽谤。</p>
+</blockquote>
+<blockquote>
+<p>愤怒的道德没有足够的力量对罪人直接加以惩罚，这总是令人痛心的。</p>
+</blockquote>
+<blockquote>
+<p>我不知真诚中有多少伪装，高贵中有多少卑鄙，邪恶中有多少善良。</p>
+</blockquote>
+<blockquote>
+<p>一个人掉进水里，游泳游得好坏都无关紧要，他必须出去，否则就会淹死。</p>
+</blockquote>
+<blockquote>
+<p>只有诗人或圣徒才会自信地期望，浇灌沥青路面，百合花会回报他的辛劳。</p>
+</blockquote>
+<blockquote>
+<p>当人们说他们不在乎别人怎么看他们时，他们多半是在欺骗自己。</p>
+<p>当你的非常规只是你那个群体的常规时，做到世人眼中的非常规并不难。</p>
+</blockquote>
+<blockquote>
+<p>她很精明地意识到，你老是诉说不幸，人们很快就会厌倦，而且不愿看到你的惨样。</p>
+</blockquote>
+<blockquote>
+<p>女人经常为了爱情寻短见，但一般来说，她们会很小心，不会让自杀成功。</p>
+</blockquote>
+<blockquote>
+<p>女人可以原谅他对她造成的伤害，却永远无法原谅他为她做出的牺牲。</p>
+</blockquote>
+<blockquote>
+<p>自命不凡只会暴露他的思想贫乏。涂了油漆貌似铁板的木条看上去也只是木条。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>书架</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>ただいま</title>
+    <url>/%E3%81%9F%E3%81%A0%E3%81%84%E3%81%BE/</url>
+    <content><![CDATA[<h1 id="ロジちゃん">ロジちゃん</h1>
+<p>ロジちゃんは既に家に帰ってきたね。無事で帰国しましたのは良かった!日本にいたこの半年間、交大よりもっとすばらしい世界を見たはずでしょう。各地の観光地に行ったり、自然風景を鑑賞したり、美しい日本式の建物を観覧したり、美味しい特色な美食を食べたりをするのには、僕はほんとに羨ましいな。でももちろん、一番大事なことは東大での勉強体験だ。</p>
+<p>その一方で、こちらの生活は、いつもと同じに退屈でした。特に君を失ったあと、もっと退屈になっちゃった。以前に二人は一緒に歩いた場所や小道も、なんか突然死んだみたい実感が感じました。湖の周りにあるベンチには、いつも恋人たちがデートをする。しかしそのなかには、私達がいるわけがなくなった。</p>
+<p>あぁ、覚えてきた。私はそのワイトアルバム2っていうゲイムをした。三人の物語をだいたいわかりました。言いたいのは、私はとある歌のなかに（歌名を忘れた）ひとつの歌詞に思い出ぶかいだ。何でしたっけ、「ずっとあなたの名前、何度も、何度も読んだ。夢の中のあなたも、振り返ることはない。」毎回聞くとすぐに泣きそうだ。でもせめて、春希は雪菜に少しの感情が残るんだ。しかし、私のロジちゃんは、永遠に私のことが嫌くなった。残念ですね。今残っているのは、嘆きしかないんだ。</p>
+<p>ロジちゃん、私は君を愛してるほど憎んでいます。それは君は間もなくわかります。だから驚かないでね。</p>
+<p>最後に、君は「私達は今生にはお夫婦になれなくて、来世も不可能です」って言ったはずだろう。じゃあ、ご要望のとおり、私は今から来世に死ぬまで、君を邪魔しないようにしましょう!しかし、もし来世というものがあったら、何故再来世があってはいけないの?あそこでまた待ち合わせるのも悪くないんじゃん?シシシ。私は先に失礼しますぞ!</p>
+<p>では、また再来世。</p>
+<p>最初から宇宙が終わるまで君をずうっと愛している憨憨</p>
+<hr />
+<h1 id="王氏の野郎">王氏の野郎</h1>
+<p>貴様はもう東京から帰りましたんだろう。日本で飢え死にしなかったのは不思議なんですね。ぶち殺されなかったのもありえないんだね。でもそれはちょうどいい。以下の言葉をちゃんと読みなさい。</p>
+<p>私はこの半年のあいだに、貴様をよく夢見てたよ。でも、夢の中で私達は何をしましたかのを知ってるかい?恐らくいいことではなかった。教えてあげよう。まず、貴様を誰もいない場所に連れて行って、死ぬまでレイプすること。また、貴様の顔に硫酸を撒くこと。貴様の自殺したい表情や涙を見るのは最高に快適だな!そして、爆弾を使って、両親と貴様を一緒に殺すこと。怖いですよねワァハーーーー。</p>
+<p>忘れないでね、貴様は何の才能もないやつだ。以前はそうだったし、未来もそうになります。アァ、忘れてた、貴様の唯一の才能は、男に顔やおっぱいや膣を出すことしかないんだよ。信じないですか?では十年あとに振り返って見なさい。そのときに、あんたはこれはどれほど正しい判断でしたのを理解していく。</p>
+<p>ずっと劣等感に落ち込んでた貴様は、ある人の影響で、どんどん自信が見つかたから、積極的に、そして社交を得意すぎる「牛膣病?」ようになりました。でも、貴様がそれは全く忘れた!何か「私達は性格が合わないから別れなければならない」っていう嘘を言って、その人を死んだネズミのように飛ばした。ホンマに偉かったね!すばらしいしか言えませんよ!</p>
+<p>でも実際は、私は安心です。君は昔に最も親密な人に対してさえも、そんなに残酷なやり方で飛ばすことにしました。では次に、その次に、同じ結局でおしまいになっちゃうんだろう?ハハハーーー。</p>
+<p>以上です。この王氏の野郎、永遠に会えないように!</p>
+<p>別れた後から宇宙が終わるまで貴様をずうっと憎んでいる俺様</p>
+]]></content>
+      <categories>
+        <category>日语</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>柯柯的画</title>
+    <url>/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/</url>
+    <content><![CDATA[<h1 id="阿贝多">阿贝多</h1>
+<img src="/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/abeiduo.jpg" class="">
+<blockquote>
+<p>玩原神的时候被阿贝多的美貌感动到了，想当阿贝多的狗😍</p>
+</blockquote>
+<p><strong>作者</strong>：柯柯，软院小仙男</p>
+<p><strong>人物</strong>：阿贝多——原神</p>
+]]></content>
+      <categories>
+        <category>展厅</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>欢迎来到我的博客！</title>
+    <url>/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%EF%BC%81/</url>
+    <content><![CDATA[<p>这是我的第一篇博客</p>
+<p>以后会经常在这里记录一些我的学习经历</p>
+<p>包括各种技术的踩坑之旅</p>
+<p><strong>加油</strong></p>
+<p><strong>頑張って！</strong>❤</p>
+]]></content>
+      <categories>
+        <category>日记</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Daily Report</title>
     <url>/daily-report/</url>
     <content><![CDATA[<h1 id="section">2022-09</h1>
@@ -1343,487 +1811,72 @@ assignment3。尝试学习tikz画图论用图，但是失败了。。</li>
       </categories>
   </entry>
   <entry>
-    <title>随便写写</title>
-    <url>/%E9%9A%8F%E4%BE%BF%E5%86%99%E5%86%99/</url>
-    <content><![CDATA[<blockquote>
-<p><em>与其称之为”随笔“，倒不如称之为”随键“</em></p>
-<p><em>旁人有感而发，大都落笔成文</em></p>
-<p><em>而我不同，我触键成章</em></p>
-</blockquote>
-<h1 id="又一次鄙视自己的灵魂">又一次鄙视自己的灵魂</h1>
-<p>躺在床上，虽然很困，但是仍执着地拿着手机的时候，其实是在期望着在偌大的网络世界找到什么。</p>
-<p>不过我不幸运，要么什么也找不到，要么自以为找到了，但是一觉醒来，生活和自己，都没变。</p>
-<p>偶然想起，三四年前，给一位我特别尊敬的老师写过的一首诗。</p>
-<blockquote>
-<center>
-<h2 id="赠师普">赠师普</h2>
-<blockquote>
-<p>三月末，高考将至，颇念吾师增普旧恩，特献丑赋诗一篇，兼与同门高徒兴达，瑞嵩，家鑫，子扬等共勉</p>
-</blockquote>
-<p>十载光华空回轮，</p>
-<p>一朝幸甚入师门。</p>
-<p>要问师普何服我，</p>
-<p>学富才高撼余心。</p>
-<p>忽叹往岁虚无度，</p>
-<p>幸觉宏图尚可伸。</p>
-<p>今当远走高飞去，</p>
-<p>莫敢寸阴忘师恩。</p>
-</blockquote>
-<p>如果细读，不难发现，平仄构造最工整的一联，是颈联。</p>
-<p>三年前的我，不会想到，今天的他自己，面对着这十四个字，百感交集。</p>
-<p>“虚无”二字，像是带着线的针，先后扎进我的各个求学阶段，缝合在一起，聚成了我的青春。</p>
-<p><br></p>
-<blockquote>
-<p>第一次，当它本可进取时，却故作谦卑；</p>
-<p>第二次，当它在空虚时，用爱欲来填充；</p>
-<p>第三次，在困难和容易之间，它选择了容易；</p>
-<p>第四次，它犯了错，却借由别人也会犯错来宽慰自己；</p>
-<p>第五次，它自由软弱，却把它认为是生命的坚韧；</p>
-<p>第六次，当它鄙夷一张丑恶的嘴脸时，却不知那正是自己面具中的一副；</p>
-<p>第七次，它侧身于生活的污泥中，虽不甘心，却又畏首畏尾。</p>
-<p><br></p>
-<p><em>——纪伯伦《我曾七次鄙视自己的灵魂》</em></p>
-</blockquote>
-<p>也许这就是好的作品吧，在你还没有静心拜读的时候，他就能以这种直白的方式，使远隔重洋，穿越时空的我们，同频共振。</p>
-<p>初看，自觉最贴合我的应该是第二条；又看，又觉得这一、三、四难道说的不是我？</p>
-<p><br></p>
-<p>我以为，构成了我的，绝不仅仅是出生时被基因刻下的属性，而是在时间的坐标轴上，所遇过的人和事，不同程度地决定了我当下的状态。人们总是错觉地认为，自己的经历太独特，如果条件允许，可将自己的前半生写成小说。我更倾向于认为，其实人遇到的每一件单独的事都并不独特，而是这些事的组合具有随机性，是千变万化的，从而塑造了每一个人的无限可能。对于我，这个组合是：</p>
-<ol type="1">
-<li>作为家族中我辈唯一的男孩，被生养在一个重男轻女的家庭；</li>
-<li>在祖辈和父辈的溺爱中长大；</li>
-<li>在学业上一帆风顺，但是并不是因为充分的拼搏和努力，也许只是一点聪明劲儿和运气；</li>
-<li>溺爱的同时，又缺爱，至少是缺乏我所希望的关爱；</li>
-<li>幼年天生丽质，被捧杀为“班草”，如今面色蜡黄，百孔千疮。</li>
-</ol>
-<p>好像一场化学反应的五种原料，被放进了时间的熔炉，任凭他们彼此碰撞，时而奇光四射，时而烟雾缭绕，也不管最后出落成了什么，它都原原本本地把我展现出来。这些都不是我能控制的，但却被生硬地加进了我的人生。</p>
-<p>我不能重来，我只能继续向这个熔炉里，继续添加，纵使不知是一剂稳定剂还是催化剂，我也只能，继续添加。</p>
-<p>因为在解构完成之后，总要继续建构，否则就是顾影自怜，亦或是孤芳自赏了罢。</p>
-<p>笔者实在不知所云，看官见谅。</p>
-]]></content>
-      <categories>
-        <category>日记</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>cse-lab1踩坑</title>
-    <url>/cse-lab1%E8%B8%A9%E5%9D%91/</url>
-    <content><![CDATA[<ol type="1">
-<li>memcpy与strncpy。</li>
-<li>get_inode需要在堆中分配内存。</li>
-<li>局部字符数组最好初始化为0。</li>
-<li>ino的block不要随便free，有可能free掉别人的合法block。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>课程</category>
-      </categories>
-      <tags>
-        <tag>踩坑</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git——人类好朋友</title>
-    <url>/git%E2%80%94%E2%80%94%E4%BA%BA%E7%B1%BB%E5%A5%BD%E6%9C%8B%E5%8F%8B/</url>
-    <content><![CDATA[<h1 id="本地远程分支创建和删除">本地/远程分支创建和删除</h1>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除本地分支</span></span><br><span class="line">git branch -d &lt;branch-name&gt;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除远程分支</span></span><br><span class="line">git push -d &lt;remote-name&gt; &lt;branch-name&gt;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除已经不存在于远程仓库的本地远程分支</span></span><br><span class="line">git remote prune &lt;remote-name&gt;</span><br></pre></td></tr></table></figure>
-<h1 id="git-submodule初步运用">git submodule初步运用</h1>
-<p>实际场景：在博客主仓库中日常更新日志内容的同时，想要对主题仓库进行个性化修改，或者更进一步，对原主题仓库提出PR，进行contribute。主仓库需要拥有子仓库的文件内容，因为前者要根据后者的资源进行页面的渲染。</p>
-<p>这样，我们就需要在主仓库（blog）中包含子仓库（themes）。为了更方便地管理他们，需要使用git
-submodule。</p>
-<h2 id="原来的做法">原来的做法</h2>
-<p>将themes.git文件夹删除，使其失去版本控制，并将themes（.gitignore的除外）加入主仓库的版本控制。在本地的修改可以直接更新到主仓库，在github直接执行npm
-run build的CI任务即可。</p>
-<p><strong>但是</strong>，这样有很多问题。</p>
-<ol type="1">
-<li>如果遇到明显的bug，只能在本地修改，无法对原主题仓库进行贡献。</li>
-<li>原主题仓库更新后，本地无法通过git快捷的更新。</li>
-</ol>
-<h2 id="使用git-submodule">使用git submodule</h2>
-<p>git对于子模块的管理有如下几个关键点。</p>
-<ul>
-<li>首先，.git目录中会有一个modules目录，里面记录了所有子模块的版本控制信息。</li>
-<li>其次，在主仓库下，会创建一个.gitmodules文件，里面以条目的形式记录了子仓库名称，本地相对地址，以及远程仓库地址。</li>
-<li>最后，git会生成一个<strong>非常特殊</strong>的文件，他的文件模式是160000，与一般的100644文件不同。它在windows的资源管理器下并不可见。他被用于覆盖子模块真实的目录内容，仅仅以子模块的当前所在记录的hash值，存入该文件来代替。每当子模块更新，该文件也会更新。</li>
-</ul>
-<p>创建流程是：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">如果是第一次创建子模块，则项目中会出现两个新文件：.gitmodules和以relative-path为名的特殊文件。同时，该命令会将子模块克隆到本地的relative-path目录下。</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git submodule add &lt;url(https://github.com/username/submodule-repo.git)&gt; &lt;relative-path&gt;</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在主仓库，将更改提交并push到远程</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git add --all</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git commit -m &lt;msg&gt;</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git push origin master</span></span><br></pre></td></tr></table></figure>
-<p>此时，在主仓库中，relative-path对应的地方会出现一个链接，点击可以跳转到子模块的仓库。</p>
-<p>这就意味着，主仓库是没有子仓库的内容的，只保留了一个链接。</p>
-<p>想要获得子模块的内容，需要在workflow file里面加入新的CI任务。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 注意，该任务需要放在build之前</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">Fetch</span> <span class="string">submodule</span></span><br><span class="line"><span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">	<span class="string">git</span> <span class="string">submodule</span> <span class="string">sync</span></span><br><span class="line">	<span class="string">git</span> <span class="string">submodule</span> <span class="string">update</span> <span class="string">--init</span> <span class="string">--recursive</span></span><br></pre></td></tr></table></figure>
-<p>一般情况下，主仓库会获得子仓库的内容，并根据子仓库的内容build博客。</p>
-<h2 id="权限问题">权限问题</h2>
-<p>如果使用了ssh的仓库地址，则可能会出现权限问题。</p>
-<p>由于我的子仓库是公有仓库，所以简单的解决办法是，使用https的仓库地址。</p>
-<h2 id="与github-actionscheckoutv3集成">与github
-actions/checkout@v3集成</h2>
-<p>github仓库服务器每次运行CI/CD任务，其实都需要将主仓库克隆到本地。这是通过复用<code>actions/checkout@v3</code>实现的。而该action同时提供了对子模块的支持。只需要进行如下配置即可。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span></span><br><span class="line">  <span class="attr">uses:</span> <span class="string">actions/checkout@v3</span></span><br><span class="line">  <span class="attr">with:</span></span><br><span class="line">    <span class="attr">submodules:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>该配置还能自动在没有提供ssh-key的情况下，将<code>.gitmodules</code>中由ssh协议指定的url转换成https来使用。</p>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>配置hexo博客，并更换多种主题</title>
-    <url>/%E9%85%8D%E7%BD%AEhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E5%B9%B6%E6%9B%B4%E6%8D%A2%E5%A4%9A%E7%A7%8D%E4%B8%BB%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="hexo博客的基本维护方式">hexo博客的基本维护方式</h1>
-<p>搭建过程可参考<a
-href="https://blog.csdn.net/ai_green/article/details/121675790">hexo博客搭建教程</a>。</p>
-<p>hexo提供了便捷的构建、部署功能。在本地添加了新的markdown日志或者图片之后，只需执行如下代码：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">清除已有的构建目录，默认为public</span></span><br><span class="line">hexo clean</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">构建新的静态文件，g是generate的缩写</span></span><br><span class="line">hexo g</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">一条命令直接部署，d是deploy的缩写</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-<p>就会把本地的public文件夹push到对应的github仓库，并将网站自动部署到
-<code>&#123;github用户名&#125;.github.io</code>。</p>
-<p>此外，如果想要维护本地源文件，还可以单独创建一个私有github仓库，用于存放source文件中的源文件等等。</p>
-<p>（已弃用，请看<a
-href="https://lulu010722.com/2022/09/18/%E5%85%B3%E4%BA%8Earcher%E4%B8%BB%E9%A2%98%E7%9A%84%E4%B8%80%E4%BA%9B%E8%BF%9B%E9%98%B6%E9%85%8D%E7%BD%AE/">进阶配置</a>）</p>
-<p><br></p>
-<h1 id="配置hexo">配置hexo</h1>
-<p>hexo的默认在配置文件是根目录下的<code>_config.yml</code>，称之为<strong>hexo配置文件</strong>。更改其中的属性，可以改变网页的默认文本和样式。</p>
-<p>其中的theme项默认的值是auto，我们可以更改这一个属性的值，来更换不同主题。</p>
-<p><br></p>
-<h1 id="下载并配置主题">下载并配置主题</h1>
-<p>要更换主题，需要在<a
-href="https://hexo.io/themes/">hexo主题网站</a>选择喜欢的主题进行下载安装。</p>
-<p>有两种方式。</p>
-<p><strong>第一种（所有主题均支持）</strong>：将主题对应的仓库克隆到<code>/themes/&#123;主题名&#125;</code>文件夹下。例如，对于archer主题，可以执行如下代码：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--depth=1表示，仅克隆最近一次commit</span></span><br><span class="line">git clone https://github.com/fi3ework/hexo-theme-archer.git themes/archer --depth=1</span><br></pre></td></tr></table></figure>
-<p>克隆完成后，在<code>archer</code>文件夹的配置文件<code>_config.yml</code>中进行修改。</p>
-<p><strong>注意！每个主题的仓库中都有一个<code>_config.yml</code>文件，称之为主题配置文件，与根目录下的<code>_config.yml</code>文件是不同的。</strong></p>
-<p><strong>第二种（仅部分主题支持）</strong>：通过npm下载主题对应的依赖包。例如，对于keep主题而言，可以执行如下代码：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-theme-keep --save</span><br></pre></td></tr></table></figure>
-<p>下载完成后，themes文件夹下不会出现对应的文件夹。若想对该主题进行配置，需要在hexo配置文件中，添加theme_config项，在theme_config属性后，添加主题配置属性。</p>
-<p><br></p>
-<h1 id="配置加载原理推测">配置加载原理（推测）</h1>
-<p>首先，hexo加载根目录下的<strong>hexo配置文件</strong>，若发现theme的值不为默认的auto，则顺序进行如下过程：</p>
-<p>对于<strong>第一种</strong>方式下载的主题：</p>
-<ol type="1">
-<li>在根目录中搜索<code>_config.&#123;主题名称&#125;.yml</code>文件，如果找到，则继续加载该配置文件中的内容，否则，</li>
-<li>在<code>themes</code>文件夹中寻找主题名称对应的文件夹，如果找到，则加载<code>themes/&#123;主题名称&#125;/_config.yml</code>文件。若文件夹或者配置文件没有找到，则会报错。</li>
-</ol>
-<p>对于<strong>第二种</strong>方式下载的主题：</p>
-<p>在<strong>hexo配置文件</strong>中寻找<code>theme_config</code>属性，并加载。</p>
-<h1 id="ps已经证实">PS：已经证实</h1>
-<p>配置文件的优先级顺序为</p>
-<p><strong>根目录配置文件中的theme_config属性</strong> &gt;
-**_config.{主题}.yml** &gt; <strong>根目录配置文件</strong></p>
-<p><br></p>
-<h1 id="踩过的坑">踩过的坑</h1>
-<ol type="1">
-<li>首先，更改了主题名称之后，<strong>一定要清除原来的构建目录并重新构建</strong>，也就是运行hexo
-clean &amp;&amp; hexo g。</li>
-<li>不能手动在github的仓库设置里面添加custom
-domain，因为这样每次部署后，自定义的域名都会丢失。需要在<code>source/</code>下创建一个<strong>CNAME</strong>的文件，将自定义域名写入。</li>
-<li>如果添加了文件等静态资源，需要hexo
-g。否则部署之后，服务器无法获得图片等静态资源文件。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>配置</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>前端练习</title>
-    <url>/%E5%89%8D%E7%AB%AF%E7%BB%83%E4%B9%A0/</url>
-    <content><![CDATA[<img src="/%E5%89%8D%E7%AB%AF%E7%BB%83%E4%B9%A0/register_form.png" class="">
-<img src="/%E5%89%8D%E7%AB%AF%E7%BB%83%E4%B9%A0/register_form_error.png" class="">
-<p>用了react的useState钩子，不过总感觉有很多赘余的部分，比如四个输入框的信息分别维护，而不是统一由一个四个元素组成的变量控制。</p>
-<p>接下来可以尝试做一个贪吃蛇。</p>
-<p>主要代码如下：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useState &#125; <span class="keyword">from</span> <span class="string">&quot;react&quot;</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;./App.css&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">InputItem</span> = (<span class="params">&#123; handleInput, title, placeholder, error, isError &#125;</span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        <span class="language-xml"><span class="tag">&lt;&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">p</span> <span class="attr">className</span>=<span class="string">&quot;entry-name&quot;</span>&gt;</span>&#123;title&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">input</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">className</span>=<span class="string">&quot;input&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">type</span>=<span class="string">&quot;text&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">placeholder</span>=<span class="string">&#123;placeholder&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">onBlur</span>=<span class="string">&#123;(e)</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-xml">                    handleInput(e.target.value, title)</span></span><br><span class="line"><span class="language-xml">                &#125;&#125;</span></span><br><span class="line"><span class="language-xml">            /&gt;</span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">p</span> <span class="attr">className</span>=<span class="string">&quot;error&quot;</span>&gt;</span>&#123;isError &amp;&amp; error&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/&gt;</span></span></span><br><span class="line">    )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> [username, setUsername] = <span class="title function_">useState</span>(<span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">const</span> [email, setEmail] = <span class="title function_">useState</span>(<span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">const</span> [password, setPassword] = <span class="title function_">useState</span>(<span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">const</span> [confirm, setConfirm] = <span class="title function_">useState</span>(<span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> [usernameError, setUsernameError] = <span class="title function_">useState</span>(<span class="literal">false</span>)</span><br><span class="line">    <span class="keyword">const</span> [emailError, setEmailError] = <span class="title function_">useState</span>(<span class="literal">false</span>)</span><br><span class="line">    <span class="keyword">const</span> [passwordError, setPasswordError] = <span class="title function_">useState</span>(<span class="literal">false</span>)</span><br><span class="line">    <span class="keyword">const</span> [confirmError, setConfirmError] = <span class="title function_">useState</span>(<span class="literal">false</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">handleInput</span> = (<span class="params">value, title</span>) =&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span> (title === <span class="string">&quot;Username&quot;</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (value &amp;&amp; value.<span class="property">length</span> &gt;= <span class="number">3</span>) &#123;</span><br><span class="line">                <span class="title function_">setUsernameError</span>(<span class="literal">false</span>)</span><br><span class="line">                <span class="title function_">setUsername</span>(value)</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="title function_">setUsernameError</span>(<span class="literal">true</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (title === <span class="string">&quot;Email&quot;</span>) &#123;</span><br><span class="line">            <span class="keyword">const</span> emailReg =</span><br><span class="line">                <span class="regexp">/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/</span></span><br><span class="line">            <span class="keyword">if</span> (value &amp;&amp; emailReg.<span class="title function_">test</span>(value)) &#123;</span><br><span class="line">                <span class="title function_">setEmailError</span>(<span class="literal">false</span>)</span><br><span class="line">                <span class="title function_">setEmail</span>(value)</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="title function_">setEmailError</span>(<span class="literal">true</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (title === <span class="string">&quot;Password&quot;</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (value &amp;&amp; value.<span class="property">length</span> &gt;= <span class="number">6</span>) &#123;</span><br><span class="line">                <span class="title function_">setPasswordError</span>(<span class="literal">false</span>)</span><br><span class="line">                <span class="title function_">setPassword</span>(value)</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="title function_">setPasswordError</span>(<span class="literal">true</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (value &amp;&amp; value === password) <span class="title function_">setConfirmError</span>(<span class="literal">false</span>)</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="title function_">setConfirmError</span>(<span class="literal">true</span>)</span><br><span class="line">                <span class="title function_">setConfirm</span>(<span class="literal">true</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">handleClick</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span> (username === <span class="string">&quot;&quot;</span>) <span class="title function_">setUsernameError</span>(<span class="literal">true</span>)</span><br><span class="line">        <span class="keyword">if</span> (email === <span class="string">&quot;&quot;</span>) <span class="title function_">setEmailError</span>(<span class="literal">true</span>)</span><br><span class="line">        <span class="keyword">if</span> (password === <span class="string">&quot;&quot;</span>) <span class="title function_">setPasswordError</span>(<span class="literal">true</span>)</span><br><span class="line">        <span class="keyword">if</span> (confirm === <span class="string">&quot;&quot;</span>) <span class="title function_">setConfirmError</span>(<span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (</span><br><span class="line">            username !== <span class="string">&quot;&quot;</span> &amp;&amp;</span><br><span class="line">            !usernameError &amp;&amp;</span><br><span class="line">            !emailError &amp;&amp;</span><br><span class="line">            !passwordError &amp;&amp;</span><br><span class="line">            !confirmError</span><br><span class="line">        ) &#123;</span><br><span class="line">            <span class="title function_">alert</span>(<span class="string">&quot;Register succeeded.&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;App&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">h2</span> <span class="attr">className</span>=<span class="string">&quot;title&quot;</span>&gt;</span>Register With Us<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">InputItem</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">handleInput</span>=<span class="string">&#123;handleInput&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">title</span>=<span class="string">&quot;Username&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">placeholder</span>=<span class="string">&quot;Enter username&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">isError</span>=<span class="string">&#123;usernameError&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">error</span>=<span class="string">&quot;Username must be at least 3 characters&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">InputItem</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">handleInput</span>=<span class="string">&#123;handleInput&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">title</span>=<span class="string">&quot;Email&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">placeholder</span>=<span class="string">&quot;Enter email&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">isError</span>=<span class="string">&#123;emailError&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">error</span>=<span class="string">&quot;Email is not valid&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">InputItem</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">handleInput</span>=<span class="string">&#123;handleInput&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">title</span>=<span class="string">&quot;Password&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">placeholder</span>=<span class="string">&quot;Enter password&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">isError</span>=<span class="string">&#123;passwordError&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">error</span>=<span class="string">&quot;Password must be at least 6 characters&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">InputItem</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">handleInput</span>=<span class="string">&#123;handleInput&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">title</span>=<span class="string">&quot;Confirm Password&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">placeholder</span>=<span class="string">&quot;Enter password again&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">isError</span>=<span class="string">&#123;confirmError&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">error</span>=<span class="string">&quot;Passwords are not the same&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">button</span> <span class="attr">className</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">onClick</span>=<span class="string">&#123;handleClick&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                Submit</span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    )</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>目前暂时没想好怎么把这四个输入框统一管理起来。</p>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>前端</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>inode文件系统</title>
-    <url>/inode%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/</url>
-    <content><![CDATA[<h1 id="层架构">7层架构</h1>
-<h2 id="block-layer">Block Layer</h2>
-<p>将block的序数，映射到block中实际的数据。</p>
-<p><strong>块大小的权衡</strong></p>
-<p>太小，则bitmap所需空间太大。</p>
-<p>太大，则内部浪费可能比较严重。</p>
-<p><br></p>
-<h2 id="file-layer">File Layer</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct inode</span><br><span class="line">	integer block_nums[N]</span><br><span class="line">	integer size</span><br></pre></td></tr></table></figure>
-<p>N决定了一个文件最大有多大。</p>
-<p>与块大小的权衡一样，N的大小也存在权衡。</p>
-<p><strong>解决措施</strong>：多级inode。</p>
-<p>inode的block_nums中的元素可以指向另外一个inode，类似于多级页表。</p>
-<p>个人理解，在block层上又封装了一层inode的原因，就是因为inode可以做多级操作，否则就和block相同了，区别仅仅是更大。</p>
-<p><br></p>
-<h2 id="inode-number-layer">Inode Number Layer</h2>
-<p>将inode放在一张表里，这样可以通过index来访问某一inode。</p>
-<p><br></p>
-<h2 id="file-name-layer">File Name Layer</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct inode</span><br><span class="line">	integer block_nums[N]</span><br><span class="line">	integer size</span><br><span class="line">	integer type // 记录inode类型，包含常规文件，目录，和符号链接等等</span><br></pre></td></tr></table></figure>
-<h2 id="path-name-layer">Path Name Layer</h2>
-<p>链接link。</p>
-<p>可以将多个文件名映射到同一个inode。</p>
-<p>除了.和..，不允许对目录进行链接，否则可能会出现“外存泄露”。</p>
-<p><strong>重命名-1</strong></p>
-<ol type="1">
-<li>UNLINK(to_name)</li>
-<li>LINK(from_name, to_name)</li>
-<li>UNLINK(from_name)</li>
-</ol>
-<p>但是这种实现有问题，当1和2之前出现了failure时，to_name没了，但是from_name还在。</p>
-<p><strong>重命名-2</strong></p>
-<ol type="1">
-<li>LINK(from_name, to_name)</li>
-<li>UNLINK(from_name)</li>
-</ol>
-<p><br></p>
-<h2 id="absolute-path-name-layer">Absolute Path Name Layer</h2>
-<p>根目录/。其.和..都指向/。</p>
-<p><br></p>
-<h2 id="symbolic-link-layer">Symbolic Link Layer</h2>
-<p>跨存储设备。</p>
-<p>通过文件名进行链接。</p>
-<p>其大小指的是文件名字符串长度。</p>
-<p><strong>问题</strong>：如果通过symbolic link进入了一个目录，再运行cd
-..，则会进入哪个目录？</p>
-<p><strong>答案</strong>：会进入原目录，而不是实际目录的上层目录。</p>
-<p>因为cd ..会被bash先解析，这是一种优化。</p>
-]]></content>
-      <categories>
-        <category>课程</category>
-      </categories>
-      <tags>
-        <tag>cse</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ただいま</title>
-    <url>/%E3%81%9F%E3%81%A0%E3%81%84%E3%81%BE/</url>
-    <content><![CDATA[<h1 id="ロジちゃん">ロジちゃん</h1>
-<p>ロジちゃんは既に家に帰ってきたね。無事で帰国しましたのは良かった!日本にいたこの半年間、交大よりもっとすばらしい世界を見たはずでしょう。各地の観光地に行ったり、自然風景を鑑賞したり、美しい日本式の建物を観覧したり、美味しい特色な美食を食べたりをするのには、僕はほんとに羨ましいな。でももちろん、一番大事なことは東大での勉強体験だ。</p>
-<p>その一方で、こちらの生活は、いつもと同じに退屈でした。特に君を失ったあと、もっと退屈になっちゃった。以前に二人は一緒に歩いた場所や小道も、なんか突然死んだみたい実感が感じました。湖の周りにあるベンチには、いつも恋人たちがデートをする。しかしそのなかには、私達がいるわけがなくなった。</p>
-<p>あぁ、覚えてきた。私はそのワイトアルバム2っていうゲイムをした。三人の物語をだいたいわかりました。言いたいのは、私はとある歌のなかに（歌名を忘れた）ひとつの歌詞に思い出ぶかいだ。何でしたっけ、「ずっとあなたの名前、何度も、何度も読んだ。夢の中のあなたも、振り返ることはない。」毎回聞くとすぐに泣きそうだ。でもせめて、春希は雪菜に少しの感情が残るんだ。しかし、私のロジちゃんは、永遠に私のことが嫌くなった。残念ですね。今残っているのは、嘆きしかないんだ。</p>
-<p>ロジちゃん、私は君を愛してるほど憎んでいます。それは君は間もなくわかります。だから驚かないでね。</p>
-<p>最後に、君は「私達は今生にはお夫婦になれなくて、来世も不可能です」って言ったはずだろう。じゃあ、ご要望のとおり、私は今から来世に死ぬまで、君を邪魔しないようにしましょう!しかし、もし来世というものがあったら、何故再来世があってはいけないの?あそこでまた待ち合わせるのも悪くないんじゃん?シシシ。私は先に失礼しますぞ!</p>
-<p>では、また再来世。</p>
-<p>最初から宇宙が終わるまで君をずうっと愛している憨憨</p>
-<hr />
-<h1 id="王氏の野郎">王氏の野郎</h1>
-<p>貴様はもう東京から帰りましたんだろう。日本で飢え死にしなかったのは不思議なんですね。ぶち殺されなかったのもありえないんだね。でもそれはちょうどいい。以下の言葉をちゃんと読みなさい。</p>
-<p>私はこの半年のあいだに、貴様をよく夢見てたよ。でも、夢の中で私達は何をしましたかのを知ってるかい?恐らくいいことではなかった。教えてあげよう。まず、貴様を誰もいない場所に連れて行って、死ぬまでレイプすること。また、貴様の顔に硫酸を撒くこと。貴様の自殺したい表情や涙を見るのは最高に快適だな!そして、爆弾を使って、両親と貴様を一緒に殺すこと。怖いですよねワァハーーーー。</p>
-<p>忘れないでね、貴様は何の才能もないやつだ。以前はそうだったし、未来もそうになります。アァ、忘れてた、貴様の唯一の才能は、男に顔やおっぱいや膣を出すことしかないんだよ。信じないですか?では十年あとに振り返って見なさい。そのときに、あんたはこれはどれほど正しい判断でしたのを理解していく。</p>
-<p>ずっと劣等感に落ち込んでた貴様は、ある人の影響で、どんどん自信が見つかたから、積極的に、そして社交を得意すぎる「牛膣病?」ようになりました。でも、貴様がそれは全く忘れた!何か「私達は性格が合わないから別れなければならない」っていう嘘を言って、その人を死んだネズミのように飛ばした。ホンマに偉かったね!すばらしいしか言えませんよ!</p>
-<p>でも実際は、私は安心です。君は昔に最も親密な人に対してさえも、そんなに残酷なやり方で飛ばすことにしました。では次に、その次に、同じ結局でおしまいになっちゃうんだろう?ハハハーーー。</p>
-<p>以上です。この王氏の野郎、永遠に会えないように!</p>
-<p>別れた後から宇宙が終わるまで貴様をずうっと憎んでいる俺様</p>
-]]></content>
-      <categories>
-        <category>日语</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>机器学习概论</title>
-    <url>/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/</url>
-    <content><![CDATA[<h1 id="nfl定理">NFL定理</h1>
-<p><strong>No Free Lunch Theorem</strong>：天下没有免费的午餐</p>
-<p>我们计算一个学习算法<span
-class="math inline">\(\mathcal{L}_a\)</span>的“训练集外误差”，有 <span
-class="math display">\[
+    <title>测试</title>
+    <url>/%E6%B5%8B%E8%AF%95/</url>
+    <content><![CDATA[<h1
+id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的一级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的一级标题</h1>
+<h2
+id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的二级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的二级标题</h2>
+<h3
+id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的三级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的三级标题</h3>
+<h1 id="表格测试">表格测试</h1>
+<table>
+<thead>
+<tr class="header">
+<th>1</th>
+<th>2</th>
+<th>3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>甲</td>
+<td>乙</td>
+<td>丙</td>
+</tr>
+</tbody>
+</table>
+<h1 id="latex测试"><span class="math inline">\(\LaTeX\)</span>测试</h1>
+<p>行内<span class="math inline">\(f(x)=\sin(x)\)</span>。</p>
+<p>公式块 <span class="math display">\[
 \begin{aligned}
-  E_{ote}(\mathcal{L}_a|X,f)=\sum_{h}\sum_{x\in\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne
-f(x))P(h|X,\mathcal{L}_a)
-\end{aligned}
-\]</span></p>
-<p>如果对于所有真实目标函数<span
-class="math inline">\(f\)</span>求和，则有 <span class="math display">\[
-\begin{aligned}
-  \sum_f E_{ote}(\mathcal{L}_a|X,f)&amp;=\sum_f\sum_h\sum_{x\in
+    \sum_f E_{ote}(\mathcal{L}_a|X,f)&amp;=\sum_f\sum_h\sum_{x\in
 \mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne f(x))P(h|X,\mathcal{L}_a)\\
-  &amp;=\sum_{x\in\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\sum_f\mathbb{I}(h(x)\ne
+    &amp;=\sum_{x\in\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\sum_f\mathbb{I}(h(x)\ne
 f(x))\\
-  &amp;=\sum_{x\in
+    &amp;=\sum_{x\in
 \mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\frac{1}{2}2^{|\mathcal{X}|}\\
-  &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in
+    &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in
 \mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\\
-  &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in \mathcal{X}-X}P(x)\\
-\end{aligned}
-\]</span>
-我们可以看到，总误差与学习算法无关，也就是说，对于任意两个学习算法<span
-class="math inline">\(\mathcal{L}_a\)</span>，<span
-class="math inline">\(\mathcal{L}_b\)</span>，无论看上去<span
-class="math inline">\(\mathcal{L}_a\)</span>多复杂，多聪明，在期望的意义下，他们的性能是相同的。<del>（也就是说，随便瞎猜和复杂推导一样，不学了
-(*｀皿´*)ﾉ ）</del></p>
-<p><br></p>
-<h1 id="尝试证明auc计算公式">尝试证明AUC计算公式</h1>
-<p>排序损失<span
-class="math inline">\(\mathcal{l}_{rank}\)</span>被定义为</p>
-<p><span class="math display">\[
-\begin{aligned}
-  \mathcal{l}_{rank} = \frac{1}{m^+m^-}\sum_{x^+\in D^+}\sum_{x^-\in
-D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
-\frac{1}{2}\mathbb{I}(f(x^+)=f(x^-))\right)
+    &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in \mathcal{X}-X}P(x)\\
 \end{aligned}
 \]</span></p>
-<p>对于一个ROC图，我们有如下关系： <span class="math display">\[
-\text{AUC}=1-\mathcal{l}_{rank}
-\]</span></p>
-<p>（代入理想模型和随机模型，发现是对的。。）</p>
+<h1 id="toc测试">TOC测试</h1>
+<h1 id="一级标题1">一级标题1</h1>
+<h2 id="二级标题1">二级标题1</h2>
+<h3 id="三级标题1">三级标题1</h3>
+<h3 id="三级标题2">三级标题2</h3>
+<h3 id="三级标题3">三级标题3</h3>
+<h3 id="三级标题4">三级标题4</h3>
+<h2 id="二级标题2">二级标题2</h2>
+<h3 id="三级标题">三级标题</h3>
+<h4 id="四级标题">四级标题</h4>
+<h5 id="五级标题">五级标题</h5>
+<h6 id="六级标题">六级标题</h6>
+<p><strong>加粗</strong></p>
+<p>正文</p>
+<p><em>斜体</em></p>
 ]]></content>
-      <categories>
-        <category>课程</category>
-      </categories>
-      <tags>
-        <tag>机器学习</tag>
-      </tags>
   </entry>
   <entry>
-    <title>解封了，吗？</title>
-    <url>/%E8%A7%A3%E5%B0%81%E4%BA%86%EF%BC%8C%E5%90%97%EF%BC%9F/</url>
-    <content><![CDATA[<p>如果不算开学第一天上午那可怜的一节课的话，时至今日，贵交学子已经至少半年没有上过一节正常的线下课程了。</p>
-<p>然而我上线下课程第一天的感受却是，不习惯。</p>
-<p>各个课程均有几节课的延迟，现在转接到线下，根本无所适从。</p>
-<p>当初强迫线上骂声一片，现在强迫线下甚至也有骂声一片。</p>
-<p>这一切都是一场游戏吧。</p>
-]]></content>
-      <categories>
-        <category>日记</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>可可的琴</title>
-    <url>/%E5%8F%AF%E5%8F%AF%E7%9A%84%E7%90%B4/</url>
-    <content><![CDATA[<h1 id="寒鸦戏水">寒鸦戏水</h1>
-<audio id="audio" controls="" preload="none">
-<source src="/assets/寒鸦戏水.mp3">
-</audio>
-<blockquote>
-<p>等我一会儿~</p>
-</blockquote>
-<p><strong>演奏者</strong>：可可同学，可爱的可</p>
-<p><strong>曲目</strong>：寒鸦戏水</p>
+    <title>我的雷神🤗</title>
+    <url>/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/</url>
+    <content><![CDATA[<img src="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/leishen1.jpg" class="">
+<hr />
+<img src="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/leishen2.jpg" class="">
 ]]></content>
       <categories>
         <category>展厅</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>柯柯的画</title>
-    <url>/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/</url>
-    <content><![CDATA[<h1 id="阿贝多">阿贝多</h1>
-<img src="/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/abeiduo.jpg" class="">
-<blockquote>
-<p>玩原神的时候被阿贝多的美貌感动到了，想当阿贝多的狗😍</p>
-</blockquote>
-<p><strong>作者</strong>：柯柯，软院小仙男</p>
-<p><strong>人物</strong>：阿贝多——原神</p>
-]]></content>
-      <categories>
-        <category>展厅</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>我的画</title>
-    <url>/%E6%88%91%E7%9A%84%E7%94%BB/</url>
-    <content><![CDATA[<h1 id="pro-create">Pro Create</h1>
-<img src="/%E6%88%91%E7%9A%84%E7%94%BB/procreate.jpg" class="">
-<p><strong>日期</strong>：2022-9-19</p>
-<p><br></p>
-<h1 id="炭治郎">炭治郎</h1>
-<img src="/%E6%88%91%E7%9A%84%E7%94%BB/tanjirou.jpg" class="">
-<p><strong>日期</strong>：2022-9-24</p>
-<p><br></p>
-<h1 id="香奈乎">香奈乎</h1>
-<img src="/%E6%88%91%E7%9A%84%E7%94%BB/kanao.jpg" class="">
-<p><strong>日期</strong>：2022-9-25</p>
-]]></content>
-      <categories>
-        <category>展厅</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>ロジ</title>
-    <url>/%E3%83%AD%E3%82%B8/</url>
-    <content><![CDATA[<h1 id="ロジ">ロジ</h1>
-<p>僕の丸くて萌える手書きは久しぶりでしょう。</p>
-<p>まずは、この手紙をもらったときは、僕はもうなくなりました。びっくりしたかどうか知るわけないんだが、驚かないで読み続いてくださいね。</p>
-<p>覚えてね、君や全世界を責めるつもりではありません。ただ冷静に心からの声を言い表したいんだ。</p>
-<p>ちなみに、日本語で手紙を書くことにしたのは、親友に分からせたくないんだからだ。文法の間違いがいっぱいあるかもしれなくて、本物の日本人はよく分からないだけど、中国人としたあなたは、この中国人らしい日本語使い方を絶対理解できるだと思っていたので、これは大丈夫だと思います。</p>
-<p>まあこの一年間ぐらいずっと生き延びり方を探していたんだけど、やっぱりこれ以上生きられませんね。</p>
-<p>君はいそがしいかな、自分を忙しくさせているかなと分かるわけがないけど、僕の葬式に来てほしい。一番格好いい写真を選んでおきましたよ。</p>
-<p>この前、その「王氏の野郎」の題名の日記で色々と悪口を言ったけど、それは腹立たしい言葉だけだと知っていたはずでしょう。実は君を忘れることは一回さえもできなかった。</p>
-<p>君と別れたあと、人生や人間はどれだけ複雑なものをよーーーくわかっちゃった。ちょっとシェアしてもいいね。</p>
-<p>まず、宮崎駿さんの言う通りで、「いい人なんていないよ、悪さの程度の区別だけだ」。以前に君は純情な小娘と思って、百パーセントのいい人だと思っていた。でもね、君は一体どう思ったは知るわけないけど、多分自分の見た目がだんだんきれいになり、経緯がますます豊かになったので、自分の価値がどんどん上がったと思ったんでしょう？君は君よりあんまり進んでいなかった僕に態度が変わったんだ。これは君から勉強になった「弱肉強食」という第一課である。君はそんなことを絶対しないと思ったけど、やっぱりどこでも誰でも同じだ。</p>
-]]></content>
-      <categories>
-        <category>日语</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>《月亮与六便士》</title>
-    <url>/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/</url>
-    <content><![CDATA[<blockquote>
-<p>满地都是六便士，他却抬头看见了月亮。</p>
-</blockquote>
-<p>其实，上面这句话，并非出自原书。起初是对毛姆的《人性的弱点》的匿名评论，被刘瑜概括成了这句话。毛姆很喜欢月亮和六便士的比喻，便以此为题，开始进行他下一篇长篇小说的创作。</p>
-<img src="/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/liubianshi.png" class="">
-<p>思特里克兰德是一个极为勇敢的天才，同时也是一个人性的罪犯。</p>
-<p>故事开篇，他已然是一个小有成就的股票经纪人，有一个漂亮贤惠的妻子，和一对健康活泼的儿女。但是，一个人的处境越安逸，越稳定，想要跳出这种枷锁，便越需要非凡的勇气。当思特里克兰德决定去往巴黎，再也不回来的时候，那给读者的感觉，是多种情感的复合。是费解，是好奇，是愤怒，同时也在读者心中悄然树立他非凡的形象。</p>
-<p>他来到巴黎，本就不富裕的生活，很快就变得更加落魄。此时，施特略夫对他的帮助，是不被理解的，甚至是有违常理的。施特略夫是这本书里一个悲剧人物，笔者从他的身上看到了自己的影子。他是一个一味讨好的人，是一个无法拒绝别人的人，甚至是没有尊严的人。毛姆笔下的“我”，对它的态度是同情，而又轻蔑。</p>
-<p>没有底线地付出自己的好，会把一个人变得低价值，而低价值的人所展现出的善良，又经常会被践踏。这是人性的弱点，有些人会下意识地慕强，对于低价值的人，他们唯恐避之不及。另一方面，只有低价值的人，才会无限制地对别人好。他无法通过自己的外在的或内在的魅力吸引他人，所以只能通过一些廉价的讨好，来维持与他人的关系，无论是爱情，友情还是社交。这些人被亲近的人用“善良“夸赞，殊不知那恰恰不是真心的善良，而是一种软弱。这听起来或许很残酷，可是，可怜之人必有可恨之处。他们在讨好别人的简单模式，和提升自己的困难模式之中，选择了前者，来维持一些肤浅的，一碰就碎的关系，可谓是舍本逐末。施特略夫惹人同情，可是，对于他自己的悲剧，我认为他不无责任。他那近乎无耻的善意，虽然拯救了思特里克兰德的生命，但是仍然遭人唾弃，这就是人性。</p>
-<p>害死了布兰特，伤透了施特略夫，在被问及，“你是否对这些事，曾经抱有过一点内疚的情感？”时，思特里克兰德的回答是，“我为什么要内疚？”他丝毫不受影响，即使他的身上，已经搭上了一条人命。他的冷漠深入骨髓，任何道德或伦理，在他这里无法奏效。他作为一个人，是一个道德的罪犯，然而他确实是一个真正自由的人。</p>
-<p>他在马赛的生活我认为可以忽略，仅仅以艰难困苦代替即可。</p>
-<p>在塔希提岛，他真正找到了自己一直寻找的心灵归处。他找到了一个真正爱他的女人，他又有了几个孩子，虽然这些对他而言，轻如鸿毛。他开始在山中一间偏僻又简陋的屋子里，开始自己的创作。上帝首先是夺走了他的眼睛，然而这无法阻止他沉浸在那个涂满壁画的屋子里，直到他被夺去了生命，连同他那惊世骇俗的壁画屋一起。</p>
-<p><br></p>
-<p>多看了几篇他人的书评，仔细琢磨了书中的次要人物，也有新发现。</p>
-<p>思特里克兰德太太是一个精明有城府的人，他善于伪装自己，即使她的丈夫早已抛弃他二十余年，她还是对外人维持着一种平安无事的假象。书中有这样一段话：</p>
-<blockquote>
-<p>在她破碎的心中，爱情受辱的苦闷是否掺杂着虚荣心受损的痛苦，这在年轻的我看来是肮脏的，这种怀疑令我不安。</p>
-</blockquote>
-<p>她的悲伤是不单纯的，其中怀有对社会地位丧失，对自身颜面扫地的虚荣。</p>
-<p>而布兰特，她没有选择，幼年遭遇使她没有办法拒绝当时的施特略夫，从而嫁给了一个她不爱的男人。当听说丈夫要带思特里克兰德回家养病，她的恐惧，也许是害怕自己真的会压抑不住性的呼唤，做出有悖伦理的事。这在当时的英国社会，是饱受唾弃的。</p>
-<p><br></p>
-<p>本想补充些什么，终于想不出，便放些名句摘抄不妨。</p>
-<blockquote>
-<p>她这么说毫无贬低之意，反倒充满深情，她好像希望通过承认他最差的一面，来保护他免受朋友诽谤。</p>
-</blockquote>
-<blockquote>
-<p>愤怒的道德没有足够的力量对罪人直接加以惩罚，这总是令人痛心的。</p>
-</blockquote>
-<blockquote>
-<p>我不知真诚中有多少伪装，高贵中有多少卑鄙，邪恶中有多少善良。</p>
-</blockquote>
-<blockquote>
-<p>一个人掉进水里，游泳游得好坏都无关紧要，他必须出去，否则就会淹死。</p>
-</blockquote>
-<blockquote>
-<p>只有诗人或圣徒才会自信地期望，浇灌沥青路面，百合花会回报他的辛劳。</p>
-</blockquote>
-<blockquote>
-<p>当人们说他们不在乎别人怎么看他们时，他们多半是在欺骗自己。</p>
-<p>当你的非常规只是你那个群体的常规时，做到世人眼中的非常规并不难。</p>
-</blockquote>
-<blockquote>
-<p>她很精明地意识到，你老是诉说不幸，人们很快就会厌倦，而且不愿看到你的惨样。</p>
-</blockquote>
-<blockquote>
-<p>女人经常为了爱情寻短见，但一般来说，她们会很小心，不会让自杀成功。</p>
-</blockquote>
-<blockquote>
-<p>女人可以原谅他对她造成的伤害，却永远无法原谅他为她做出的牺牲。</p>
-</blockquote>
-<blockquote>
-<p>自命不凡只会暴露他的思想贫乏。涂了油漆貌似铁板的木条看上去也只是木条。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>书架</category>
       </categories>
   </entry>
   <entry>
@@ -1908,151 +1961,6 @@ D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
 ]]></content>
       <categories>
         <category>书架</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>我的雷神🤗</title>
-    <url>/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/</url>
-    <content><![CDATA[<img src="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/leishen1.jpg" class="">
-<hr />
-<img src="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/leishen2.jpg" class="">
-]]></content>
-      <categories>
-        <category>展厅</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>泉さんとの相談</title>
-    <url>/%E6%B3%89%E3%81%95%E3%82%93%E3%81%A8%E3%81%AE%E7%9B%B8%E8%AB%87/</url>
-    <content><![CDATA[<blockquote>
-<p>とっても突然ですけど、申し訳ございません。私は、泉さんに言いたいことがあるから。</p>
-<p>一年半くらい前に、王路児さんは私の彼女になりましたのは、もうお覚えでしょうか。私たちは素晴らしい時間を過ごしました。少なくとも私はそう思いました。しかし、三ヶ月くらい前に、私たちは別かれてしまいました。</p>
-<p>私は今までも、毎日とっても苦しんで過ごしていたんでした。毎日、いったいどうやってその人の心を取り戻せるのかとずうっと考えていました。</p>
-<p>彼女は今、東京大学で交換留学しています。それは、泉さんはもう知っていましたかもしれません。彼女は、日本の研究環境はとても自由で楽しそうだと思いましたから、卒業した東大の修士に申し込むつもりです。</p>
-<p>彼女は、うちの大学でいい成績を持ち、日本語は中学からずっと勉強していたからすごく上手、東大で交換留学した経験もありますから、東大の修士に合格する可能性が高いんです。</p>
-<p>だから、復縁する思いを持っている私は、一緒に東大の修士になれるように、頑張りたいんです。だからこそ、私は今、真面目に日本語を独学したり、TOEFLに合格するために英語も勉強したりしています。</p>
-<p>でもさあ、それはばかばかしいといわれてしまうかもしれませんね。泉さんはどう思うんですか？ずっと前から泉さんを尊敬しているので、今日はわざと泉さんのご意見を伺います。</p>
-<p>（今、ただN３のレベルので、以上の書いた言語は間違いがたくさんありますかもしれないのは、すみません。）</p>
-</blockquote>
-<p><br></p>
-<blockquote>
-<p>お久ぶりです。返事が遅れてごめんなさい。</p>
-<p>まず、言いたいことは大体わかりました。日本語本当に上手になったね。</p>
-<p>お二人が別れたと聞いてとても残念です。</p>
-<p>卢くんがまだ王さんとお付き合いするために勉強を頑張っているのも立派だと思います。</p>
-<p>でも、なぜ別かれてしまったのかは冷静に考えたほうがいいと思います。</p>
-<p>今東京と上海は遠く、簡単には会いに行けないと思います。そのことだけが原因で別れたのなら、卢くんも東京に留学すれば、またお付き合いできると思います。</p>
-<p>一方で、王さんは東京で勉強に集中したくて別れた可能性はありませんか？それのも別かれる前に喧嘩とかしてないですか？そのような場合、東京に来れてもまだお付き合いできるとは限りませんよね。</p>
-<p>私は卢さんの努力をばかばかしいとは絶対に言いません。でも、一度卢くんご自身で別れるまでの経緯を振り返ってみて、今の努力が報われるか考えてみてはどうでしょうか？</p>
-</blockquote>
-<p><br></p>
-<blockquote>
-<p>ご返事してくださってすごく嬉しかったです。ありがとうございます！</p>
-<p>泉さんのおっしゃる通りです。問題の核心は、私たちの別れる原因です。</p>
-<p>ちょっと複雑ですが、なるべく日本語でご説明いたします。</p>
-<p>彼女は、私は生まれた今まで最も好きになった女の子でした。それに加えて、私はもう交通大学のようないい大学（少なくとも中国で）が合格しましたので、自分の人生はこれからきっと最高でうまくいけますと思っていたから、勉強を頑張らないようになってしまいました。頑張らなくても、未来にはきっといい仕事といい妻ができると思っていたから。まあ、もちろん今更思えば、それはとっても幼稚な考えだけでした。</p>
-<p>それで、彼女はますます、私の向上心が足りないと思うことになります。嫌気もだんだん増えました。</p>
-<p>それに対して、私は、彼女は私と一緒にいるのに、十分な時間を割いていないと思いますから、先に「別れよう」といいました。でも、それは本気ではなかった。私をもっと大切にしてもらうためだけの腹立たしい言葉でした。しかし、彼女は「じゃあ、そうしよう。君はこの一年に私のそばにいてくれてありがとう。もっと適した彼女が見つけるように。」といいました。</p>
-<p>別れた後、私はどうしても彼女を忘れられなかった。</p>
-<p>以前の自分をよく反省します。確かにその「この人生はもう最高だ」という思いはとっても幼稚なだと思います。</p>
-<p>だからこそ、いま努力するのが始まりたいんです。でも、彼女はもう二度と私のことに好きにならないかもしれないとか、新しい男の子のことに好きになるかもしれないとかと思うと、私はすぐにすごく落ち込んでしまいます。努力する気も一瞬でなくなってしまいます。</p>
-<p>こんなにたくさん愚痴を言って、ほんとにごめんなさい。でも、いま私はとてもつらく生きています。どうすればいいのかもよくわかりません。泉さんから、優しい言葉を言っていただきたいんです。ご迷惑をかけて申し訳ございません。</p>
-</blockquote>
-<p><br></p>
-<blockquote>
-<p>また返事遅れてすみません！木曜金曜は仕事が長引いて返事できませんでした。</p>
-<p>なるほど、お互いの勉強への姿勢の違いがあったのなら、別れてもしょうがない気がします。</p>
-<p>立派な大学を出れば立派な人生を送れると思ってしまう気持ちはわかります。別に怠惰だなんて思わないよ。</p>
-<p>一方で、夢中になれる勉強があると時間がいくらあっても足りないんですよね。王さんの気持ちもわかります。</p>
-<p>結局は二人の時間の使い方の違いでしかなくて、別れたのも仕方なかったんじゃないかと思います。</p>
-<p>それでも卢くんが復縁したいなら、勉強を頑張るよりもお互いの価値観を理解することが大事かもしれません。お互いが勉強や仕事に夢中になったら、結局すれ違いで別れてしまうことになるかもしれませんよ？</p>
-<p>だから、不安に思いながら勉強するくらいなら、王さんに連絡してみるのはどうでしょうか？お互い価値観の違いを知ってもお付き合いを続けられるか、話してみてはどうでしょうか？</p>
-<p>もちろん王さんはもう彼氏がいるかもしれませんが、それで知らずに思い悩むよりはマシだと思いますよ。「案ずるより産むがやすし」です。</p>
-</blockquote>
-<p><br></p>
-<blockquote>
-<p>返事がちょっと遅れるので謝る必要が全然ありません！泉さんは優しい言葉を言ってくれて、それだけで元気づけられました。</p>
-<p>お忙しいところで、こんなに面倒な質問をするのが、恥ずかしくてすみません。</p>
-<p>実は、彼女に連絡することができませんからこそ、二人の周りの人を相談するんでした。</p>
-<p>でも、彼女は日本へ出発する前に、私たちは約束しました。彼女はどうしても私と恋愛を続けたくないから、私は「じゃあ、私は君を放して、君は日本へ行こう。でもせめて、半年後に君は帰国した学校帰った時には、二人はもう一回会おうはどうでしょうか？」って言った。彼女は同意しました。</p>
-<p>この間に、彼女は新しい彼氏ができないことを祈っていました(笑)。そして、私もこの半年くらいの時間に、もっと優れた自分をその人に見せるように、自分を変えてやる。結局はどうになるのは予想できないんですが、そうしなきゃならないんだよね。</p>
-<p>それより、もし未来には私は本当に東京へ行ったら、ぜひ泉さんのお宅を訪ねて伺います！楽しみですね。</p>
-<p>ちなみに、私は最近lineのアカウントができた。もしよければ、交換してもいいですか？</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>日语</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>测试</title>
-    <url>/%E6%B5%8B%E8%AF%95/</url>
-    <content><![CDATA[<h1
-id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的一级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的一级标题</h1>
-<h2
-id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的二级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的二级标题</h2>
-<h3
-id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的三级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的三级标题</h3>
-<h1 id="表格测试">表格测试</h1>
-<table>
-<thead>
-<tr class="header">
-<th>1</th>
-<th>2</th>
-<th>3</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>甲</td>
-<td>乙</td>
-<td>丙</td>
-</tr>
-</tbody>
-</table>
-<h1 id="latex测试"><span class="math inline">\(\LaTeX\)</span>测试</h1>
-<p>行内<span class="math inline">\(f(x)=\sin(x)\)</span>。</p>
-<p>公式块 <span class="math display">\[
-\begin{aligned}
-    \sum_f E_{ote}(\mathcal{L}_a|X,f)&amp;=\sum_f\sum_h\sum_{x\in
-\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne f(x))P(h|X,\mathcal{L}_a)\\
-    &amp;=\sum_{x\in\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\sum_f\mathbb{I}(h(x)\ne
-f(x))\\
-    &amp;=\sum_{x\in
-\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\frac{1}{2}2^{|\mathcal{X}|}\\
-    &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in
-\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\\
-    &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in \mathcal{X}-X}P(x)\\
-\end{aligned}
-\]</span></p>
-<h1 id="toc测试">TOC测试</h1>
-<h1 id="一级标题1">一级标题1</h1>
-<h2 id="二级标题1">二级标题1</h2>
-<h3 id="三级标题1">三级标题1</h3>
-<h3 id="三级标题2">三级标题2</h3>
-<h3 id="三级标题3">三级标题3</h3>
-<h3 id="三级标题4">三级标题4</h3>
-<h2 id="二级标题2">二级标题2</h2>
-<h3 id="三级标题">三级标题</h3>
-<h4 id="四级标题">四级标题</h4>
-<h5 id="五级标题">五级标题</h5>
-<h6 id="六级标题">六级标题</h6>
-<p><strong>加粗</strong></p>
-<p>正文</p>
-<p><em>斜体</em></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>欢迎来到我的博客！</title>
-    <url>/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%EF%BC%81/</url>
-    <content><![CDATA[<p>这是我的第一篇博客</p>
-<p>以后会经常在这里记录一些我的学习经历</p>
-<p>包括各种技术的踩坑之旅</p>
-<p><strong>加油</strong></p>
-<p><strong>頑張って！</strong>❤</p>
-]]></content>
-      <categories>
-        <category>日记</category>
       </categories>
   </entry>
 </search>
