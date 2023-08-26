@@ -1938,4 +1938,50 @@ f(x))\\
         <category>书架</category>
       </categories>
   </entry>
+  <entry>
+    <title>求职模板</title>
+    <url>/%E6%B1%82%E8%81%8C%E6%A8%A1%E6%9D%BF/</url>
+    <content><![CDATA[<h1 id="简历">简历</h1>
+<h2 id="个人信息">个人信息</h2>
+<ul>
+<li>姓名：卢天宇</li>
+<li>性别：男</li>
+<li>年龄：23</li>
+<li>邮箱：384668412@qq.com</li>
+</ul>
+<h2 id="工作及教育经历">工作及教育经历</h2>
+<ul>
+<li><strong>2019.09-2025.06</strong> 上海交通大学
+软件工程专业本科生</li>
+<li><strong>2021.07-2021.09</strong> 上海那一科技有限公司
+前端开发实习生</li>
+</ul>
+<h2 id="专业技能">专业技能</h2>
+<ul>
+<li>熟练使用C++，了解Java，python等编程语言</li>
+<li>掌握基础数据结构和算法</li>
+</ul>
+<h2 id="项目经历">项目经历</h2>
+<ul>
+<li>LSM键值存储系统</li>
+</ul>
+<h2 id="获奖经历">获奖经历</h2>
+<ul>
+<li>2019.12：密西根学院自设奖学金——吴炯孙洁阳光奖学金，额度10,000元</li>
+<li>2021.01：入选上海交通大学致远工科荣誉计划</li>
+<li>2021.12：致远励志奖学金，额度5,000元</li>
+<li>2022.03：电子信息与电气工程学院B类奖学金，额度1,000元</li>
+<li>2022.12：致远励志奖学金，额度5,000元</li>
+<li>2022.12：电子信息与电气工程学院C类奖学金，额度500元</li>
+</ul>
+<h2 id="个人账号">个人账号</h2>
+<ul>
+<li>个人博客：https://lulu010722.com</li>
+<li>github：https://github.com/lulu010722</li>
+</ul>
+]]></content>
+      <categories>
+        <category>配置</category>
+      </categories>
+  </entry>
 </search>
