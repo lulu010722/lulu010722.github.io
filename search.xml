@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>CNAME的必要性</title>
-    <url>/cname%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/</url>
-    <content><![CDATA[<p>首先，如果不写<code>CNAME</code>的话，我们只能从<code>https://username.github.io</code>这个网址进行访问，但是显然如果有一个更好记忆的自定义域名会更好。</p>
-<p>于是，我在腾讯云上买了两个域名<code>lulu010722.cn</code>和<code>lulu010722.com</code>。</p>
-<p>之后需要在域名提供商处进行域名解析，一般是通过CNAME类型进行解析。</p>
-<p>最后，在项目目录中也需要添加<code>CNAME</code>文件，在其中输入使用的域名。</p>
-<p>之前一直不懂的地方就是这里，为什么腾讯云的域名已经解析到<code>github page</code>了，还是无法访问，现在推测，可能是权限问题。</p>
-<p>在将<code>CNAME</code>文件定义好之后，我们就可以从原本地址和新购买的地址进行访问了。</p>
-<p>不过，用原地址访问时，浏览器导航栏会自动切换为自定义地新网址。</p>
-]]></content>
-      <categories>
-        <category>配置</category>
-      </categories>
-  </entry>
-  <entry>
     <title>计算机系统基础</title>
     <url>/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<p>[TOC]</p>
@@ -796,6 +781,38 @@ style="font-size: 50px; font-weight: bold; color: #777; margin: 22px 0; line-hei
       </categories>
   </entry>
   <entry>
+    <title>cse-lab1踩坑</title>
+    <url>/cse-lab1%E8%B8%A9%E5%9D%91/</url>
+    <content><![CDATA[<ol type="1">
+<li>memcpy与strncpy。</li>
+<li>get_inode需要在堆中分配内存。</li>
+<li>局部字符数组最好初始化为0。</li>
+<li>ino的block不要随便free，有可能free掉别人的合法block。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>课程</category>
+      </categories>
+      <tags>
+        <tag>踩坑</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CNAME的必要性</title>
+    <url>/cname%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/</url>
+    <content><![CDATA[<p>首先，如果不写<code>CNAME</code>的话，我们只能从<code>https://username.github.io</code>这个网址进行访问，但是显然如果有一个更好记忆的自定义域名会更好。</p>
+<p>于是，我在腾讯云上买了两个域名<code>lulu010722.cn</code>和<code>lulu010722.com</code>。</p>
+<p>之后需要在域名提供商处进行域名解析，一般是通过CNAME类型进行解析。</p>
+<p>最后，在项目目录中也需要添加<code>CNAME</code>文件，在其中输入使用的域名。</p>
+<p>之前一直不懂的地方就是这里，为什么腾讯云的域名已经解析到<code>github page</code>了，还是无法访问，现在推测，可能是权限问题。</p>
+<p>在将<code>CNAME</code>文件定义好之后，我们就可以从原本地址和新购买的地址进行访问了。</p>
+<p>不过，用原地址访问时，浏览器导航栏会自动切换为自定义地新网址。</p>
+]]></content>
+      <categories>
+        <category>配置</category>
+      </categories>
+  </entry>
+  <entry>
     <title>JPA事务控制与外键死锁</title>
     <url>/jpa%E4%BA%8B%E5%8A%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%A4%96%E9%94%AE%E6%AD%BB%E9%94%81/</url>
     <content><![CDATA[<h1 id="问题背景">问题背景</h1>
@@ -837,23 +854,6 @@ B --> D(OrderItemDao::addList);</pre>
 <p>则，当时用下面的代码时，会有问题。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">ifstream <span class="title">in</span><span class="params">(<span class="string">&quot;test.txt&quot;</span>)</span></span>;</span><br><span class="line">    <span class="keyword">while</span> (!in.<span class="built_in">eof</span>()) &#123;</span><br><span class="line">       	<span class="type">int</span> length;</span><br><span class="line">        in &gt;&gt; length;</span><br><span class="line">        <span class="type">char</span> tmp[length + <span class="number">1</span>];</span><br><span class="line">        in.<span class="built_in">read</span>(tmp, length);</span><br><span class="line">        cout &lt;&lt; tmp &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>原因在于，第三行读取完成后，不管是否将最后的换行符进行了消除，<code>eof()</code>会仍然返回false，因为只有当读到最后一个字符并尝试继续读的时候，该函数才会返回true。</p></li>
-</ol>
-]]></content>
-      <categories>
-        <category>课程</category>
-      </categories>
-      <tags>
-        <tag>踩坑</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>cse-lab1踩坑</title>
-    <url>/cse-lab1%E8%B8%A9%E5%9D%91/</url>
-    <content><![CDATA[<ol type="1">
-<li>memcpy与strncpy。</li>
-<li>get_inode需要在堆中分配内存。</li>
-<li>局部字符数组最好初始化为0。</li>
-<li>ino的block不要随便free，有可能free掉别人的合法block。</li>
 </ol>
 ]]></content>
       <categories>
@@ -908,65 +908,6 @@ actions/checkout@v3集成</h2>
       </categories>
       <tags>
         <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>inode文件系统</title>
-    <url>/inode%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/</url>
-    <content><![CDATA[<h1 id="层架构">7层架构</h1>
-<h2 id="block-layer">Block Layer</h2>
-<p>将block的序数，映射到block中实际的数据。</p>
-<p><strong>块大小的权衡</strong></p>
-<p>太小，则bitmap所需空间太大。</p>
-<p>太大，则内部浪费可能比较严重。</p>
-<p><br></p>
-<h2 id="file-layer">File Layer</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct inode</span><br><span class="line">	integer block_nums[N]</span><br><span class="line">	integer size</span><br></pre></td></tr></table></figure>
-<p>N决定了一个文件最大有多大。</p>
-<p>与块大小的权衡一样，N的大小也存在权衡。</p>
-<p><strong>解决措施</strong>：多级inode。</p>
-<p>inode的block_nums中的元素可以指向另外一个inode，类似于多级页表。</p>
-<p>个人理解，在block层上又封装了一层inode的原因，就是因为inode可以做多级操作，否则就和block相同了，区别仅仅是更大。</p>
-<p><br></p>
-<h2 id="inode-number-layer">Inode Number Layer</h2>
-<p>将inode放在一张表里，这样可以通过index来访问某一inode。</p>
-<p><br></p>
-<h2 id="file-name-layer">File Name Layer</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct inode</span><br><span class="line">	integer block_nums[N]</span><br><span class="line">	integer size</span><br><span class="line">	integer type // 记录inode类型，包含常规文件，目录，和符号链接等等</span><br></pre></td></tr></table></figure>
-<h2 id="path-name-layer">Path Name Layer</h2>
-<p>链接link。</p>
-<p>可以将多个文件名映射到同一个inode。</p>
-<p>除了.和..，不允许对目录进行链接，否则可能会出现“外存泄露”。</p>
-<p><strong>重命名-1</strong></p>
-<ol type="1">
-<li>UNLINK(to_name)</li>
-<li>LINK(from_name, to_name)</li>
-<li>UNLINK(from_name)</li>
-</ol>
-<p>但是这种实现有问题，当1和2之前出现了failure时，to_name没了，但是from_name还在。</p>
-<p><strong>重命名-2</strong></p>
-<ol type="1">
-<li>LINK(from_name, to_name)</li>
-<li>UNLINK(from_name)</li>
-</ol>
-<p><br></p>
-<h2 id="absolute-path-name-layer">Absolute Path Name Layer</h2>
-<p>根目录/。其.和..都指向/。</p>
-<p><br></p>
-<h2 id="symbolic-link-layer">Symbolic Link Layer</h2>
-<p>跨存储设备。</p>
-<p>通过文件名进行链接。</p>
-<p>其大小指的是文件名字符串长度。</p>
-<p><strong>问题</strong>：如果通过symbolic link进入了一个目录，再运行cd
-..，则会进入哪个目录？</p>
-<p><strong>答案</strong>：会进入原目录，而不是实际目录的上层目录。</p>
-<p>因为cd ..会被bash先解析，这是一种优化。</p>
-]]></content>
-      <categories>
-        <category>课程</category>
-      </categories>
-      <tags>
-        <tag>cse</tag>
       </tags>
   </entry>
   <entry>
@@ -1083,23 +1024,63 @@ D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
       </tags>
   </entry>
   <entry>
-    <title>我的画</title>
-    <url>/%E6%88%91%E7%9A%84%E7%94%BB/</url>
-    <content><![CDATA[<h1 id="pro-create">Pro Create</h1>
-<img src="/%E6%88%91%E7%9A%84%E7%94%BB/procreate.jpg" class="">
-<p><strong>日期</strong>：2022-9-19</p>
+    <title>inode文件系统</title>
+    <url>/inode%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<h1 id="层架构">7层架构</h1>
+<h2 id="block-layer">Block Layer</h2>
+<p>将block的序数，映射到block中实际的数据。</p>
+<p><strong>块大小的权衡</strong></p>
+<p>太小，则bitmap所需空间太大。</p>
+<p>太大，则内部浪费可能比较严重。</p>
 <p><br></p>
-<h1 id="炭治郎">炭治郎</h1>
-<img src="/%E6%88%91%E7%9A%84%E7%94%BB/tanjirou.jpg" class="">
-<p><strong>日期</strong>：2022-9-24</p>
+<h2 id="file-layer">File Layer</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct inode</span><br><span class="line">	integer block_nums[N]</span><br><span class="line">	integer size</span><br></pre></td></tr></table></figure>
+<p>N决定了一个文件最大有多大。</p>
+<p>与块大小的权衡一样，N的大小也存在权衡。</p>
+<p><strong>解决措施</strong>：多级inode。</p>
+<p>inode的block_nums中的元素可以指向另外一个inode，类似于多级页表。</p>
+<p>个人理解，在block层上又封装了一层inode的原因，就是因为inode可以做多级操作，否则就和block相同了，区别仅仅是更大。</p>
 <p><br></p>
-<h1 id="香奈乎">香奈乎</h1>
-<img src="/%E6%88%91%E7%9A%84%E7%94%BB/kanao.jpg" class="">
-<p><strong>日期</strong>：2022-9-25</p>
+<h2 id="inode-number-layer">Inode Number Layer</h2>
+<p>将inode放在一张表里，这样可以通过index来访问某一inode。</p>
+<p><br></p>
+<h2 id="file-name-layer">File Name Layer</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct inode</span><br><span class="line">	integer block_nums[N]</span><br><span class="line">	integer size</span><br><span class="line">	integer type // 记录inode类型，包含常规文件，目录，和符号链接等等</span><br></pre></td></tr></table></figure>
+<h2 id="path-name-layer">Path Name Layer</h2>
+<p>链接link。</p>
+<p>可以将多个文件名映射到同一个inode。</p>
+<p>除了.和..，不允许对目录进行链接，否则可能会出现“外存泄露”。</p>
+<p><strong>重命名-1</strong></p>
+<ol type="1">
+<li>UNLINK(to_name)</li>
+<li>LINK(from_name, to_name)</li>
+<li>UNLINK(from_name)</li>
+</ol>
+<p>但是这种实现有问题，当1和2之前出现了failure时，to_name没了，但是from_name还在。</p>
+<p><strong>重命名-2</strong></p>
+<ol type="1">
+<li>LINK(from_name, to_name)</li>
+<li>UNLINK(from_name)</li>
+</ol>
+<p><br></p>
+<h2 id="absolute-path-name-layer">Absolute Path Name Layer</h2>
+<p>根目录/。其.和..都指向/。</p>
+<p><br></p>
+<h2 id="symbolic-link-layer">Symbolic Link Layer</h2>
+<p>跨存储设备。</p>
+<p>通过文件名进行链接。</p>
+<p>其大小指的是文件名字符串长度。</p>
+<p><strong>问题</strong>：如果通过symbolic link进入了一个目录，再运行cd
+..，则会进入哪个目录？</p>
+<p><strong>答案</strong>：会进入原目录，而不是实际目录的上层目录。</p>
+<p>因为cd ..会被bash先解析，这是一种优化。</p>
 ]]></content>
       <categories>
-        <category>展厅</category>
+        <category>课程</category>
       </categories>
+      <tags>
+        <tag>cse</tag>
+      </tags>
   </entry>
   <entry>
     <title>前端练习</title>
@@ -1132,6 +1113,25 @@ D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
 </blockquote>
 <p><strong>演奏者</strong>：可可同学，可爱的可</p>
 <p><strong>曲目</strong>：寒鸦戏水</p>
+]]></content>
+      <categories>
+        <category>展厅</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>我的画</title>
+    <url>/%E6%88%91%E7%9A%84%E7%94%BB/</url>
+    <content><![CDATA[<h1 id="pro-create">Pro Create</h1>
+<img src="/%E6%88%91%E7%9A%84%E7%94%BB/procreate.jpg" class="">
+<p><strong>日期</strong>：2022-9-19</p>
+<p><br></p>
+<h1 id="炭治郎">炭治郎</h1>
+<img src="/%E6%88%91%E7%9A%84%E7%94%BB/tanjirou.jpg" class="">
+<p><strong>日期</strong>：2022-9-24</p>
+<p><br></p>
+<h1 id="香奈乎">香奈乎</h1>
+<img src="/%E6%88%91%E7%9A%84%E7%94%BB/kanao.jpg" class="">
+<p><strong>日期</strong>：2022-9-25</p>
 ]]></content>
       <categories>
         <category>展厅</category>
@@ -1198,95 +1198,6 @@ D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
 ]]></content>
       <categories>
         <category>日语</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>《月亮与六便士》</title>
-    <url>/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/</url>
-    <content><![CDATA[<blockquote>
-<p>满地都是六便士，他却抬头看见了月亮。</p>
-</blockquote>
-<p>其实，上面这句话，并非出自原书。起初是对毛姆的《人性的弱点》的匿名评论，被刘瑜概括成了这句话。毛姆很喜欢月亮和六便士的比喻，便以此为题，开始进行他下一篇长篇小说的创作。</p>
-<img src="/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/liubianshi.png" class="">
-<p>思特里克兰德是一个极为勇敢的天才，同时也是一个人性的罪犯。</p>
-<p>故事开篇，他已然是一个小有成就的股票经纪人，有一个漂亮贤惠的妻子，和一对健康活泼的儿女。但是，一个人的处境越安逸，越稳定，想要跳出这种枷锁，便越需要非凡的勇气。当思特里克兰德决定去往巴黎，再也不回来的时候，那给读者的感觉，是多种情感的复合。是费解，是好奇，是愤怒，同时也在读者心中悄然树立他非凡的形象。</p>
-<p>他来到巴黎，本就不富裕的生活，很快就变得更加落魄。此时，施特略夫对他的帮助，是不被理解的，甚至是有违常理的。施特略夫是这本书里一个悲剧人物，笔者从他的身上看到了自己的影子。他是一个一味讨好的人，是一个无法拒绝别人的人，甚至是没有尊严的人。毛姆笔下的“我”，对它的态度是同情，而又轻蔑。</p>
-<p>没有底线地付出自己的好，会把一个人变得低价值，而低价值的人所展现出的善良，又经常会被践踏。这是人性的弱点，有些人会下意识地慕强，对于低价值的人，他们唯恐避之不及。另一方面，只有低价值的人，才会无限制地对别人好。他无法通过自己的外在的或内在的魅力吸引他人，所以只能通过一些廉价的讨好，来维持与他人的关系，无论是爱情，友情还是社交。这些人被亲近的人用“善良“夸赞，殊不知那恰恰不是真心的善良，而是一种软弱。这听起来或许很残酷，可是，可怜之人必有可恨之处。他们在讨好别人的简单模式，和提升自己的困难模式之中，选择了前者，来维持一些肤浅的，一碰就碎的关系，可谓是舍本逐末。施特略夫惹人同情，可是，对于他自己的悲剧，我认为他不无责任。他那近乎无耻的善意，虽然拯救了思特里克兰德的生命，但是仍然遭人唾弃，这就是人性。</p>
-<p>害死了布兰特，伤透了施特略夫，在被问及，“你是否对这些事，曾经抱有过一点内疚的情感？”时，思特里克兰德的回答是，“我为什么要内疚？”他丝毫不受影响，即使他的身上，已经搭上了一条人命。他的冷漠深入骨髓，任何道德或伦理，在他这里无法奏效。他作为一个人，是一个道德的罪犯，然而他确实是一个真正自由的人。</p>
-<p>他在马赛的生活我认为可以忽略，仅仅以艰难困苦代替即可。</p>
-<p>在塔希提岛，他真正找到了自己一直寻找的心灵归处。他找到了一个真正爱他的女人，他又有了几个孩子，虽然这些对他而言，轻如鸿毛。他开始在山中一间偏僻又简陋的屋子里，开始自己的创作。上帝首先是夺走了他的眼睛，然而这无法阻止他沉浸在那个涂满壁画的屋子里，直到他被夺去了生命，连同他那惊世骇俗的壁画屋一起。</p>
-<p><br></p>
-<p>多看了几篇他人的书评，仔细琢磨了书中的次要人物，也有新发现。</p>
-<p>思特里克兰德太太是一个精明有城府的人，他善于伪装自己，即使她的丈夫早已抛弃他二十余年，她还是对外人维持着一种平安无事的假象。书中有这样一段话：</p>
-<blockquote>
-<p>在她破碎的心中，爱情受辱的苦闷是否掺杂着虚荣心受损的痛苦，这在年轻的我看来是肮脏的，这种怀疑令我不安。</p>
-</blockquote>
-<p>她的悲伤是不单纯的，其中怀有对社会地位丧失，对自身颜面扫地的虚荣。</p>
-<p>而布兰特，她没有选择，幼年遭遇使她没有办法拒绝当时的施特略夫，从而嫁给了一个她不爱的男人。当听说丈夫要带思特里克兰德回家养病，她的恐惧，也许是害怕自己真的会压抑不住性的呼唤，做出有悖伦理的事。这在当时的英国社会，是饱受唾弃的。</p>
-<p><br></p>
-<p>本想补充些什么，终于想不出，便放些名句摘抄不妨。</p>
-<blockquote>
-<p>她这么说毫无贬低之意，反倒充满深情，她好像希望通过承认他最差的一面，来保护他免受朋友诽谤。</p>
-</blockquote>
-<blockquote>
-<p>愤怒的道德没有足够的力量对罪人直接加以惩罚，这总是令人痛心的。</p>
-</blockquote>
-<blockquote>
-<p>我不知真诚中有多少伪装，高贵中有多少卑鄙，邪恶中有多少善良。</p>
-</blockquote>
-<blockquote>
-<p>一个人掉进水里，游泳游得好坏都无关紧要，他必须出去，否则就会淹死。</p>
-</blockquote>
-<blockquote>
-<p>只有诗人或圣徒才会自信地期望，浇灌沥青路面，百合花会回报他的辛劳。</p>
-</blockquote>
-<blockquote>
-<p>当人们说他们不在乎别人怎么看他们时，他们多半是在欺骗自己。</p>
-<p>当你的非常规只是你那个群体的常规时，做到世人眼中的非常规并不难。</p>
-</blockquote>
-<blockquote>
-<p>她很精明地意识到，你老是诉说不幸，人们很快就会厌倦，而且不愿看到你的惨样。</p>
-</blockquote>
-<blockquote>
-<p>女人经常为了爱情寻短见，但一般来说，她们会很小心，不会让自杀成功。</p>
-</blockquote>
-<blockquote>
-<p>女人可以原谅他对她造成的伤害，却永远无法原谅他为她做出的牺牲。</p>
-</blockquote>
-<blockquote>
-<p>自命不凡只会暴露他的思想贫乏。涂了油漆貌似铁板的木条看上去也只是木条。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>书架</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>柯柯的画</title>
-    <url>/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/</url>
-    <content><![CDATA[<h1 id="阿贝多">阿贝多</h1>
-<img src="/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/abeiduo.jpg" class="">
-<blockquote>
-<p>玩原神的时候被阿贝多的美貌感动到了，想当阿贝多的狗😍</p>
-</blockquote>
-<p><strong>作者</strong>：柯柯，软院小仙男</p>
-<p><strong>人物</strong>：阿贝多——原神</p>
-]]></content>
-      <categories>
-        <category>展厅</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>欢迎来到我的博客！</title>
-    <url>/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%EF%BC%81/</url>
-    <content><![CDATA[<p>这是我的第一篇博客</p>
-<p>以后会经常在这里记录一些我的学习经历</p>
-<p>包括各种技术的踩坑之旅</p>
-<p><strong>加油</strong></p>
-<p><strong>頑張って！</strong>❤</p>
-]]></content>
-      <categories>
-        <category>日记</category>
       </categories>
   </entry>
   <entry>
@@ -1786,6 +1697,95 @@ assignment3。尝试学习tikz画图论用图，但是失败了。。</li>
       </categories>
   </entry>
   <entry>
+    <title>柯柯的画</title>
+    <url>/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/</url>
+    <content><![CDATA[<h1 id="阿贝多">阿贝多</h1>
+<img src="/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/abeiduo.jpg" class="">
+<blockquote>
+<p>玩原神的时候被阿贝多的美貌感动到了，想当阿贝多的狗😍</p>
+</blockquote>
+<p><strong>作者</strong>：柯柯，软院小仙男</p>
+<p><strong>人物</strong>：阿贝多——原神</p>
+]]></content>
+      <categories>
+        <category>展厅</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>《月亮与六便士》</title>
+    <url>/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/</url>
+    <content><![CDATA[<blockquote>
+<p>满地都是六便士，他却抬头看见了月亮。</p>
+</blockquote>
+<p>其实，上面这句话，并非出自原书。起初是对毛姆的《人性的弱点》的匿名评论，被刘瑜概括成了这句话。毛姆很喜欢月亮和六便士的比喻，便以此为题，开始进行他下一篇长篇小说的创作。</p>
+<img src="/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/liubianshi.png" class="">
+<p>思特里克兰德是一个极为勇敢的天才，同时也是一个人性的罪犯。</p>
+<p>故事开篇，他已然是一个小有成就的股票经纪人，有一个漂亮贤惠的妻子，和一对健康活泼的儿女。但是，一个人的处境越安逸，越稳定，想要跳出这种枷锁，便越需要非凡的勇气。当思特里克兰德决定去往巴黎，再也不回来的时候，那给读者的感觉，是多种情感的复合。是费解，是好奇，是愤怒，同时也在读者心中悄然树立他非凡的形象。</p>
+<p>他来到巴黎，本就不富裕的生活，很快就变得更加落魄。此时，施特略夫对他的帮助，是不被理解的，甚至是有违常理的。施特略夫是这本书里一个悲剧人物，笔者从他的身上看到了自己的影子。他是一个一味讨好的人，是一个无法拒绝别人的人，甚至是没有尊严的人。毛姆笔下的“我”，对它的态度是同情，而又轻蔑。</p>
+<p>没有底线地付出自己的好，会把一个人变得低价值，而低价值的人所展现出的善良，又经常会被践踏。这是人性的弱点，有些人会下意识地慕强，对于低价值的人，他们唯恐避之不及。另一方面，只有低价值的人，才会无限制地对别人好。他无法通过自己的外在的或内在的魅力吸引他人，所以只能通过一些廉价的讨好，来维持与他人的关系，无论是爱情，友情还是社交。这些人被亲近的人用“善良“夸赞，殊不知那恰恰不是真心的善良，而是一种软弱。这听起来或许很残酷，可是，可怜之人必有可恨之处。他们在讨好别人的简单模式，和提升自己的困难模式之中，选择了前者，来维持一些肤浅的，一碰就碎的关系，可谓是舍本逐末。施特略夫惹人同情，可是，对于他自己的悲剧，我认为他不无责任。他那近乎无耻的善意，虽然拯救了思特里克兰德的生命，但是仍然遭人唾弃，这就是人性。</p>
+<p>害死了布兰特，伤透了施特略夫，在被问及，“你是否对这些事，曾经抱有过一点内疚的情感？”时，思特里克兰德的回答是，“我为什么要内疚？”他丝毫不受影响，即使他的身上，已经搭上了一条人命。他的冷漠深入骨髓，任何道德或伦理，在他这里无法奏效。他作为一个人，是一个道德的罪犯，然而他确实是一个真正自由的人。</p>
+<p>他在马赛的生活我认为可以忽略，仅仅以艰难困苦代替即可。</p>
+<p>在塔希提岛，他真正找到了自己一直寻找的心灵归处。他找到了一个真正爱他的女人，他又有了几个孩子，虽然这些对他而言，轻如鸿毛。他开始在山中一间偏僻又简陋的屋子里，开始自己的创作。上帝首先是夺走了他的眼睛，然而这无法阻止他沉浸在那个涂满壁画的屋子里，直到他被夺去了生命，连同他那惊世骇俗的壁画屋一起。</p>
+<p><br></p>
+<p>多看了几篇他人的书评，仔细琢磨了书中的次要人物，也有新发现。</p>
+<p>思特里克兰德太太是一个精明有城府的人，他善于伪装自己，即使她的丈夫早已抛弃他二十余年，她还是对外人维持着一种平安无事的假象。书中有这样一段话：</p>
+<blockquote>
+<p>在她破碎的心中，爱情受辱的苦闷是否掺杂着虚荣心受损的痛苦，这在年轻的我看来是肮脏的，这种怀疑令我不安。</p>
+</blockquote>
+<p>她的悲伤是不单纯的，其中怀有对社会地位丧失，对自身颜面扫地的虚荣。</p>
+<p>而布兰特，她没有选择，幼年遭遇使她没有办法拒绝当时的施特略夫，从而嫁给了一个她不爱的男人。当听说丈夫要带思特里克兰德回家养病，她的恐惧，也许是害怕自己真的会压抑不住性的呼唤，做出有悖伦理的事。这在当时的英国社会，是饱受唾弃的。</p>
+<p><br></p>
+<p>本想补充些什么，终于想不出，便放些名句摘抄不妨。</p>
+<blockquote>
+<p>她这么说毫无贬低之意，反倒充满深情，她好像希望通过承认他最差的一面，来保护他免受朋友诽谤。</p>
+</blockquote>
+<blockquote>
+<p>愤怒的道德没有足够的力量对罪人直接加以惩罚，这总是令人痛心的。</p>
+</blockquote>
+<blockquote>
+<p>我不知真诚中有多少伪装，高贵中有多少卑鄙，邪恶中有多少善良。</p>
+</blockquote>
+<blockquote>
+<p>一个人掉进水里，游泳游得好坏都无关紧要，他必须出去，否则就会淹死。</p>
+</blockquote>
+<blockquote>
+<p>只有诗人或圣徒才会自信地期望，浇灌沥青路面，百合花会回报他的辛劳。</p>
+</blockquote>
+<blockquote>
+<p>当人们说他们不在乎别人怎么看他们时，他们多半是在欺骗自己。</p>
+<p>当你的非常规只是你那个群体的常规时，做到世人眼中的非常规并不难。</p>
+</blockquote>
+<blockquote>
+<p>她很精明地意识到，你老是诉说不幸，人们很快就会厌倦，而且不愿看到你的惨样。</p>
+</blockquote>
+<blockquote>
+<p>女人经常为了爱情寻短见，但一般来说，她们会很小心，不会让自杀成功。</p>
+</blockquote>
+<blockquote>
+<p>女人可以原谅他对她造成的伤害，却永远无法原谅他为她做出的牺牲。</p>
+</blockquote>
+<blockquote>
+<p>自命不凡只会暴露他的思想贫乏。涂了油漆貌似铁板的木条看上去也只是木条。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>书架</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>欢迎来到我的博客！</title>
+    <url>/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%EF%BC%81/</url>
+    <content><![CDATA[<p>这是我的第一篇博客</p>
+<p>以后会经常在这里记录一些我的学习经历</p>
+<p>包括各种技术的踩坑之旅</p>
+<p><strong>加油</strong></p>
+<p><strong>頑張って！</strong>❤</p>
+]]></content>
+      <categories>
+        <category>日记</category>
+      </categories>
+  </entry>
+  <entry>
     <title>测试</title>
     <url>/%E6%B5%8B%E8%AF%95/</url>
     <content><![CDATA[<h1
@@ -1844,14 +1844,49 @@ f(x))\\
 ]]></content>
   </entry>
   <entry>
-    <title>我的雷神🤗</title>
-    <url>/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/</url>
-    <content><![CDATA[<img src="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/leishen1.jpg" class="">
-<hr />
-<img src="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/leishen2.jpg" class="">
+    <title>求职模板</title>
+    <url>/%E6%B1%82%E8%81%8C%E6%A8%A1%E6%9D%BF/</url>
+    <content><![CDATA[<h1 id="简历">简历</h1>
+<h2 id="个人信息">个人信息</h2>
+<ul>
+<li>姓名：卢天宇</li>
+<li>性别：男</li>
+<li>年龄：23</li>
+<li>邮箱：384668412@qq.com</li>
+</ul>
+<h2 id="工作及教育经历">工作及教育经历</h2>
+<ul>
+<li><strong>2019.09-2025.06</strong> 上海交通大学
+软件工程专业本科生</li>
+<li><strong>2021.07-2021.09</strong> 上海那一科技有限公司
+前端开发实习生</li>
+</ul>
+<h2 id="专业技能">专业技能</h2>
+<ul>
+<li>熟练使用C++，了解Java，python等编程语言</li>
+<li>掌握基础数据结构和算法</li>
+</ul>
+<h2 id="项目经历">项目经历</h2>
+<ul>
+<li>LSM键值存储系统</li>
+</ul>
+<h2 id="获奖经历">获奖经历</h2>
+<ul>
+<li>2019.12：密西根学院自设奖学金——吴炯孙洁阳光奖学金，额度10,000元</li>
+<li>2021.01：入选上海交通大学致远工科荣誉计划</li>
+<li>2021.12：致远励志奖学金，额度5,000元</li>
+<li>2022.03：电子信息与电气工程学院B类奖学金，额度1,000元</li>
+<li>2022.12：致远励志奖学金，额度5,000元</li>
+<li>2022.12：电子信息与电气工程学院C类奖学金，额度500元</li>
+</ul>
+<h2 id="个人账号">个人账号</h2>
+<ul>
+<li>个人博客：https://lulu010722.com</li>
+<li>github：https://github.com/lulu010722</li>
+</ul>
 ]]></content>
       <categories>
-        <category>展厅</category>
+        <category>配置</category>
       </categories>
   </entry>
   <entry>
@@ -1939,78 +1974,14 @@ f(x))\\
       </categories>
   </entry>
   <entry>
-    <title>求职模板</title>
-    <url>/%E6%B1%82%E8%81%8C%E6%A8%A1%E6%9D%BF/</url>
-    <content><![CDATA[<h1 id="简历">简历</h1>
-<h2 id="个人信息">个人信息</h2>
-<ul>
-<li>姓名：卢天宇</li>
-<li>性别：男</li>
-<li>年龄：23</li>
-<li>邮箱：384668412@qq.com</li>
-</ul>
-<h2 id="工作及教育经历">工作及教育经历</h2>
-<ul>
-<li><strong>2019.09-2025.06</strong> 上海交通大学
-软件工程专业本科生</li>
-<li><strong>2021.07-2021.09</strong> 上海那一科技有限公司
-前端开发实习生</li>
-</ul>
-<h2 id="专业技能">专业技能</h2>
-<ul>
-<li>熟练使用C++，了解Java，python等编程语言</li>
-<li>掌握基础数据结构和算法</li>
-</ul>
-<h2 id="项目经历">项目经历</h2>
-<ul>
-<li>LSM键值存储系统</li>
-</ul>
-<h2 id="获奖经历">获奖经历</h2>
-<ul>
-<li>2019.12：密西根学院自设奖学金——吴炯孙洁阳光奖学金，额度10,000元</li>
-<li>2021.01：入选上海交通大学致远工科荣誉计划</li>
-<li>2021.12：致远励志奖学金，额度5,000元</li>
-<li>2022.03：电子信息与电气工程学院B类奖学金，额度1,000元</li>
-<li>2022.12：致远励志奖学金，额度5,000元</li>
-<li>2022.12：电子信息与电气工程学院C类奖学金，额度500元</li>
-</ul>
-<h2 id="个人账号">个人账号</h2>
-<ul>
-<li>个人博客：https://lulu010722.com</li>
-<li>github：https://github.com/lulu010722</li>
-</ul>
+    <title>我的雷神🤗</title>
+    <url>/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/</url>
+    <content><![CDATA[<img src="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/leishen1.jpg" class="">
+<hr />
+<img src="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/leishen2.jpg" class="">
 ]]></content>
       <categories>
-        <category>配置</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>自杀日记</title>
-    <url>/%E8%87%AA%E6%9D%80%E6%97%A5%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="自杀日记">自杀日记</h1>
-<p>[TOC]</p>
-<h2 id="第0天-2023.11.11">第0天-2023.11.11</h2>
-<p>跟小琛琛一起吃了小二香烤肉，嗨没本来是打算从今天开始就不吃了的，中午就没吃嘛。竟然没意识到今天是双十一，看来不看朋友圈就是与世隔绝啊。</p>
-<h2 id="第1天-2023.11.12">第1天-2023.11.12</h2>
-<p>十二点起床了，被姐姐从老家打来的视频电话催醒的。老家一堆人因为十月一上坟聚到了一起。一个一个打招呼寒暄，真麻烦，他们为什么那么开心，他们看不到令人绝望的地方吗？</p>
-<p>肚子已经有点饿了，或者说处于饿和不饿的边缘。</p>
-<p>一会可能要去跪班长要lab2代码，真丢人，真没面子。</p>
-<p>居然在大家一致的抱怨之下，lab2延期了哈哈哈</p>
-<p>21:00</p>
-<p>现在好饿啊，肚子里胃酸在燃烧，可是我能忍住，只要过了今天，明天就不饿了</p>
-<p>不过就是胃酸在催促你进食而已嘛，这么低级的欲望，如何战胜人类的意志？</p>
-<p>（上帝：傻逼人类，你们有个p意志。</p>
-<p>（上帝真的存在吗？</p>
-<h2 id="第2天-2023.11.13">第2天-2023.11.13</h2>
-<p>9点50起床，本打算在canvas上看直播，结果直播没声，我这又算是翘课了啊，一周之内三节了。</p>
-<p>《你的名字》《天气之子》，这两天一直在反复看，新海诚所描述的世界，与我幻想中的世界相去不远，也许梦醒之后，我就能到彼岸。</p>
-<h2 id="第3天-2023.11.14">第3天-2023.11.14</h2>
-<p>今天起得倒是挺早的，是为了带上新到的耳机看天气之子，顺便把自杀日记放到网站上</p>
-<p>其实在手机我也记着自杀日记，只是内容不太一样。</p>
-<p>つい、日本語で説明することが決めた。自分と周りの人たちにとって、わかりやすい言葉で心からの声を言い表すのはなんかおかしいだね。逆に、他の言語でそんなおかしくない感じがする。</p>
-]]></content>
-      <categories>
-        <category>日语</category>
+        <category>展厅</category>
       </categories>
   </entry>
 </search>
