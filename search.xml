@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>JPA事务控制与外键死锁</title>
+    <url>/jpa%E4%BA%8B%E5%8A%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%A4%96%E9%94%AE%E6%AD%BB%E9%94%81/</url>
+    <content><![CDATA[<h1 id="问题背景">问题背景</h1>
+<p>在做app作业一的第二部分时，遇到了问题（自以为是问题，没想到老师是故意让我们发现这是个bug）。</p>
+<pre class="mermaid">flowchart LR;
+A(OrderController::createOrder) --> B(OrderService::createOrder);
+B --> C(OrderDao::addOne);
+B --> D(OrderItemDao::addList);</pre>
+<p>如图，在电子书服务系统<code>E-Book</code>中，我们进行订单创建，一个订单<code>order</code>中包含多个订单项<code>orderItem</code>。</p>
+<p>现在我们要对<code>OrderService::createOrder</code>，<code>OrderDao::saveOne</code>和<code>OrderItemDao::saveList</code>进行事务传播控制，分别简称三部分为A，B，C。</p>
+<p>若A和B设置为<code>REQUIRED</code>，而C设置为<code>REQUIRES_NEW</code>，则会出现死锁问题。</p>
+<p>源代码大致如下。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// OrderServiceImpl.java</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">createOrder</span><span class="params">(List&lt;Integer&gt; bookIds, Long userId)</span> &#123;</span><br><span class="line">    <span class="type">Order</span> <span class="variable">order</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Order</span>();</span><br><span class="line">    order.setUser(userDao.findOne(userId));</span><br><span class="line">    orderDao.addOne(order);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 准备orderItems的List</span></span><br><span class="line">    List&lt;OrderItem&gt; orderItems = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    ...;</span><br><span class="line">    </span><br><span class="line">    orderItemDao.addList(orderItems);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// OrderDaoImpl.java</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addOne</span><span class="params">(Order order)</span> &#123;</span><br><span class="line">    orderRepository.save(order);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// OrderItemDaoImpl.java</span></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addList</span><span class="params">(List&lt;OrderItem&gt; orderItems)</span> &#123;</span><br><span class="line">    orderItemRepository.saveList(orderItems);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行结果为死锁。</p>
+<p><br></p>
+<h1 id="原因分析">原因分析</h1>
+<p>在B执行后，由于与A处在同一事务一里，则事务一拿到了<code>order</code>表中新插入行的锁，不管事务隔离属性如何设置，其他事务均不可进行写操作。而在随后的C流程中，写入<code>orderItems</code>的时候，<code>order_item</code>表中有<code>order</code>的外键，于是他在给<code>order_item</code>新插入的数据上锁之外，也要在<code>order</code>表中对外键所指向的数据加锁。</p>
+<p>然而C是拿不到的，因为B已经拿到了。</p>
+<p>于是此时，C等待B放锁，但是同时，B又等待C结束返回，从而形成了死锁。</p>
+<p><br></p>
+<h1 id="解决方法">解决方法</h1>
+<p>该问题说明，并不是所有业务使用<code>REQUIRES_NEW</code>传播都可以，在此场景下，都使用默认的<code>REQUIRED</code>传播属性即可。</p>
+]]></content>
+      <categories>
+        <category>课程</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CNAME的必要性</title>
+    <url>/cname%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/</url>
+    <content><![CDATA[<p>首先，如果不写<code>CNAME</code>的话，我们只能从<code>https://username.github.io</code>这个网址进行访问，但是显然如果有一个更好记忆的自定义域名会更好。</p>
+<p>于是，我在腾讯云上买了两个域名<code>lulu010722.cn</code>和<code>lulu010722.com</code>。</p>
+<p>之后需要在域名提供商处进行域名解析，一般是通过CNAME类型进行解析。</p>
+<p>最后，在项目目录中也需要添加<code>CNAME</code>文件，在其中输入使用的域名。</p>
+<p>之前一直不懂的地方就是这里，为什么腾讯云的域名已经解析到<code>github page</code>了，还是无法访问，现在推测，可能是权限问题。</p>
+<p>在将<code>CNAME</code>文件定义好之后，我们就可以从原本地址和新购买的地址进行访问了。</p>
+<p>不过，用原地址访问时，浏览器导航栏会自动切换为自定义地新网址。</p>
+]]></content>
+      <categories>
+        <category>配置</category>
+      </categories>
+  </entry>
+  <entry>
     <title>计算机系统基础</title>
     <url>/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<p>[TOC]</p>
@@ -781,52 +827,6 @@ style="font-size: 50px; font-weight: bold; color: #777; margin: 22px 0; line-hei
       </categories>
   </entry>
   <entry>
-    <title>JPA事务控制与外键死锁</title>
-    <url>/jpa%E4%BA%8B%E5%8A%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%A4%96%E9%94%AE%E6%AD%BB%E9%94%81/</url>
-    <content><![CDATA[<h1 id="问题背景">问题背景</h1>
-<p>在做app作业一的第二部分时，遇到了问题（自以为是问题，没想到老师是故意让我们发现这是个bug）。</p>
-<pre class="mermaid">flowchart LR;
-A(OrderController::createOrder) --> B(OrderService::createOrder);
-B --> C(OrderDao::addOne);
-B --> D(OrderItemDao::addList);</pre>
-<p>如图，在电子书服务系统<code>E-Book</code>中，我们进行订单创建，一个订单<code>order</code>中包含多个订单项<code>orderItem</code>。</p>
-<p>现在我们要对<code>OrderService::createOrder</code>，<code>OrderDao::saveOne</code>和<code>OrderItemDao::saveList</code>进行事务传播控制，分别简称三部分为A，B，C。</p>
-<p>若A和B设置为<code>REQUIRED</code>，而C设置为<code>REQUIRES_NEW</code>，则会出现死锁问题。</p>
-<p>源代码大致如下。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// OrderServiceImpl.java</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">createOrder</span><span class="params">(List&lt;Integer&gt; bookIds, Long userId)</span> &#123;</span><br><span class="line">    <span class="type">Order</span> <span class="variable">order</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Order</span>();</span><br><span class="line">    order.setUser(userDao.findOne(userId));</span><br><span class="line">    orderDao.addOne(order);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 准备orderItems的List</span></span><br><span class="line">    List&lt;OrderItem&gt; orderItems = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    ...;</span><br><span class="line">    </span><br><span class="line">    orderItemDao.addList(orderItems);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// OrderDaoImpl.java</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addOne</span><span class="params">(Order order)</span> &#123;</span><br><span class="line">    orderRepository.save(order);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// OrderItemDaoImpl.java</span></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addList</span><span class="params">(List&lt;OrderItem&gt; orderItems)</span> &#123;</span><br><span class="line">    orderItemRepository.saveList(orderItems);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>执行结果为死锁。</p>
-<p><br></p>
-<h1 id="原因分析">原因分析</h1>
-<p>在B执行后，由于与A处在同一事务一里，则事务一拿到了<code>order</code>表中新插入行的锁，不管事务隔离属性如何设置，其他事务均不可进行写操作。而在随后的C流程中，写入<code>orderItems</code>的时候，<code>order_item</code>表中有<code>order</code>的外键，于是他在给<code>order_item</code>新插入的数据上锁之外，也要在<code>order</code>表中对外键所指向的数据加锁。</p>
-<p>然而C是拿不到的，因为B已经拿到了。</p>
-<p>于是此时，C等待B放锁，但是同时，B又等待C结束返回，从而形成了死锁。</p>
-<p><br></p>
-<h1 id="解决方法">解决方法</h1>
-<p>该问题说明，并不是所有业务使用<code>REQUIRES_NEW</code>传播都可以，在此场景下，都使用默认的<code>REQUIRED</code>传播属性即可。</p>
-]]></content>
-      <categories>
-        <category>课程</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CNAME的必要性</title>
-    <url>/cname%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7/</url>
-    <content><![CDATA[<p>首先，如果不写<code>CNAME</code>的话，我们只能从<code>https://username.github.io</code>这个网址进行访问，但是显然如果有一个更好记忆的自定义域名会更好。</p>
-<p>于是，我在腾讯云上买了两个域名<code>lulu010722.cn</code>和<code>lulu010722.com</code>。</p>
-<p>之后需要在域名提供商处进行域名解析，一般是通过CNAME类型进行解析。</p>
-<p>最后，在项目目录中也需要添加<code>CNAME</code>文件，在其中输入使用的域名。</p>
-<p>之前一直不懂的地方就是这里，为什么腾讯云的域名已经解析到<code>github page</code>了，还是无法访问，现在推测，可能是权限问题。</p>
-<p>在将<code>CNAME</code>文件定义好之后，我们就可以从原本地址和新购买的地址进行访问了。</p>
-<p>不过，用原地址访问时，浏览器导航栏会自动切换为自定义地新网址。</p>
-]]></content>
-      <categories>
-        <category>配置</category>
-      </categories>
-  </entry>
-  <entry>
     <title>cse-lab2a踩坑</title>
     <url>/cse-lab2a%E8%B8%A9%E5%9D%91/</url>
     <content><![CDATA[<ol type="1">
@@ -845,6 +845,81 @@ B --> D(OrderItemDao::addList);</pre>
       <tags>
         <tag>踩坑</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>cse-lab1踩坑</title>
+    <url>/cse-lab1%E8%B8%A9%E5%9D%91/</url>
+    <content><![CDATA[<ol type="1">
+<li>memcpy与strncpy。</li>
+<li>get_inode需要在堆中分配内存。</li>
+<li>局部字符数组最好初始化为0。</li>
+<li>ino的block不要随便free，有可能free掉别人的合法block。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>课程</category>
+      </categories>
+      <tags>
+        <tag>踩坑</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>配置hexo博客，并更换多种主题</title>
+    <url>/%E9%85%8D%E7%BD%AEhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E5%B9%B6%E6%9B%B4%E6%8D%A2%E5%A4%9A%E7%A7%8D%E4%B8%BB%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="hexo博客的基本维护方式">hexo博客的基本维护方式</h1>
+<p>搭建过程可参考<a
+href="https://blog.csdn.net/ai_green/article/details/121675790">hexo博客搭建教程</a>。</p>
+<p>hexo提供了便捷的构建、部署功能。在本地添加了新的markdown日志或者图片之后，只需执行如下代码：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">清除已有的构建目录，默认为public</span></span><br><span class="line">hexo clean</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">构建新的静态文件，g是generate的缩写</span></span><br><span class="line">hexo g</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">一条命令直接部署，d是deploy的缩写</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<p>就会把本地的public文件夹push到对应的github仓库，并将网站自动部署到
+<code>&#123;github用户名&#125;.github.io</code>。</p>
+<p>此外，如果想要维护本地源文件，还可以单独创建一个私有github仓库，用于存放source文件中的源文件等等。</p>
+<p>（已弃用，请看<a
+href="https://lulu010722.com/2022/09/18/%E5%85%B3%E4%BA%8Earcher%E4%B8%BB%E9%A2%98%E7%9A%84%E4%B8%80%E4%BA%9B%E8%BF%9B%E9%98%B6%E9%85%8D%E7%BD%AE/">进阶配置</a>）</p>
+<p><br></p>
+<h1 id="配置hexo">配置hexo</h1>
+<p>hexo的默认在配置文件是根目录下的<code>_config.yml</code>，称之为<strong>hexo配置文件</strong>。更改其中的属性，可以改变网页的默认文本和样式。</p>
+<p>其中的theme项默认的值是auto，我们可以更改这一个属性的值，来更换不同主题。</p>
+<p><br></p>
+<h1 id="下载并配置主题">下载并配置主题</h1>
+<p>要更换主题，需要在<a
+href="https://hexo.io/themes/">hexo主题网站</a>选择喜欢的主题进行下载安装。</p>
+<p>有两种方式。</p>
+<p><strong>第一种（所有主题均支持）</strong>：将主题对应的仓库克隆到<code>/themes/&#123;主题名&#125;</code>文件夹下。例如，对于archer主题，可以执行如下代码：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--depth=1表示，仅克隆最近一次commit</span></span><br><span class="line">git clone https://github.com/fi3ework/hexo-theme-archer.git themes/archer --depth=1</span><br></pre></td></tr></table></figure>
+<p>克隆完成后，在<code>archer</code>文件夹的配置文件<code>_config.yml</code>中进行修改。</p>
+<p><strong>注意！每个主题的仓库中都有一个<code>_config.yml</code>文件，称之为主题配置文件，与根目录下的<code>_config.yml</code>文件是不同的。</strong></p>
+<p><strong>第二种（仅部分主题支持）</strong>：通过npm下载主题对应的依赖包。例如，对于keep主题而言，可以执行如下代码：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-theme-keep --save</span><br></pre></td></tr></table></figure>
+<p>下载完成后，themes文件夹下不会出现对应的文件夹。若想对该主题进行配置，需要在hexo配置文件中，添加theme_config项，在theme_config属性后，添加主题配置属性。</p>
+<p><br></p>
+<h1 id="配置加载原理推测">配置加载原理（推测）</h1>
+<p>首先，hexo加载根目录下的<strong>hexo配置文件</strong>，若发现theme的值不为默认的auto，则顺序进行如下过程：</p>
+<p>对于<strong>第一种</strong>方式下载的主题：</p>
+<ol type="1">
+<li>在根目录中搜索<code>_config.&#123;主题名称&#125;.yml</code>文件，如果找到，则继续加载该配置文件中的内容，否则，</li>
+<li>在<code>themes</code>文件夹中寻找主题名称对应的文件夹，如果找到，则加载<code>themes/&#123;主题名称&#125;/_config.yml</code>文件。若文件夹或者配置文件没有找到，则会报错。</li>
+</ol>
+<p>对于<strong>第二种</strong>方式下载的主题：</p>
+<p>在<strong>hexo配置文件</strong>中寻找<code>theme_config</code>属性，并加载。</p>
+<h1 id="ps已经证实">PS：已经证实</h1>
+<p>配置文件的优先级顺序为</p>
+<p><strong>根目录配置文件中的theme_config属性</strong> &gt;
+**_config.{主题}.yml** &gt; <strong>根目录配置文件</strong></p>
+<p><br></p>
+<h1 id="踩过的坑">踩过的坑</h1>
+<ol type="1">
+<li>首先，更改了主题名称之后，<strong>一定要清除原来的构建目录并重新构建</strong>，也就是运行hexo
+clean &amp;&amp; hexo g。</li>
+<li>不能手动在github的仓库设置里面添加custom
+domain，因为这样每次部署后，自定义的域名都会丢失。需要在<code>source/</code>下创建一个<strong>CNAME</strong>的文件，将自定义域名写入。</li>
+<li>如果添加了文件等静态资源，需要hexo
+g。否则部署之后，服务器无法获得图片等静态资源文件。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>配置</category>
+      </categories>
   </entry>
   <entry>
     <title>git——人类好朋友</title>
@@ -891,23 +966,6 @@ actions/checkout@v3集成</h2>
       </categories>
       <tags>
         <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>cse-lab1踩坑</title>
-    <url>/cse-lab1%E8%B8%A9%E5%9D%91/</url>
-    <content><![CDATA[<ol type="1">
-<li>memcpy与strncpy。</li>
-<li>get_inode需要在堆中分配内存。</li>
-<li>局部字符数组最好初始化为0。</li>
-<li>ino的block不要随便free，有可能free掉别人的合法block。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>课程</category>
-      </categories>
-      <tags>
-        <tag>踩坑</tag>
       </tags>
   </entry>
   <entry>
@@ -968,64 +1026,6 @@ actions/checkout@v3集成</h2>
       <tags>
         <tag>cse</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>配置hexo博客，并更换多种主题</title>
-    <url>/%E9%85%8D%E7%BD%AEhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E5%B9%B6%E6%9B%B4%E6%8D%A2%E5%A4%9A%E7%A7%8D%E4%B8%BB%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="hexo博客的基本维护方式">hexo博客的基本维护方式</h1>
-<p>搭建过程可参考<a
-href="https://blog.csdn.net/ai_green/article/details/121675790">hexo博客搭建教程</a>。</p>
-<p>hexo提供了便捷的构建、部署功能。在本地添加了新的markdown日志或者图片之后，只需执行如下代码：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">清除已有的构建目录，默认为public</span></span><br><span class="line">hexo clean</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">构建新的静态文件，g是generate的缩写</span></span><br><span class="line">hexo g</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">一条命令直接部署，d是deploy的缩写</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-<p>就会把本地的public文件夹push到对应的github仓库，并将网站自动部署到
-<code>&#123;github用户名&#125;.github.io</code>。</p>
-<p>此外，如果想要维护本地源文件，还可以单独创建一个私有github仓库，用于存放source文件中的源文件等等。</p>
-<p>（已弃用，请看<a
-href="https://lulu010722.com/2022/09/18/%E5%85%B3%E4%BA%8Earcher%E4%B8%BB%E9%A2%98%E7%9A%84%E4%B8%80%E4%BA%9B%E8%BF%9B%E9%98%B6%E9%85%8D%E7%BD%AE/">进阶配置</a>）</p>
-<p><br></p>
-<h1 id="配置hexo">配置hexo</h1>
-<p>hexo的默认在配置文件是根目录下的<code>_config.yml</code>，称之为<strong>hexo配置文件</strong>。更改其中的属性，可以改变网页的默认文本和样式。</p>
-<p>其中的theme项默认的值是auto，我们可以更改这一个属性的值，来更换不同主题。</p>
-<p><br></p>
-<h1 id="下载并配置主题">下载并配置主题</h1>
-<p>要更换主题，需要在<a
-href="https://hexo.io/themes/">hexo主题网站</a>选择喜欢的主题进行下载安装。</p>
-<p>有两种方式。</p>
-<p><strong>第一种（所有主题均支持）</strong>：将主题对应的仓库克隆到<code>/themes/&#123;主题名&#125;</code>文件夹下。例如，对于archer主题，可以执行如下代码：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--depth=1表示，仅克隆最近一次commit</span></span><br><span class="line">git clone https://github.com/fi3ework/hexo-theme-archer.git themes/archer --depth=1</span><br></pre></td></tr></table></figure>
-<p>克隆完成后，在<code>archer</code>文件夹的配置文件<code>_config.yml</code>中进行修改。</p>
-<p><strong>注意！每个主题的仓库中都有一个<code>_config.yml</code>文件，称之为主题配置文件，与根目录下的<code>_config.yml</code>文件是不同的。</strong></p>
-<p><strong>第二种（仅部分主题支持）</strong>：通过npm下载主题对应的依赖包。例如，对于keep主题而言，可以执行如下代码：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-theme-keep --save</span><br></pre></td></tr></table></figure>
-<p>下载完成后，themes文件夹下不会出现对应的文件夹。若想对该主题进行配置，需要在hexo配置文件中，添加theme_config项，在theme_config属性后，添加主题配置属性。</p>
-<p><br></p>
-<h1 id="配置加载原理推测">配置加载原理（推测）</h1>
-<p>首先，hexo加载根目录下的<strong>hexo配置文件</strong>，若发现theme的值不为默认的auto，则顺序进行如下过程：</p>
-<p>对于<strong>第一种</strong>方式下载的主题：</p>
-<ol type="1">
-<li>在根目录中搜索<code>_config.&#123;主题名称&#125;.yml</code>文件，如果找到，则继续加载该配置文件中的内容，否则，</li>
-<li>在<code>themes</code>文件夹中寻找主题名称对应的文件夹，如果找到，则加载<code>themes/&#123;主题名称&#125;/_config.yml</code>文件。若文件夹或者配置文件没有找到，则会报错。</li>
-</ol>
-<p>对于<strong>第二种</strong>方式下载的主题：</p>
-<p>在<strong>hexo配置文件</strong>中寻找<code>theme_config</code>属性，并加载。</p>
-<h1 id="ps已经证实">PS：已经证实</h1>
-<p>配置文件的优先级顺序为</p>
-<p><strong>根目录配置文件中的theme_config属性</strong> &gt;
-**_config.{主题}.yml** &gt; <strong>根目录配置文件</strong></p>
-<p><br></p>
-<h1 id="踩过的坑">踩过的坑</h1>
-<ol type="1">
-<li>首先，更改了主题名称之后，<strong>一定要清除原来的构建目录并重新构建</strong>，也就是运行hexo
-clean &amp;&amp; hexo g。</li>
-<li>不能手动在github的仓库设置里面添加custom
-domain，因为这样每次部署后，自定义的域名都会丢失。需要在<code>source/</code>下创建一个<strong>CNAME</strong>的文件，将自定义域名写入。</li>
-<li>如果添加了文件等静态资源，需要hexo
-g。否则部署之后，服务器无法获得图片等静态资源文件。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>配置</category>
-      </categories>
   </entry>
   <entry>
     <title>机器学习概论</title>
@@ -1201,18 +1201,74 @@ D^-}\left(\mathbb{I}(f(x^+)&lt;f(x^-)) +
       </categories>
   </entry>
   <entry>
-    <title>柯柯的画</title>
-    <url>/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/</url>
-    <content><![CDATA[<h1 id="阿贝多">阿贝多</h1>
-<img src="/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/abeiduo.jpg" class="">
-<blockquote>
-<p>玩原神的时候被阿贝多的美貌感动到了，想当阿贝多的狗😍</p>
-</blockquote>
-<p><strong>作者</strong>：柯柯，软院小仙男</p>
-<p><strong>人物</strong>：阿贝多——原神</p>
+    <title>她</title>
+    <url>/%E5%A5%B9/</url>
+    <content><![CDATA[<h1 id="上色不会quq">上色不会quq</h1>
+<img src="/%E5%A5%B9/she.png" class="" title="她">
 ]]></content>
       <categories>
-        <category>展厅</category>
+        <category>她</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>《月亮与六便士》</title>
+    <url>/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/</url>
+    <content><![CDATA[<blockquote>
+<p>满地都是六便士，他却抬头看见了月亮。</p>
+</blockquote>
+<p>其实，上面这句话，并非出自原书。起初是对毛姆的《人性的弱点》的匿名评论，被刘瑜概括成了这句话。毛姆很喜欢月亮和六便士的比喻，便以此为题，开始进行他下一篇长篇小说的创作。</p>
+<img src="/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/liubianshi.png" class="">
+<p>思特里克兰德是一个极为勇敢的天才，同时也是一个人性的罪犯。</p>
+<p>故事开篇，他已然是一个小有成就的股票经纪人，有一个漂亮贤惠的妻子，和一对健康活泼的儿女。但是，一个人的处境越安逸，越稳定，想要跳出这种枷锁，便越需要非凡的勇气。当思特里克兰德决定去往巴黎，再也不回来的时候，那给读者的感觉，是多种情感的复合。是费解，是好奇，是愤怒，同时也在读者心中悄然树立他非凡的形象。</p>
+<p>他来到巴黎，本就不富裕的生活，很快就变得更加落魄。此时，施特略夫对他的帮助，是不被理解的，甚至是有违常理的。施特略夫是这本书里一个悲剧人物，笔者从他的身上看到了自己的影子。他是一个一味讨好的人，是一个无法拒绝别人的人，甚至是没有尊严的人。毛姆笔下的“我”，对它的态度是同情，而又轻蔑。</p>
+<p>没有底线地付出自己的好，会把一个人变得低价值，而低价值的人所展现出的善良，又经常会被践踏。这是人性的弱点，有些人会下意识地慕强，对于低价值的人，他们唯恐避之不及。另一方面，只有低价值的人，才会无限制地对别人好。他无法通过自己的外在的或内在的魅力吸引他人，所以只能通过一些廉价的讨好，来维持与他人的关系，无论是爱情，友情还是社交。这些人被亲近的人用“善良“夸赞，殊不知那恰恰不是真心的善良，而是一种软弱。这听起来或许很残酷，可是，可怜之人必有可恨之处。他们在讨好别人的简单模式，和提升自己的困难模式之中，选择了前者，来维持一些肤浅的，一碰就碎的关系，可谓是舍本逐末。施特略夫惹人同情，可是，对于他自己的悲剧，我认为他不无责任。他那近乎无耻的善意，虽然拯救了思特里克兰德的生命，但是仍然遭人唾弃，这就是人性。</p>
+<p>害死了布兰特，伤透了施特略夫，在被问及，“你是否对这些事，曾经抱有过一点内疚的情感？”时，思特里克兰德的回答是，“我为什么要内疚？”他丝毫不受影响，即使他的身上，已经搭上了一条人命。他的冷漠深入骨髓，任何道德或伦理，在他这里无法奏效。他作为一个人，是一个道德的罪犯，然而他确实是一个真正自由的人。</p>
+<p>他在马赛的生活我认为可以忽略，仅仅以艰难困苦代替即可。</p>
+<p>在塔希提岛，他真正找到了自己一直寻找的心灵归处。他找到了一个真正爱他的女人，他又有了几个孩子，虽然这些对他而言，轻如鸿毛。他开始在山中一间偏僻又简陋的屋子里，开始自己的创作。上帝首先是夺走了他的眼睛，然而这无法阻止他沉浸在那个涂满壁画的屋子里，直到他被夺去了生命，连同他那惊世骇俗的壁画屋一起。</p>
+<p><br></p>
+<p>多看了几篇他人的书评，仔细琢磨了书中的次要人物，也有新发现。</p>
+<p>思特里克兰德太太是一个精明有城府的人，他善于伪装自己，即使她的丈夫早已抛弃他二十余年，她还是对外人维持着一种平安无事的假象。书中有这样一段话：</p>
+<blockquote>
+<p>在她破碎的心中，爱情受辱的苦闷是否掺杂着虚荣心受损的痛苦，这在年轻的我看来是肮脏的，这种怀疑令我不安。</p>
+</blockquote>
+<p>她的悲伤是不单纯的，其中怀有对社会地位丧失，对自身颜面扫地的虚荣。</p>
+<p>而布兰特，她没有选择，幼年遭遇使她没有办法拒绝当时的施特略夫，从而嫁给了一个她不爱的男人。当听说丈夫要带思特里克兰德回家养病，她的恐惧，也许是害怕自己真的会压抑不住性的呼唤，做出有悖伦理的事。这在当时的英国社会，是饱受唾弃的。</p>
+<p><br></p>
+<p>本想补充些什么，终于想不出，便放些名句摘抄不妨。</p>
+<blockquote>
+<p>她这么说毫无贬低之意，反倒充满深情，她好像希望通过承认他最差的一面，来保护他免受朋友诽谤。</p>
+</blockquote>
+<blockquote>
+<p>愤怒的道德没有足够的力量对罪人直接加以惩罚，这总是令人痛心的。</p>
+</blockquote>
+<blockquote>
+<p>我不知真诚中有多少伪装，高贵中有多少卑鄙，邪恶中有多少善良。</p>
+</blockquote>
+<blockquote>
+<p>一个人掉进水里，游泳游得好坏都无关紧要，他必须出去，否则就会淹死。</p>
+</blockquote>
+<blockquote>
+<p>只有诗人或圣徒才会自信地期望，浇灌沥青路面，百合花会回报他的辛劳。</p>
+</blockquote>
+<blockquote>
+<p>当人们说他们不在乎别人怎么看他们时，他们多半是在欺骗自己。</p>
+<p>当你的非常规只是你那个群体的常规时，做到世人眼中的非常规并不难。</p>
+</blockquote>
+<blockquote>
+<p>她很精明地意识到，你老是诉说不幸，人们很快就会厌倦，而且不愿看到你的惨样。</p>
+</blockquote>
+<blockquote>
+<p>女人经常为了爱情寻短见，但一般来说，她们会很小心，不会让自杀成功。</p>
+</blockquote>
+<blockquote>
+<p>女人可以原谅他对她造成的伤害，却永远无法原谅他为她做出的牺牲。</p>
+</blockquote>
+<blockquote>
+<p>自命不凡只会暴露他的思想贫乏。涂了油漆貌似铁板的木条看上去也只是木条。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>书架</category>
       </categories>
   </entry>
   <entry>
@@ -1712,125 +1768,6 @@ assignment3。尝试学习tikz画图论用图，但是失败了。。</li>
       </categories>
   </entry>
   <entry>
-    <title>《月亮与六便士》</title>
-    <url>/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/</url>
-    <content><![CDATA[<blockquote>
-<p>满地都是六便士，他却抬头看见了月亮。</p>
-</blockquote>
-<p>其实，上面这句话，并非出自原书。起初是对毛姆的《人性的弱点》的匿名评论，被刘瑜概括成了这句话。毛姆很喜欢月亮和六便士的比喻，便以此为题，开始进行他下一篇长篇小说的创作。</p>
-<img src="/%E3%80%8A%E6%9C%88%E4%BA%AE%E4%B8%8E%E5%85%AD%E4%BE%BF%E5%A3%AB%E3%80%8B/liubianshi.png" class="">
-<p>思特里克兰德是一个极为勇敢的天才，同时也是一个人性的罪犯。</p>
-<p>故事开篇，他已然是一个小有成就的股票经纪人，有一个漂亮贤惠的妻子，和一对健康活泼的儿女。但是，一个人的处境越安逸，越稳定，想要跳出这种枷锁，便越需要非凡的勇气。当思特里克兰德决定去往巴黎，再也不回来的时候，那给读者的感觉，是多种情感的复合。是费解，是好奇，是愤怒，同时也在读者心中悄然树立他非凡的形象。</p>
-<p>他来到巴黎，本就不富裕的生活，很快就变得更加落魄。此时，施特略夫对他的帮助，是不被理解的，甚至是有违常理的。施特略夫是这本书里一个悲剧人物，笔者从他的身上看到了自己的影子。他是一个一味讨好的人，是一个无法拒绝别人的人，甚至是没有尊严的人。毛姆笔下的“我”，对它的态度是同情，而又轻蔑。</p>
-<p>没有底线地付出自己的好，会把一个人变得低价值，而低价值的人所展现出的善良，又经常会被践踏。这是人性的弱点，有些人会下意识地慕强，对于低价值的人，他们唯恐避之不及。另一方面，只有低价值的人，才会无限制地对别人好。他无法通过自己的外在的或内在的魅力吸引他人，所以只能通过一些廉价的讨好，来维持与他人的关系，无论是爱情，友情还是社交。这些人被亲近的人用“善良“夸赞，殊不知那恰恰不是真心的善良，而是一种软弱。这听起来或许很残酷，可是，可怜之人必有可恨之处。他们在讨好别人的简单模式，和提升自己的困难模式之中，选择了前者，来维持一些肤浅的，一碰就碎的关系，可谓是舍本逐末。施特略夫惹人同情，可是，对于他自己的悲剧，我认为他不无责任。他那近乎无耻的善意，虽然拯救了思特里克兰德的生命，但是仍然遭人唾弃，这就是人性。</p>
-<p>害死了布兰特，伤透了施特略夫，在被问及，“你是否对这些事，曾经抱有过一点内疚的情感？”时，思特里克兰德的回答是，“我为什么要内疚？”他丝毫不受影响，即使他的身上，已经搭上了一条人命。他的冷漠深入骨髓，任何道德或伦理，在他这里无法奏效。他作为一个人，是一个道德的罪犯，然而他确实是一个真正自由的人。</p>
-<p>他在马赛的生活我认为可以忽略，仅仅以艰难困苦代替即可。</p>
-<p>在塔希提岛，他真正找到了自己一直寻找的心灵归处。他找到了一个真正爱他的女人，他又有了几个孩子，虽然这些对他而言，轻如鸿毛。他开始在山中一间偏僻又简陋的屋子里，开始自己的创作。上帝首先是夺走了他的眼睛，然而这无法阻止他沉浸在那个涂满壁画的屋子里，直到他被夺去了生命，连同他那惊世骇俗的壁画屋一起。</p>
-<p><br></p>
-<p>多看了几篇他人的书评，仔细琢磨了书中的次要人物，也有新发现。</p>
-<p>思特里克兰德太太是一个精明有城府的人，他善于伪装自己，即使她的丈夫早已抛弃他二十余年，她还是对外人维持着一种平安无事的假象。书中有这样一段话：</p>
-<blockquote>
-<p>在她破碎的心中，爱情受辱的苦闷是否掺杂着虚荣心受损的痛苦，这在年轻的我看来是肮脏的，这种怀疑令我不安。</p>
-</blockquote>
-<p>她的悲伤是不单纯的，其中怀有对社会地位丧失，对自身颜面扫地的虚荣。</p>
-<p>而布兰特，她没有选择，幼年遭遇使她没有办法拒绝当时的施特略夫，从而嫁给了一个她不爱的男人。当听说丈夫要带思特里克兰德回家养病，她的恐惧，也许是害怕自己真的会压抑不住性的呼唤，做出有悖伦理的事。这在当时的英国社会，是饱受唾弃的。</p>
-<p><br></p>
-<p>本想补充些什么，终于想不出，便放些名句摘抄不妨。</p>
-<blockquote>
-<p>她这么说毫无贬低之意，反倒充满深情，她好像希望通过承认他最差的一面，来保护他免受朋友诽谤。</p>
-</blockquote>
-<blockquote>
-<p>愤怒的道德没有足够的力量对罪人直接加以惩罚，这总是令人痛心的。</p>
-</blockquote>
-<blockquote>
-<p>我不知真诚中有多少伪装，高贵中有多少卑鄙，邪恶中有多少善良。</p>
-</blockquote>
-<blockquote>
-<p>一个人掉进水里，游泳游得好坏都无关紧要，他必须出去，否则就会淹死。</p>
-</blockquote>
-<blockquote>
-<p>只有诗人或圣徒才会自信地期望，浇灌沥青路面，百合花会回报他的辛劳。</p>
-</blockquote>
-<blockquote>
-<p>当人们说他们不在乎别人怎么看他们时，他们多半是在欺骗自己。</p>
-<p>当你的非常规只是你那个群体的常规时，做到世人眼中的非常规并不难。</p>
-</blockquote>
-<blockquote>
-<p>她很精明地意识到，你老是诉说不幸，人们很快就会厌倦，而且不愿看到你的惨样。</p>
-</blockquote>
-<blockquote>
-<p>女人经常为了爱情寻短见，但一般来说，她们会很小心，不会让自杀成功。</p>
-</blockquote>
-<blockquote>
-<p>女人可以原谅他对她造成的伤害，却永远无法原谅他为她做出的牺牲。</p>
-</blockquote>
-<blockquote>
-<p>自命不凡只会暴露他的思想贫乏。涂了油漆貌似铁板的木条看上去也只是木条。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>书架</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>测试</title>
-    <url>/%E6%B5%8B%E8%AF%95/</url>
-    <content><![CDATA[<h1
-id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的一级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的一级标题</h1>
-<h2
-id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的二级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的二级标题</h2>
-<h3
-id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的三级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的三级标题</h3>
-<h1 id="表格测试">表格测试</h1>
-<table>
-<thead>
-<tr class="header">
-<th>1</th>
-<th>2</th>
-<th>3</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>甲</td>
-<td>乙</td>
-<td>丙</td>
-</tr>
-</tbody>
-</table>
-<h1 id="latex测试"><span class="math inline">\(\LaTeX\)</span>测试</h1>
-<p>行内<span class="math inline">\(f(x)=\sin(x)\)</span>。</p>
-<p>公式块 <span class="math display">\[
-\begin{aligned}
-    \sum_f E_{ote}(\mathcal{L}_a|X,f)&amp;=\sum_f\sum_h\sum_{x\in
-\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne f(x))P(h|X,\mathcal{L}_a)\\
-    &amp;=\sum_{x\in\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\sum_f\mathbb{I}(h(x)\ne
-f(x))\\
-    &amp;=\sum_{x\in
-\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\frac{1}{2}2^{|\mathcal{X}|}\\
-    &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in
-\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\\
-    &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in \mathcal{X}-X}P(x)\\
-\end{aligned}
-\]</span></p>
-<h1 id="toc测试">TOC测试</h1>
-<h1 id="一级标题1">一级标题1</h1>
-<h2 id="二级标题1">二级标题1</h2>
-<h3 id="三级标题1">三级标题1</h3>
-<h3 id="三级标题2">三级标题2</h3>
-<h3 id="三级标题3">三级标题3</h3>
-<h3 id="三级标题4">三级标题4</h3>
-<h2 id="二级标题2">二级标题2</h2>
-<h3 id="三级标题">三级标题</h3>
-<h4 id="四级标题">四级标题</h4>
-<h5 id="五级标题">五级标题</h5>
-<h6 id="六级标题">六级标题</h6>
-<p><strong>加粗</strong></p>
-<p>正文</p>
-<p><em>斜体</em></p>
-]]></content>
-  </entry>
-  <entry>
     <title>欢迎来到我的博客！</title>
     <url>/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%EF%BC%81/</url>
     <content><![CDATA[<p>这是我的第一篇博客</p>
@@ -1888,6 +1825,32 @@ f(x))\\
 ]]></content>
       <categories>
         <category>配置</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>柯柯的画</title>
+    <url>/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/</url>
+    <content><![CDATA[<h1 id="阿贝多">阿贝多</h1>
+<img src="/%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/abeiduo.jpg" class="">
+<blockquote>
+<p>玩原神的时候被阿贝多的美貌感动到了，想当阿贝多的狗😍</p>
+</blockquote>
+<p><strong>作者</strong>：柯柯，软院小仙男</p>
+<p><strong>人物</strong>：阿贝多——原神</p>
+]]></content>
+      <categories>
+        <category>展厅</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>我的雷神🤗</title>
+    <url>/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/</url>
+    <content><![CDATA[<img src="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/leishen1.jpg" class="">
+<hr />
+<img src="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/leishen2.jpg" class="">
+]]></content>
+      <categories>
+        <category>展厅</category>
       </categories>
   </entry>
   <entry>
@@ -1975,14 +1938,61 @@ f(x))\\
       </categories>
   </entry>
   <entry>
-    <title>我的雷神🤗</title>
-    <url>/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/</url>
-    <content><![CDATA[<img src="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/leishen1.jpg" class="">
-<hr />
-<img src="/%E6%88%91%E7%9A%84%E9%9B%B7%E7%A5%9E%F0%9F%A4%97/leishen2.jpg" class="">
+    <title>测试</title>
+    <url>/%E6%B5%8B%E8%AF%95/</url>
+    <content><![CDATA[<h1
+id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的一级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的一级标题</h1>
+<h2
+id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的二级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的二级标题</h2>
+<h3
+id="这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的三级标题">这是一个超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长超级长的三级标题</h3>
+<h1 id="表格测试">表格测试</h1>
+<table>
+<thead>
+<tr class="header">
+<th>1</th>
+<th>2</th>
+<th>3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>甲</td>
+<td>乙</td>
+<td>丙</td>
+</tr>
+</tbody>
+</table>
+<h1 id="latex测试"><span class="math inline">\(\LaTeX\)</span>测试</h1>
+<p>行内<span class="math inline">\(f(x)=\sin(x)\)</span>。</p>
+<p>公式块 <span class="math display">\[
+\begin{aligned}
+    \sum_f E_{ote}(\mathcal{L}_a|X,f)&amp;=\sum_f\sum_h\sum_{x\in
+\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne f(x))P(h|X,\mathcal{L}_a)\\
+    &amp;=\sum_{x\in\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\sum_f\mathbb{I}(h(x)\ne
+f(x))\\
+    &amp;=\sum_{x\in
+\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\frac{1}{2}2^{|\mathcal{X}|}\\
+    &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in
+\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\\
+    &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in \mathcal{X}-X}P(x)\\
+\end{aligned}
+\]</span></p>
+<h1 id="toc测试">TOC测试</h1>
+<h1 id="一级标题1">一级标题1</h1>
+<h2 id="二级标题1">二级标题1</h2>
+<h3 id="三级标题1">三级标题1</h3>
+<h3 id="三级标题2">三级标题2</h3>
+<h3 id="三级标题3">三级标题3</h3>
+<h3 id="三级标题4">三级标题4</h3>
+<h2 id="二级标题2">二级标题2</h2>
+<h3 id="三级标题">三级标题</h3>
+<h4 id="四级标题">四级标题</h4>
+<h5 id="五级标题">五级标题</h5>
+<h6 id="六级标题">六级标题</h6>
+<p><strong>加粗</strong></p>
+<p>正文</p>
+<p><em>斜体</em></p>
 ]]></content>
-      <categories>
-        <category>展厅</category>
-      </categories>
   </entry>
 </search>
