@@ -432,6 +432,66 @@
             
         
         <article class="index-post">
+            <a class="abstract-title" href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/">
+                
+                <span class="abstract-title-text">机器学习概论</span>
+            </a>
+            <div class="abstract-content">
+                <h1 id="nfl定理">NFL定理</h1>
+<p><strong>No Free Lunch Theorem</strong>：天下没有免费的午餐</p>
+<p>我们计算一个学习算法<span class="math inline">\(\mathcal{L}_a\)</span>的“训练集外误差”，有 <span class="math display">\[
+\begin{aligned}
+  E_{ote}(\mathcal{L}_a|X,f)=\sum_{h}\sum_{x\in\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne
+f(x))P(h|X,\mathcal{L}_a)
+\end{aligned}
+\]</span></p>
+<p>如果对于所有真实目标函数<span class="math inline">\(f\)</span>求和，则有 <span class="math display">\[
+\begin{aligned}
+  \sum_f E_{ote}(\mathcal{L}_a|X,f)&amp;=\sum_f\sum_h\sum_{x\in
+\mathcal{X}-X}P(x)\mathbb{I}(h(x)\ne f(x))P(h|X,\mathcal{L}_a)\\
+  &amp;=\sum_{x\in\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\sum_f\mathbb{I}(h(x)\ne
+f(x))\\
+  &amp;=\sum_{x\in
+\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\frac{1}{2}2^{|\mathcal{X}|}\\
+  &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in
+\mathcal{X}-X}P(x)\sum_hP(h|X,\mathcal{L}_a)\\
+  &amp;=\frac{1}{2}2^{|\mathcal{X}|}\sum_{x\in \mathcal{X}-X}P(x)\\
+\end{aligned}
+\]</span>
+我们可以看到，总误差与学习算法无关，也就是说，对于任意两个学习算法<span class="math inline">\(\mathcal{L}_a\)</span>，<span class="math inline">\(\mathcal{L}_b\)</span>，无论看上去<span class="math inline">\(\mathcal{L}_a\)</span>多复杂，多聪明，在期望的意义下，他们的性能是相同的。<del>（也就是说，随便瞎猜和复杂推导一样，不学了
+(*｀皿´*)ﾉ ）</del></p>
+<p><br></p>
+<h1 id="尝试证明auc计算公式">尝试证明AUC计算公式</h1>
+            </div>
+            <!-- read more -->
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2023/08/01">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/09/16</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="机器学习">机器学习</a>
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
             <a class="abstract-title" href="/%E9%85%8D%E7%BD%AEhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E5%B9%B6%E6%9B%B4%E6%8D%A2%E5%A4%9A%E7%A7%8D%E4%B8%BB%E9%A2%98/">
                 
                 <span class="abstract-title-text">配置hexo博客，并更换多种主题</span>
@@ -708,7 +768,16 @@
         
         
         
+        
+        
+        
+        
+        
     
+        
+        
+        
+        
         
         
         
@@ -857,7 +926,7 @@
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 22
+        Total : 23
         </div>
         <!-- search  -->
         
@@ -867,6 +936,21 @@
     
         
             
+            
+            <div class="archive-year"> 2025 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/19</span>
+            <a class="archive-post-title" href="/something-to-say/">something to say</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
             
             <div class="archive-year"> 2024 </div>
             <ul class="year-list">
@@ -1093,6 +1177,11 @@
             日语
         </span>
     
+        <span class="sidebar-category-name" data-categories="日记">
+            <span class="iconfont-archer">&#xe60a;</span>
+            日记
+        </span>
+    
         <span class="sidebar-category-name" data-categories="她">
             <span class="iconfont-archer">&#xe60a;</span>
             她
@@ -1101,11 +1190,6 @@
         <span class="sidebar-category-name" data-categories="书架">
             <span class="iconfont-archer">&#xe60a;</span>
             书架
-        </span>
-    
-        <span class="sidebar-category-name" data-categories="日记">
-            <span class="iconfont-archer">&#xe60a;</span>
-            日记
         </span>
     
     </div>
