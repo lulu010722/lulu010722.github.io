@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Daily Report - 冰化了还有棍儿</title><link rel="manifest" href="../manifest.json"><meta name="theme-color" content="#3273dc"><meta name="application-name" content="LULU"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="msapplication-TileColor" content="#3273dc"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="LULU"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="2022-09 16  搭建了hexo个人博客。 配置了两种主题：keep和archer。 添加了以pandoc为引擎的\(\LaTeX\)扩展。 两篇博客。 看了一点机器学习。 keep25分钟腿（腿已废）。  是收获满满的一天，希望自己能够坚持下来！加油！  17"><meta property="og:type" content="blog"><meta property="og:title" content="Daily Report"><meta property="og:url" content="https://lulu010722.com/daily-report/"><meta property="og:site_name" content="冰化了还有棍儿"><meta property="og:description" content="2022-09 16  搭建了hexo个人博客。 配置了两种主题：keep和archer。 添加了以pandoc为引擎的\(\LaTeX\)扩展。 两篇博客。 看了一点机器学习。 keep25分钟腿（腿已废）。  是收获满满的一天，希望自己能够坚持下来！加油！  17"><meta property="og:locale" content="zh"><meta property="og:image" content="https://lulu010722.com/img/og_image.png"><meta property="article:published_time" content="2022-09-16T15:09:22.000Z"><meta property="article:modified_time" content="2025-08-24T06:03:33.087Z"><meta property="article:author" content="LULU"><meta property="article:tag" content="hexo"><meta property="article:tag" content="blog"><meta property="article:tag" content="personal"><meta property="article:tag" content="diary"><meta property="article:tag" content="lulu"><meta property="article:tag" content="tutorial"><meta property="article:tag" content="debug"><meta property="article:tag" content="记录"><meta property="article:tag" content="技术"><meta property="article:tag" content="学习"><meta property="article:tag" content="生活"><meta property="article:tag" content="教程"><meta property="article:tag" content="个人"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://lulu010722.com/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://lulu010722.com/daily-report/"},"headline":"Daily Report","image":["https://lulu010722.com/img/og_image.png"],"datePublished":"2022-09-16T15:09:22.000Z","dateModified":"2025-08-24T06:03:33.087Z","author":{"@type":"Person","name":"LULU"},"publisher":{"@type":"Organization","name":"冰化了还有棍儿","logo":{"@type":"ImageObject","url":"https://lulu010722.com/img/avatar.png"}},"description":"2022-09\r 16\r \r 搭建了hexo个人博客。\r 配置了两种主题：keep和archer。\r 添加了以pandoc为引擎的\\(\\LaTeX\\)扩展。\r 两篇博客。\r 看了一点机器学习。\r keep25分钟腿（腿已废）。\r \r 是收获满满的一天，希望自己能够坚持下来！加油！\r \r 17"}</script><link rel="canonical" href="https://lulu010722.com/daily-report/"><link rel="icon" href="../img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link data-pjax rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link data-pjax rel="stylesheet" href="../css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head><body class="is-3-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="../index.html"><img src="../img/avatar.png" alt="冰化了还有棍儿" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="../index.html">Home</a><a class="navbar-item" href="../archives">Archives</a><a class="navbar-item" href="../categories">Categories</a><a class="navbar-item" href="../tags">Tags</a><a class="navbar-item" href="../about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2022-09-16T15:09:22.000Z" title="2022/9/16 23:09:22">2022-09-16</time></span><span class="level-item">Updated&nbsp;<time dateTime="2025-08-24T06:03:33.087Z" title="2025/8/24 14:03:33">2025-08-24</time></span><span class="level-item"><a class="link-muted" href="../categories/%E6%97%A5%E8%AE%B0/">日记</a></span><span class="level-item">21 minutes read (About 3096 words)</span><span class="level-item" id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv">0</span>&nbsp;visits</span></div></div><h1 class="title is-3 is-size-4-mobile">Daily Report</h1><div class="content"><h1 id="section">2022-09</h1>
+<h2 id="section-1">16</h2>
+<ol type="1">
+<li>搭建了hexo个人博客。</li>
+<li>配置了两种主题：keep和archer。</li>
+<li>添加了以pandoc为引擎的<span
+class="math inline">\(\LaTeX\)</span>扩展。</li>
+<li>两篇博客。</li>
+<li>看了一点机器学习。</li>
+<li>keep25分钟腿（腿已废）。</li>
+</ol>
+<p><strong>是收获满满的一天，希望自己能够坚持下来！加油！</strong></p>
+<hr />
+<h2 id="section-2">17</h2>
+<ol type="1">
+<li>粗略看完了西瓜书第二章，发现概统中的一些概念已经忘了（比如假设检验）。</li>
+<li>配置了博客评论gitalk。</li>
+<li>修复了about页没有intro-image的bug（是因为<code>about</code>文件夹中的<code>index.md</code>没有加layout的front
+matter）。</li>
+<li>添加了404页（May the force be with you :)）。</li>
+<li>更新了about页~。</li>
+</ol>
+<hr />
+<h2 id="section-3">18</h2>
+<ol type="1">
+<li>对archer版权信息框和gitalk默认样式进行了微调，主要包括：
+<ol type="1">
+<li>取消了版权内容的条状下边框，对应<code>themes\archer\src\scss\_partial\_post-page.scss</code>。</li>
+<li>对版权日期显示格式进行了规范，对应<code>themes\archer\layout\post.ejs</code></li>
+<li>添加评论显示框的圆角，对应<code>source\gitalk.css</code>。</li>
+<li>取消了评论显示区的hover特效，对应<code>source\gitalk.css</code>。</li>
+<li>修改了在暗黑模式下，gitalk元信息区action按钮、version文本、编辑区、预览区、评论展示区的前景色，对应<code>themes\archer\src\scss\_dark\_partial\_comment\_gitalk-dark.scss</code>。</li>
+</ol></li>
+<li>配置了algolia搜索引擎，并配置了其自动更新索引的github工作流，并修复了pandoc依赖缺失的问题。参考<a
+target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/508457566">这一篇知乎</a>。</li>
+<li>提交了我的第一个github pull request，尝试修复archer主题的一个<a
+target="_blank" rel="noopener" href="https://github.com/fi3ework/hexo-theme-archer/pull/344">小bug</a>，即上面提到的1.5。已成功被merge，解锁了github成就！😍</li>
+<li>对博客仓库结构进行了调整。</li>
+<li>改用了另外的<a target="_blank" rel="noopener" href="https://sm.ms/">图床</a>。</li>
+<li>在博客相邻的标题间，添加了&lt;br&gt;。</li>
+</ol>
+<p>学习了很多github CI/CD的知识，包括github actions的workflow
+file怎么写，这个是真的恶心。😢</p>
+<hr />
+<h2 id="section-4">19</h2>
+<ol type="1">
+<li>应用体系架构作业一第一部分，虽然还要再修改一下。</li>
+<li>开始Pro Create！<a
+href="https://lulu010722.com/%E6%88%91%E7%9A%84%E7%94%BB/">处女作</a>。</li>
+</ol>
+<hr />
+<h2 id="section-5">20</h2>
+<ol type="1">
+<li>博客首页摘要格式化功能开启。</li>
+<li>博客图片圆角。</li>
+<li>asa作业一第一题完成。</li>
+<li>keep20分钟核心。</li>
+</ol>
+<hr />
+<h2 id="section-6">21</h2>
+<ol type="1">
+<li>阅读《月亮与六便士》，至75%。</li>
+<li>修复了index页摘要标题行距bug。</li>
+</ol>
+<p>对于过日子来说，今天是碌碌无为的；可是，我它用来放飞了灵魂。</p>
+<hr />
+<h2 id="section-7">22</h2>
+<ol type="1">
+<li>读完《月亮与六便士》，并撰写了读后感。</li>
+<li>那封信。</li>
+<li>开始阅读《苏东坡传》。</li>
+<li>配置了cse lab1环境。</li>
+</ol>
+<hr />
+<h2 id="section-8">23</h2>
+<ol type="1">
+<li>修复了sidebar时间显示NaN/aN/aN的问题，原因是hexo配置文件中jsonContent字段的date设置为了false。</li>
+<li>自定义摘要长度，方法为在hexo配置文件中添加excerpt字段，并调节depth。</li>
+<li>修改了主页每页博客数量，目前为5。</li>
+<li>《苏东坡传》，20%。</li>
+<li>keep27分钟臀腿+核心。</li>
+</ol>
+<hr />
+<h2 id="section-9">24</h2>
+<ol type="1">
+<li><a
+href="https://lulu010722.com/%E6%88%91%E7%9A%84%E7%94%BB/">炭治郎</a>临摹（其实是像素级抄袭~）。</li>
+<li>蝴蝶忍正在上色。</li>
+<li>《苏东坡传》，30%。</li>
+</ol>
+<p>今天是纯纯不务正业的一天啊哈哈哈~~。</p>
+<hr />
+<h2 id="section-10">25</h2>
+<ol type="1">
+<li><a
+href="https://lulu010722.com/%E6%88%91%E7%9A%84%E7%94%BB/">香奈乎</a>完工。</li>
+<li>应用体系架构（后面就简称app吧）作业一完成，将遇到的坑总结在了<a
+href="https://lulu010722.com/jpa%E4%BA%8B%E5%8A%A1%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%A4%96%E9%94%AE%E6%AD%BB%E9%94%81/">新博客</a>。</li>
+<li>启用了博客的mermaid图表功能。</li>
+</ol>
+<hr />
+<h2 id="section-11">26</h2>
+<ol type="1">
+<li>控线练习3页。</li>
+</ol>
+<hr />
+<h2 id="section-12">27</h2>
+<ol type="1">
+<li>心理咨询。</li>
+<li>控线练习1页。</li>
+<li>跑步3.08km，用时16'17''。</li>
+</ol>
+<hr />
+<h2 id="section-13">28</h2>
+<ol type="1">
+<li>跑步3.06km，用时14'55''。</li>
+</ol>
+<hr />
+<h2 id="section-14">29</h2>
+<ol type="1">
+<li>编译原理lab2完成。</li>
+<li>控线练习1页。</li>
+<li>《苏东坡传》40%。</li>
+<li>博客公私仓库分离。</li>
+<li>跑步3.02km，用时14'21''。</li>
+</ol>
+<hr />
+<h2 id="section-15">30</h2>
+<ol type="1">
+<li>起草第二封信。</li>
+<li>《苏传》50%。</li>
+<li>跑步3.00km，用时14'46''。</li>
+</ol>
+<hr />
+<p><br></p>
+<h1 id="section-16">2022-10</h1>
+<h2 id="section-17">1</h2>
+<ol type="1">
+<li>和琛琛打网球1h。</li>
+<li>跑步3.03km，用时13'43''。</li>
+</ol>
+<p>与国同庆，今天给自己放个小假~。</p>
+<hr />
+<h2 id="section-18">2</h2>
+<ol type="1">
+<li>cse lab1 part1A完成。</li>
+<li>跑步3.03km，用时14'16''。</li>
+</ol>
+<hr />
+<h2 id="section-19">3</h2>
+<ol type="1">
+<li>cse lab1 part1B完成。</li>
+</ol>
+<p>好久不去ktv了，唱了很多日语歌，至少彼时彼刻，很开心。</p>
+<hr />
+<h2 id="section-20">4</h2>
+<ol type="1">
+<li>cse lab1 part1CD完成。</li>
+</ol>
+<hr />
+<h2 id="section-21">5</h2>
+<ol type="1">
+<li>白色相簿2ic50%。</li>
+</ol>
+<hr />
+<h2 id="section-22">6</h2>
+<ol type="1">
+<li>白色相簿2ic完成。</li>
+</ol>
+<p>好的作品，跨越爱好，跨越年代。还是小看了二次元的精神丰富度。</p>
+<hr />
+<h2 id="section-23">7</h2>
+<ol type="1">
+<li>cse-lab1 part2ABC完成<del>（虽然放弃了part2D的symlink）</del>。</li>
+<li>《苏传》60%。</li>
+</ol>
+<hr />
+<h2 id="section-24">8</h2>
+<ol type="1">
+<li>app作业二完成。</li>
+<li>推了一会wa2的cc。</li>
+</ol>
+<hr />
+<h2 id="section-25">9</h2>
+<ol type="1">
+<li>compiler复习，lab3环境准备。</li>
+<li>《苏传》70%。</li>
+</ol>
+<hr />
+<h2 id="section-26">10</h2>
+<ol type="1">
+<li>白2大三圣诞节。</li>
+<li>和巢老师谈话。</li>
+</ol>
+<hr />
+<h2 id="section-27">11</h2>
+<ol type="1">
+<li>白2cc雪菜线完结。</li>
+</ol>
+<hr />
+<h2 id="section-28">12</h2>
+<ol type="1">
+<li>ML作业1。</li>
+</ol>
+<hr />
+<h2 id="section-29">13</h2>
+<ol type="1">
+<li>音频上传。</li>
+</ol>
+<hr />
+<h2 id="section-30">14</h2>
+<ol type="1">
+<li>算法作业1完成。</li>
+<li>2.03km，10'28''。</li>
+</ol>
+<hr />
+<h2 id="section-31">15</h2>
+<ol type="1">
+<li>复习了ICS第七章。</li>
+<li>一个github issue，问题是post中表格头显示异常（已被解决）。</li>
+<li>3.17km，16'07''。</li>
+</ol>
+<hr />
+<h2 id="section-32">16</h2>
+<ol type="1">
+<li>复习了ICS第八章。</li>
+<li>两个PR，均已被merge。</li>
+<li>提出关于archer TOC的issue，已被响应<del>（甩锅）</del>。</li>
+<li>博客和archer仓库重构。</li>
+<li>2.01km，12'03''。</li>
+</ol>
+<p>尝试了在blog主仓库，添加archer作为子模块。期望达到的目标为：在日常更新主仓库的博客等内容时，可以同时对archer进行贡献或者个性化修改。archer的目录需要暴露给blog，因为blog需要用到archer中的文件进行页面渲染。有待探索。</p>
+<hr />
+<h2 id="section-33">17</h2>
+<ol type="1">
+<li><p>放弃github CI/CD，改用本地构建然后直接部署到public
+repo。原因有两个：</p>
+<ol type="1">
+<li>如果通过push到私有仓库，在远端构建并部署，则需要下载pandoc等依赖，比较复杂。</li>
+<li>actions/checkout@v3会将source的内容克隆到服务器上，但是克隆会覆盖文件的修改时间，导致博客页面上的所有博客的修改时间均为克隆时间，而git又没有提供解决办法。</li>
+</ol>
+<p>顺便写了个脚本<code>go.bat</code>，一步到位~。</p></li>
+<li><p>顺便解决了时区的问题。因为是本地构建，所以时间正常显示。</p></li>
+<li><p>学习了git submodule的使用方法，解决了昨天的遗留问题。总结在了<a
+href="https://lulu010722.com/git%E2%80%94%E2%80%94%E4%BA%BA%E7%B1%BB%E5%A5%BD%E6%9C%8B%E5%8F%8B/">这篇博客中</a>。</p></li>
+</ol>
+<hr />
+<h2 id="section-34">18</h2>
+<ol type="1">
+<li>复习了ICS第九章。</li>
+<li>复习了compiler关于parser的部分，编写了部分lab3代码。</li>
+<li>3.09km，15'45''。</li>
+<li>写了一点点mine主题。</li>
+</ol>
+<hr />
+<h2 id="section-35">19</h2>
+<ol type="1">
+<li>更新了about页，因为突然想起来，VG100的项目也可以列进去~🤗。</li>
+<li>改了改日记里面对博客的引用，因为前几天改了permalink的格式。</li>
+<li>连追八集边缘行者😍。</li>
+<li>3.04km，12'53''。</li>
+<li>compiler lab3第一版<del>（虽然一直syntax error）</del>。</li>
+</ol>
+<hr />
+<h2 id="section-36">20</h2>
+<ol type="1">
+<li>3.15km，15'19''。</li>
+</ol>
+<hr />
+<h2 id="section-37">21</h2>
+<ol type="1">
+<li>看医生。</li>
+<li>研究了ipads面试论文，基本搞懂了机器学习辅助缓存的基本原理。</li>
+</ol>
+<hr />
+<h2 id="section-38">22</h2>
+<ol type="1">
+<li>ipads面试，自我感觉一般quq。</li>
+<li>完成了compiler的lab3。</li>
+<li>修补了cse lab1
+2d部分未完成的任务，同时将代码迁移到wsl上，避免后续挂载问题。</li>
+<li>3.53km，18'55''。</li>
+</ol>
+<hr />
+<h2 id="section-39">23</h2>
+<ol type="1">
+<li>散步<span class="math inline">\(n\)</span>圈（<span
+class="math inline">\(n\ge8\)</span>）。由于一直在聊天所以实在不记得了hhh。</li>
+</ol>
+<p>小法绝活练成（bushi）。另外，大概可能要开始写信了呀。</p>
+<hr />
+<h2 id="section-40">24</h2>
+<ol type="1">
+<li>第二封信。</li>
+</ol>
+<hr />
+<h2 id="section-41">25</h2>
+<ol type="1">
+<li>学长碎碎念。</li>
+</ol>
+<hr />
+<h2 id="section-42">26</h2>
+<ol type="1">
+<li>yh碎碎念，甚至帮做ppt了hhh。</li>
+</ol>
+<hr />
+<h2 id="section-43">27</h2>
+<ol type="1">
+<li>af碎碎念。</li>
+</ol>
+<p>这几天只剩下碎碎念了。。。</p>
+<hr />
+<h2 id="section-44">28</h2>
+<ol type="1">
+<li>aea作业4完成。</li>
+<li>理清了一些关于摘要，签名，证书的原理。</li>
+</ol>
+<hr />
+<h2 id="section-45">29</h2>
+<ol type="1">
+<li>完成cse lab2A part1 part2。</li>
+<li>直系学长东工大留学经验分享。听完感觉又有点信心了hh。</li>
+</ol>
+<hr />
+<h2 id="section-46">30</h2>
+<ol type="1">
+<li>完成cse lab2A part3。</li>
+<li>完成算法作业2。</li>
+</ol>
+<hr />
+<h2 id="section-47">31</h2>
+<ol type="1">
+<li>复习了compiler type checking，开工lab4。</li>
+<li>综合日语第二次，16课朗读+词汇背诵。</li>
+</ol>
+<hr />
+<p><br></p>
+<h1 id="section-48">2022-11</h1>
+<h2 id="section-49">1</h2>
+<ol type="1">
+<li>完成了大部分compiler lab4。</li>
+</ol>
+<h2 id="section-50">2</h2>
+<ol type="1">
+<li>完成了lab4。</li>
+<li>复习compiler，因为明天要考试了quq。</li>
+</ol>
+<hr />
+<h2 id="section-51">3</h2>
+<ol type="1">
+<li>compiler考试，发挥正常。</li>
+<li>看医生。</li>
+</ol>
+<hr />
+<h2 id="section-52">4</h2>
+<ol type="1">
+<li>《明朝那些事儿（一）——洪武大帝》10%。</li>
+<li>JLPT
+N1-N5的例题全都挑战了一遍，发现自己目前大概在N4-N3之间的水平。不过，利用中国人的汉语和英语加成，N2的读解文章也能大概看懂，需要更多练习听解。</li>
+<li>试做了2011.12
+N3真题，刨除尺度计分的因素，综合得分大概135分左右，超过了95分的及格线。已复盘。</li>
+</ol>
+<hr />
+<h2 id="section-53">5</h2>
+<ol type="1">
+<li>2011.07 N3，刨除尺度计分，146。已复盘。</li>
+<li>JLPTというアプリで単語を70個覚えました。</li>
+</ol>
+<hr />
+<h2 id="section-54">6</h2>
+<ol type="1">
+<li>新しい単語を７０（N2）＋１２０（N5）個覚えました。前に覚えた単語を７０個を復習した。</li>
+<li>2012.07 N3，言语部分-11分，读解-8分。</li>
+<li>简单了解了fair division和stable
+match的问题，准备周三与陶老师见面。</li>
+</ol>
+<hr />
+<h2 id="section-55">7</h2>
+<ol type="1">
+<li>新しい単語７０個。７０個を復習した。</li>
+</ol>
+<hr />
+<h2 id="section-56">8</h2>
+<ol type="1">
+<li>新しい単語７０個。７０個を復習した。</li>
+<li>陶老师的论文浅读。</li>
+</ol>
+<hr />
+<h2 id="section-57">9</h2>
+<ol type="1">
+<li>和陶老师进行了交流，基本介绍了研究方向和问题。</li>
+<li>新しい単語７０個。７０個を復習した。</li>
+</ol>
+<hr />
+<h2 id="section-58">10</h2>
+<ol type="1">
+<li>泉さんとご相談をしました。</li>
+<li>新しい単語３５個。７０個を復習した。</li>
+<li>cse lab2B完成。</li>
+<li>ML hw2完成。</li>
+<li>飛くんとジョギングをした。</li>
+</ol>
+<hr />
+<h2 id="section-59">11</h2>
+<ol type="1">
+<li>ML lab1完成。</li>
+<li>新しい単語３５個。３５個を復習した。</li>
+<li>2012.07 N3 听解-17分，总分144。复盘了言语，读解和部分听解。</li>
+<li>飛くんとジョギングをした。</li>
+</ol>
+<hr />
+<h2 id="section-60">12</h2>
+<ol type="1">
+<li>完成了algorithm
+assignment3。尝试学习tikz画图论用图，但是失败了。。</li>
+<li>JLPTでN3の模擬試験は参加しました。得点はまだ出ていない。でも、聴解問題はちょっと難しかったな。</li>
+<li>新しい単語３５個。</li>
+</ol>
+<hr />
+<h2 id="section-61">13</h2>
+<ol type="1">
+<li>Talked with Aysu.</li>
+<li>単語３５個。</li>
+<li>复习了cse部分知识。明天还要继续，否则后天寄了哇。。</li>
+</ol>
+<p>今天外卖能送到楼下了，本学期第一次在楼下取到外卖，有点怀念了😭。</p>
+<hr />
+<h2 id="section-62">14</h2>
+<ol type="1">
+<li>复习了cse，包括乐观并发控制，事务原子控制，谷歌文件系统，inode-based文件系统等等。</li>
+<li>単語３５個。</li>
+</ol>
+<p>今天连翘了三节课复习，结果晚上陈老师来问问题还是不会，哎，希望明天加油吧。。</p>
+<hr />
+<h2 id="section-63">15</h2>
+<ol type="1">
+<li>cse期中考，感觉发挥非常不好。</li>
+<li>単語７０個。</li>
+<li>2012.12 N3 言语-10，语法-4，听力-2，总分164！头一次上160hh。</li>
+<li>复习了一点compiler activation record内容。</li>
+</ol>
+<hr />
+<h2 id="section-64">16</h2>
+<ol type="1">
+<li>単語３５個。</li>
+</ol>
+<p><br></p>
+<p><br></p>
+<h1 id="section-65">2023-06</h1>
+<h2 id="section-66">27</h2>
+<ol type="1">
+<li>完成了一个较为美观的表单组件。</li>
+</ol>
+<h2 id="section-67">28</h2>
+<ol type="1">
+<li>遇到一个坑，那就是css的transition属性中，涉及时间一定要加单位，否则会被视为无效。</li>
+</ol>
+<h2 id="section-68">29</h2>
+<ol type="1">
+<li><code>react</code>的根节点默认被<code>StrictMode</code>包裹，不去掉的话，在开发时，会有多次重复渲染。</li>
+<li>当<code>Array</code>的内容是<code>undefined</code>时，使用<code>map</code>不会进行转换。</li>
+<li>用<code>react</code>函数式组件写了一半的贪吃蛇，太难了，发现只是有很多漏洞。</li>
+</ol>
+<h1 id="section-69">2023-07</h1>
+<h2 id="section-70">1</h2>
+<ol type="1">
+<li>弃用了<code>archer</code>主题（由于一些bug），找到并使用了一个更加漂亮的主题<code>icarus</code>，还有一些进阶配置尚未完成。</li>
+</ol>
+<h2 id="section-71">2</h2>
+<ol type="1">
+<li>重读了<code>react</code>官方文档，发现他们已经全面迁移到函数式组件了。</li>
+<li>学习了一点<code>next.js</code>框架，是为了给<code>react</code>做路由的。</li>
+<li>学习了一点<code>go</code>。</li>
+</ol>
+<h1 id="section-72">2023-08</h1>
+<h2 id="section-73">1</h2>
+<ol type="1">
+<li>leetcode 4，寻找两个数组中第k小的值，经典算法。</li>
+</ol>
+<h2 id="section-74">2</h2>
+<ol type="1">
+<li>leetcode 6-14，大部分是简单中等难度题。</li>
+<li>复习归并排序。</li>
+</ol>
+<h2 id="section-75">25</h2>
+<ol type="1">
+<li>leetcode到37，前几天忘了记录。</li>
+</ol>
+</div><div class="article-licensing box"><div class="licensing-title"><p>Daily Report</p><p><a href="https://lulu010722.com/daily-report/">https://lulu010722.com/daily-report/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>LULU</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2022-09-16</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2025-08-24</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="../%E6%9F%AF%E6%9F%AF%E7%9A%84%E7%94%BB/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">柯柯的画</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="../%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/"><span class="level-item">机器学习概论</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card" id="comments"><div class="card-content"><h3 class="title is-5">Comments</h3><script src="https://giscus.app/client.js" repo="lulu010722/blog-comments" data-repo="lulu010722/blog-comments" data-repo-id="R_kgDOJ17irQ" data-category-id="DIC_kwDOJ17irc4Cp_fV" data-category="Announcements" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="1" data-input-position="top" data-theme="light" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-3-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="../asset/images/avatar.png" alt="LULU"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">LULU</p><p class="is-size-6 is-block">不宅的极客，也能改变世界</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shanghai, China</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">Posts</p><a href="../archives/"><p class="title">25</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Categories</p><a href="../categories/"><p class="title">12</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Tags</p><a href="../tags/"><p class="title">6</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/lulu010722" target="_blank" rel="me noopener">Follow</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Github" href="https://github.com/lulu010722/lulu010722.github.io"><i class="fab fa-github"></i></a></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="../categories/%E4%B9%A6%E6%9E%B6/"><span class="level-start"><span class="level-item">书架</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="../categories/%E5%A5%B9%E4%BB%AC/"><span class="level-start"><span class="level-item">她们</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="../categories/%E5%B1%95%E5%8E%85/"><span class="level-start"><span class="level-item">展厅</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="../categories/%E5%BC%80%E5%8F%91/"><span class="level-start"><span class="level-item">开发</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="../categories/%E6%95%99%E7%A8%8B/"><span class="level-start"><span class="level-item">教程</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="../categories/%E6%95%99%E7%A8%8B/docker/"><span class="level-start"><span class="level-item">docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="../categories/%E6%95%99%E7%A8%8B/git/"><span class="level-start"><span class="level-item">git</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="../categories/%E6%95%99%E7%A8%8B/hexo/"><span class="level-start"><span class="level-item">hexo</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="../categories/%E6%97%A5%E8%AE%B0/"><span class="level-start"><span class="level-item">日记</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="../categories/%E6%97%A5%E8%AF%AD/"><span class="level-start"><span class="level-item">日语</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="../categories/%E8%AF%BE%E7%A8%8B/"><span class="level-start"><span class="level-item">课程</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="../categories/%E9%85%8D%E7%BD%AE/"><span class="level-start"><span class="level-item">配置</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">Recents</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2025-08-24T07:54:20.000Z">2025-08-24</time></p><p class="title"><a href="../giscus%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%BD%AE%E9%A1%B6%E5%9B%BE%E6%A0%87/">giscus配置与置顶图标</a></p><p class="categories"><a href="../categories/%E9%85%8D%E7%BD%AE/">配置</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2025-08-24T06:20:21.000Z">2025-08-24</time></p><p class="title"><a href="../%E5%8F%B0%E5%BC%8F%E6%9C%BA/">台式机</a></p><p class="categories"><a href="../categories/%E5%B1%95%E5%8E%85/">展厅</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2025-05-06T15:08:30.000Z">2025-05-06</time></p><p class="title"><a href="../docker%E5%9C%A8wsl2%E7%8E%AF%E5%A2%83%E4%B8%AD%E7%9A%84%E4%BB%A3%E7%90%86%E9%97%AE%E9%A2%98/">docker在WSL2环境中的代理问题</a></p><p class="categories"><a href="../categories/%E6%95%99%E7%A8%8B/">教程</a> / <a href="../categories/%E6%95%99%E7%A8%8B/docker/">docker</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2025-03-18T20:33:57.000Z">2025-03-19</time></p><p class="title"><a href="../something-to-say/">something to say</a></p><p class="categories"><a href="../categories/%E5%A5%B9%E4%BB%AC/">她们</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-08T14:07:53.000Z">2024-04-08</time></p><p class="title"><a href="../%E5%A5%B9/">她</a></p><p class="categories"><a href="../categories/%E5%A5%B9%E4%BB%AC/">她们</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="../archives/2025/08/"><span class="level-start"><span class="level-item">August 2025</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="../archives/2025/05/"><span class="level-start"><span class="level-item">May 2025</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="../archives/2025/03/"><span class="level-start"><span class="level-item">March 2025</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="../archives/2024/04/"><span class="level-start"><span class="level-item">April 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="../archives/2023/08/"><span class="level-start"><span class="level-item">August 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="../archives/2023/06/"><span class="level-start"><span class="level-item">June 2023</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="../archives/2022/11/"><span class="level-start"><span class="level-item">November 2022</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="../archives/2022/10/"><span class="level-start"><span class="level-item">October 2022</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="../archives/2022/09/"><span class="level-start"><span class="level-item">September 2022</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">Tags</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="../tags/cse/"><span class="tag">cse</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="../tags/git/"><span class="tag">git</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="../tags/mysql/"><span class="tag">mysql</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="../tags/%E5%89%8D%E7%AB%AF/"><span class="tag">前端</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="../tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="tag">机器学习</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="../tags/%E8%B8%A9%E5%9D%91/"><span class="tag">踩坑</span><span class="tag">3</span></a></div></div></div></div></div><div class="column-right-shadow is-hidden-widescreen is-sticky"></div></div><div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#section"><span class="level-left"><span class="level-item">1</span><span class="level-item">2022-09</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#section-1"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">16</span></span></a></li><li><a class="level is-mobile" href="#section-2"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">17</span></span></a></li><li><a class="level is-mobile" href="#section-3"><span class="level-left"><span class="level-item">1.3</span><span class="level-item">18</span></span></a></li><li><a class="level is-mobile" href="#section-4"><span class="level-left"><span class="level-item">1.4</span><span class="level-item">19</span></span></a></li><li><a class="level is-mobile" href="#section-5"><span class="level-left"><span class="level-item">1.5</span><span class="level-item">20</span></span></a></li><li><a class="level is-mobile" href="#section-6"><span class="level-left"><span class="level-item">1.6</span><span class="level-item">21</span></span></a></li><li><a class="level is-mobile" href="#section-7"><span class="level-left"><span class="level-item">1.7</span><span class="level-item">22</span></span></a></li><li><a class="level is-mobile" href="#section-8"><span class="level-left"><span class="level-item">1.8</span><span class="level-item">23</span></span></a></li><li><a class="level is-mobile" href="#section-9"><span class="level-left"><span class="level-item">1.9</span><span class="level-item">24</span></span></a></li><li><a class="level is-mobile" href="#section-10"><span class="level-left"><span class="level-item">1.10</span><span class="level-item">25</span></span></a></li><li><a class="level is-mobile" href="#section-11"><span class="level-left"><span class="level-item">1.11</span><span class="level-item">26</span></span></a></li><li><a class="level is-mobile" href="#section-12"><span class="level-left"><span class="level-item">1.12</span><span class="level-item">27</span></span></a></li><li><a class="level is-mobile" href="#section-13"><span class="level-left"><span class="level-item">1.13</span><span class="level-item">28</span></span></a></li><li><a class="level is-mobile" href="#section-14"><span class="level-left"><span class="level-item">1.14</span><span class="level-item">29</span></span></a></li><li><a class="level is-mobile" href="#section-15"><span class="level-left"><span class="level-item">1.15</span><span class="level-item">30</span></span></a></li></ul></li><li><a class="level is-mobile" href="#section-16"><span class="level-left"><span class="level-item">2</span><span class="level-item">2022-10</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#section-17"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">1</span></span></a></li><li><a class="level is-mobile" href="#section-18"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">2</span></span></a></li><li><a class="level is-mobile" href="#section-19"><span class="level-left"><span class="level-item">2.3</span><span class="level-item">3</span></span></a></li><li><a class="level is-mobile" href="#section-20"><span class="level-left"><span class="level-item">2.4</span><span class="level-item">4</span></span></a></li><li><a class="level is-mobile" href="#section-21"><span class="level-left"><span class="level-item">2.5</span><span class="level-item">5</span></span></a></li><li><a class="level is-mobile" href="#section-22"><span class="level-left"><span class="level-item">2.6</span><span class="level-item">6</span></span></a></li><li><a class="level is-mobile" href="#section-23"><span class="level-left"><span class="level-item">2.7</span><span class="level-item">7</span></span></a></li><li><a class="level is-mobile" href="#section-24"><span class="level-left"><span class="level-item">2.8</span><span class="level-item">8</span></span></a></li><li><a class="level is-mobile" href="#section-25"><span class="level-left"><span class="level-item">2.9</span><span class="level-item">9</span></span></a></li><li><a class="level is-mobile" href="#section-26"><span class="level-left"><span class="level-item">2.10</span><span class="level-item">10</span></span></a></li><li><a class="level is-mobile" href="#section-27"><span class="level-left"><span class="level-item">2.11</span><span class="level-item">11</span></span></a></li><li><a class="level is-mobile" href="#section-28"><span class="level-left"><span class="level-item">2.12</span><span class="level-item">12</span></span></a></li><li><a class="level is-mobile" href="#section-29"><span class="level-left"><span class="level-item">2.13</span><span class="level-item">13</span></span></a></li><li><a class="level is-mobile" href="#section-30"><span class="level-left"><span class="level-item">2.14</span><span class="level-item">14</span></span></a></li><li><a class="level is-mobile" href="#section-31"><span class="level-left"><span class="level-item">2.15</span><span class="level-item">15</span></span></a></li><li><a class="level is-mobile" href="#section-32"><span class="level-left"><span class="level-item">2.16</span><span class="level-item">16</span></span></a></li><li><a class="level is-mobile" href="#section-33"><span class="level-left"><span class="level-item">2.17</span><span class="level-item">17</span></span></a></li><li><a class="level is-mobile" href="#section-34"><span class="level-left"><span class="level-item">2.18</span><span class="level-item">18</span></span></a></li><li><a class="level is-mobile" href="#section-35"><span class="level-left"><span class="level-item">2.19</span><span class="level-item">19</span></span></a></li><li><a class="level is-mobile" href="#section-36"><span class="level-left"><span class="level-item">2.20</span><span class="level-item">20</span></span></a></li><li><a class="level is-mobile" href="#section-37"><span class="level-left"><span class="level-item">2.21</span><span class="level-item">21</span></span></a></li><li><a class="level is-mobile" href="#section-38"><span class="level-left"><span class="level-item">2.22</span><span class="level-item">22</span></span></a></li><li><a class="level is-mobile" href="#section-39"><span class="level-left"><span class="level-item">2.23</span><span class="level-item">23</span></span></a></li><li><a class="level is-mobile" href="#section-40"><span class="level-left"><span class="level-item">2.24</span><span class="level-item">24</span></span></a></li><li><a class="level is-mobile" href="#section-41"><span class="level-left"><span class="level-item">2.25</span><span class="level-item">25</span></span></a></li><li><a class="level is-mobile" href="#section-42"><span class="level-left"><span class="level-item">2.26</span><span class="level-item">26</span></span></a></li><li><a class="level is-mobile" href="#section-43"><span class="level-left"><span class="level-item">2.27</span><span class="level-item">27</span></span></a></li><li><a class="level is-mobile" href="#section-44"><span class="level-left"><span class="level-item">2.28</span><span class="level-item">28</span></span></a></li><li><a class="level is-mobile" href="#section-45"><span class="level-left"><span class="level-item">2.29</span><span class="level-item">29</span></span></a></li><li><a class="level is-mobile" href="#section-46"><span class="level-left"><span class="level-item">2.30</span><span class="level-item">30</span></span></a></li><li><a class="level is-mobile" href="#section-47"><span class="level-left"><span class="level-item">2.31</span><span class="level-item">31</span></span></a></li></ul></li><li><a class="level is-mobile" href="#section-48"><span class="level-left"><span class="level-item">3</span><span class="level-item">2022-11</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#section-49"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">1</span></span></a></li><li><a class="level is-mobile" href="#section-50"><span class="level-left"><span class="level-item">3.2</span><span class="level-item">2</span></span></a></li><li><a class="level is-mobile" href="#section-51"><span class="level-left"><span class="level-item">3.3</span><span class="level-item">3</span></span></a></li><li><a class="level is-mobile" href="#section-52"><span class="level-left"><span class="level-item">3.4</span><span class="level-item">4</span></span></a></li><li><a class="level is-mobile" href="#section-53"><span class="level-left"><span class="level-item">3.5</span><span class="level-item">5</span></span></a></li><li><a class="level is-mobile" href="#section-54"><span class="level-left"><span class="level-item">3.6</span><span class="level-item">6</span></span></a></li><li><a class="level is-mobile" href="#section-55"><span class="level-left"><span class="level-item">3.7</span><span class="level-item">7</span></span></a></li><li><a class="level is-mobile" href="#section-56"><span class="level-left"><span class="level-item">3.8</span><span class="level-item">8</span></span></a></li><li><a class="level is-mobile" href="#section-57"><span class="level-left"><span class="level-item">3.9</span><span class="level-item">9</span></span></a></li><li><a class="level is-mobile" href="#section-58"><span class="level-left"><span class="level-item">3.10</span><span class="level-item">10</span></span></a></li><li><a class="level is-mobile" href="#section-59"><span class="level-left"><span class="level-item">3.11</span><span class="level-item">11</span></span></a></li><li><a class="level is-mobile" href="#section-60"><span class="level-left"><span class="level-item">3.12</span><span class="level-item">12</span></span></a></li><li><a class="level is-mobile" href="#section-61"><span class="level-left"><span class="level-item">3.13</span><span class="level-item">13</span></span></a></li><li><a class="level is-mobile" href="#section-62"><span class="level-left"><span class="level-item">3.14</span><span class="level-item">14</span></span></a></li><li><a class="level is-mobile" href="#section-63"><span class="level-left"><span class="level-item">3.15</span><span class="level-item">15</span></span></a></li><li><a class="level is-mobile" href="#section-64"><span class="level-left"><span class="level-item">3.16</span><span class="level-item">16</span></span></a></li></ul></li><li><a class="level is-mobile" href="#section-65"><span class="level-left"><span class="level-item">4</span><span class="level-item">2023-06</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#section-66"><span class="level-left"><span class="level-item">4.1</span><span class="level-item">27</span></span></a></li><li><a class="level is-mobile" href="#section-67"><span class="level-left"><span class="level-item">4.2</span><span class="level-item">28</span></span></a></li><li><a class="level is-mobile" href="#section-68"><span class="level-left"><span class="level-item">4.3</span><span class="level-item">29</span></span></a></li></ul></li><li><a class="level is-mobile" href="#section-69"><span class="level-left"><span class="level-item">5</span><span class="level-item">2023-07</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#section-70"><span class="level-left"><span class="level-item">5.1</span><span class="level-item">1</span></span></a></li><li><a class="level is-mobile" href="#section-71"><span class="level-left"><span class="level-item">5.2</span><span class="level-item">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="#section-72"><span class="level-left"><span class="level-item">6</span><span class="level-item">2023-08</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#section-73"><span class="level-left"><span class="level-item">6.1</span><span class="level-item">1</span></span></a></li><li><a class="level is-mobile" href="#section-74"><span class="level-left"><span class="level-item">6.2</span><span class="level-item">2</span></span></a></li><li><a class="level is-mobile" href="#section-75"><span class="level-left"><span class="level-item">6.3</span><span class="level-item">25</span></span></a></li></ul></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="../js/toc.js" defer></script></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="../index.html"><img src="../img/avatar.png" alt="冰化了还有棍儿" height="28"></a><p class="is-size-7"><span>&copy; 2025 LULU</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">Visited by <span id="busuanzi_value_site_uv">0</span> users</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script data-pjax src="../js/column.js"></script><script src="../js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script data-pjax src="../js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script data-pjax src="../js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script data-pjax src="../js/insight.js" defer></script><script data-pjax>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"../content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script></body></html>

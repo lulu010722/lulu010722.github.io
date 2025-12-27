@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>计算机系统基础 - 冰化了还有棍儿</title><link rel="manifest" href="../manifest.json"><meta name="theme-color" content="#3273dc"><meta name="application-name" content="LULU"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="msapplication-TileColor" content="#3273dc"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="LULU"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="第一部分 程序结构和执行  第一章 计算机系统漫游 第二章 信息的表示和处理 数据类型的转换 相同位数 以32位int和unsigned举例，基本原则是保持二进制表示不变，而将实际表示的数字调整。"><meta property="og:type" content="blog"><meta property="og:title" content="计算机系统基础"><meta property="og:url" content="https://lulu010722.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/"><meta property="og:site_name" content="冰化了还有棍儿"><meta property="og:description" content="第一部分 程序结构和执行  第一章 计算机系统漫游 第二章 信息的表示和处理 数据类型的转换 相同位数 以32位int和unsigned举例，基本原则是保持二进制表示不变，而将实际表示的数字调整。"><meta property="og:locale" content="zh"><meta property="og:image" content="https://lulu010722.com/ICS/ics1.png"><meta property="og:image" content="https://lulu010722.com/ICS/ics2.png"><meta property="og:image" content="https://lulu010722.com/ICS/ics3.png"><meta property="og:image" content="https://lulu010722.com/ICS/ics4.png"><meta property="og:image" content="https://lulu010722.com/ICS/ics5.png"><meta property="og:image" content="https://lulu010722.com/ICS/ics6.png"><meta property="og:image" content="https://lulu010722.com/ICS/ics7.png"><meta property="og:image" content="https://lulu010722.com/ICS/ics8.png"><meta property="article:published_time" content="2022-10-15T06:24:49.000Z"><meta property="article:modified_time" content="2025-12-27T13:09:04.243Z"><meta property="article:author" content="LULU"><meta property="article:tag" content="hexo"><meta property="article:tag" content="blog"><meta property="article:tag" content="personal"><meta property="article:tag" content="diary"><meta property="article:tag" content="lulu"><meta property="article:tag" content="tutorial"><meta property="article:tag" content="debug"><meta property="article:tag" content="记录"><meta property="article:tag" content="技术"><meta property="article:tag" content="学习"><meta property="article:tag" content="生活"><meta property="article:tag" content="教程"><meta property="article:tag" content="个人"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://lulu010722.com/ICS/ics1.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://lulu010722.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/"},"headline":"计算机系统基础","image":["https://lulu010722.com/ICS/ics1.png","https://lulu010722.com/ICS/ics2.png","https://lulu010722.com/ICS/ics3.png","https://lulu010722.com/ICS/ics4.png","https://lulu010722.com/ICS/ics5.png","https://lulu010722.com/ICS/ics6.png","https://lulu010722.com/ICS/ics7.png","https://lulu010722.com/ICS/ics8.png"],"datePublished":"2022-10-15T06:24:49.000Z","dateModified":"2025-12-27T13:09:04.243Z","author":{"@type":"Person","name":"LULU"},"publisher":{"@type":"Organization","name":"冰化了还有棍儿","logo":{"@type":"ImageObject","url":"https://lulu010722.com/img/avatar.png"}},"description":"第一部分 程序结构和执行\r \r 第一章 计算机系统漫游\r 第二章 信息的表示和处理\r 数据类型的转换\r 相同位数\r 以32位int和unsigned举例，基本原则是保持二进制表示不变，而将实际表示的数字调整。"}</script><link rel="canonical" href="https://lulu010722.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/"><link rel="icon" href="../img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link data-pjax rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link data-pjax rel="stylesheet" href="../css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head><body class="is-3-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="../index.html"><img src="../img/avatar.png" alt="冰化了还有棍儿" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="../index.html">Home</a><a class="navbar-item" href="../archives">Archives</a><a class="navbar-item" href="../categories">Categories</a><a class="navbar-item" href="../tags">Tags</a><a class="navbar-item" href="../about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2022-10-15T06:24:49.000Z" title="2022/10/15 14:24:49">2022-10-15</time></span><span class="level-item">Updated&nbsp;<time dateTime="2025-12-27T13:09:04.243Z" title="2025/12/27 21:09:04">2025-12-27</time></span><span class="level-item"><a class="link-muted" href="../categories/%E8%AF%BE%E7%A8%8B/">课程</a></span><span class="level-item">an hour read (About 11439 words)</span><span class="level-item" id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv">0</span>&nbsp;visits</span></div></div><h1 class="title is-3 is-size-4-mobile">计算机系统基础</h1><div class="content"><div
+style="font-size: 50px; font-weight: bold; color: #777; margin: 22px 0; line-height: normal;">
+第一部分 程序结构和执行
+</div>
+<h1 id="第一章-计算机系统漫游">第一章 计算机系统漫游</h1>
+<h1 id="第二章-信息的表示和处理">第二章 信息的表示和处理</h1>
+<h2 id="数据类型的转换">数据类型的转换</h2>
+<h3 id="相同位数">相同位数</h3>
+<p>以32位int和unsigned举例，基本原则是保持二进制表示不变，而将实际表示的数字调整。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a;</span><br><span class="line"><span class="type">unsigned</span> b;</span><br><span class="line"></span><br><span class="line">a = <span class="number">0xffffffff</span>; <span class="comment">// a = -1</span></span><br><span class="line">b = (<span class="type">int</span>)a;     <span class="comment">// b = 0xffffffff</span></span><br></pre></td></tr></table></figure>
+<h3 id="不同位数">不同位数</h3>
+<p>如果两个类型的长度和符号都不相同，则遵循先扩展/收缩长度，再进行符号转换。</p>
+<p><strong>扩展无符号</strong>：补零</p>
+<p><strong>扩展有符号</strong>：补最高位</p>
+<p><strong>截断无符号</strong>：直接截断</p>
+<p><strong>截断有符号</strong>：直接截断</p>
+<h2 id="ieee浮点数表示">IEEE浮点数表示</h2>
+<p><span class="math inline">\(V=(-1)^s\times M\times 2^E\)</span></p>
+<ul>
+<li><p><span class="math inline">\(s\)</span>: 符号位；</p></li>
+<li><p><span class="math inline">\(M\)</span>: 尾数；</p></li>
+<li><p><span class="math inline">\(E\)</span>: 阶码。</p></li>
+</ul>
+<p>在计算机中，我们也按照这三个部分来表示。</p>
+<ul>
+<li>一个单独符号位<span class="math inline">\(s\)</span>。</li>
+<li><span class="math inline">\(k\)</span>位阶码字段<span
+class="math inline">\(e=e_{k-1}\cdots e_1e_0\)</span>编码阶码<span
+class="math inline">\(E\)</span>。</li>
+<li><span class="math inline">\(n\)</span>位小数字段<span
+class="math inline">\(f=f_{n-1}\cdots f_1f_0\)</span>编码尾数<span
+class="math inline">\(M\)</span>，但是编码对应的值与<span
+class="math inline">\(E\)</span>是否等于零有关（格式化与非格式化表示）。</li>
+</ul>
+<p>共有三种情况</p>
+<ol type="1">
+<li>格式化，<span
+class="math inline">\(e\)</span>的各位不为全0页不为全1。<span
+class="math inline">\(E=e-Bias\)</span>, <span
+class="math inline">\(e\)</span>无符号数，Bias=<span
+class="math inline">\(2^{k-1}-1\)</span>，<span
+class="math inline">\(M=1+f\)</span>。</li>
+<li>非格式化，此时<span class="math inline">\(e\)</span>各位全为0。<span
+class="math inline">\(E=1-Bias\)</span>，<span
+class="math inline">\(M=f\)</span>。</li>
+<li>特殊值，此时<span
+class="math inline">\(e\)</span>各位全为1。如果<span
+class="math inline">\(f\)</span>的各位全为0，则表示无穷大，否则表示NaN。</li>
+</ol>
+<h2 id="浮点之间浮点与整形的转换">浮点之间，浮点与整形的转换</h2>
+<ol type="1">
+<li>int-&gt;float，不会溢出，但是可能会损失精度；</li>
+<li>int或float-&gt;double，不会溢出也不会损失精度；</li>
+<li>double-&gt;float，有可能会溢出为<span
+class="math inline">\(+\infty\)</span>或者<span
+class="math inline">\(-\infty\)</span>，若不溢出，也可能损失精度；</li>
+<li>float或double-&gt;int，向零取整，值可能会溢出，但是并未规定处理方式。</li>
+</ol>
+<hr />
+<h1 id="第三章-程序的机器级表示">第三章 程序的机器级表示</h1>
+<h1 id="第四章-处理器体系结构">第四章 处理器体系结构</h1>
+<h1 id="第五章-优化程序性能">第五章 优化程序性能</h1>
+<h1 id="第六章-储存器层次结构">第六章 储存器层次结构</h1>
+<hr />
+<div
+style="font-size: 50px; font-weight: bold; color: #777; margin: 22px 0; line-height: normal;">
+第二部分 在系统上运行程序
+</div>
+<h1 id="第七章-链接">第七章 链接</h1>
+<h2 id="基本流程">基本流程</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">flowchart TB;</span><br><span class="line">A(main.c源代码) --&gt; cpp预处理器 --&gt; B(main.i中间文件) --&gt; cc1编译器 --&gt; C(main.s汇编文件) --&gt; as汇编器 --&gt; D(main.o可重定位目标文件) --&gt; ld链接器 --&gt; E(main可执行目标文件) --&gt; loader加载器 --&gt; F(运行)</span><br></pre></td></tr></table></figure>
+<h2 id="静态链接">静态链接</h2>
+<p>可重定向目标文件格式</p>
+<table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 86%" />
+</colgroup>
+<thead>
+<tr>
+<th>部分</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ELF头</td>
+<td>文件的元信息，包括ELF头本身大小，目标文件类型（可重定向，可执行，共享），机器类型，节头部表的偏移，节头部表中的条目大小和数量。</td>
+</tr>
+<tr>
+<td>.text</td>
+<td>以编译程序的机器代码。</td>
+</tr>
+<tr>
+<td>.rodata</td>
+<td>只读数据，例如printf语句中的格式化字符串和switch语句的跳转表。</td>
+</tr>
+<tr>
+<td>.data</td>
+<td>已初始化的全局和静态C变量。局部C变量保存于栈中，既不存在于.data，也不存在于.bss。</td>
+</tr>
+<tr>
+<td>.bss</td>
+<td>未初始化的静态C变量，以及所有被初始化为0的全局和静态C变量。区分是否初始化为0是为了节省空间。未初始化的全局变量将被放在COMMON伪节。</td>
+</tr>
+<tr>
+<td>.symtab</td>
+<td>符号表，存放程序中定义和引用的函数和全局变量的信息。和编译器的符号表不同，.symtab不包含局部变量。</td>
+</tr>
+<tr>
+<td>.rel.text</td>
+<td>.text节中位置的列表，当链接器将目标文件和其他文件组合时，需要修改这些位置。可执行目标文件不需要重定位信息，所以一般没有该条目。</td>
+</tr>
+<tr>
+<td>.rel.data</td>
+<td>被模块引用或定义的所有全局变量的重定位信息。一般而言，任何已经初始化的全局变量，如果他的初始值是一个全局变量的地址或者外部定义函数的地址，都需要被修改。</td>
+</tr>
+<tr>
+<td>.debug</td>
+<td>调试符号表，条目是程序中定义的局部变量和类型定义，程序中定义和引用的全局变量，以及C源文件。只有以-g选项调用编译器时，才会得到这张表。</td>
+</tr>
+<tr>
+<td>.line</td>
+<td>C源程序中行号和.text节中机器指令之间的映射，只有以-g选项调用编译器时，才会得到这张表。</td>
+</tr>
+<tr>
+<td>.strtab</td>
+<td>一个字符串表，内容包括.symtab和.debug中的符号表，以及节头部中的节名字。是以null结尾的字符串序列。</td>
+</tr>
+<tr>
+<td>节头部表</td>
+<td>描述目标文件。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="符号和符号表">符号和符号表</h2>
+<p>可重定向目标文件m的.symtab中有三种不同的符号：</p>
+<ul>
+<li>由模块m定义并能被其他模块访问的<strong>全局符号</strong>，全局链接器符号对应于<strong>非静态C函数和全局变量</strong>。</li>
+<li>由其他模块定义并被m模块引用的的全局符号，称为<strong>外部符号</strong>，对应于在其他文件中定义的<strong>非静态C函数和全局变量</strong>。</li>
+<li>只被模块m定义和引用的<strong>局部符号</strong>，对应于<strong>静态C函数和静态全局变量</strong>。</li>
+</ul>
+<p>动态局部变量和全局静态变量有区别，前者由栈管理，链接器只考虑后者。</p>
+<p><strong>但是</strong>，局部变量也可以被声明为静态。此时它是不被栈管理的。相反，编译器会在.data或者.bss中为每个定义分配空间，并在符号表中创建有唯一名称的链接器符号。</p>
+<p>符号表是由一种结构体构成的数组，结构体定义如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="type">int</span> name;        <span class="comment">// 在字符串表中的字节偏移，指向以null结尾的字符串名字。</span></span><br><span class="line">    <span class="type">char</span> type:<span class="number">4</span>,     <span class="comment">// 区分数据和函数。</span></span><br><span class="line">    	 binding:<span class="number">4</span>;  <span class="comment">// 区分本地和全局。</span></span><br><span class="line">    <span class="type">char</span> reserved;</span><br><span class="line">    <span class="type">short</span> section;   <span class="comment">// 符号所在节。</span></span><br><span class="line">    <span class="type">long</span> value;      <span class="comment">// 符号的地址。在可重定向目标文件中，是距定义目标的节起始位置的偏移，而对于可执行目标文件来说，是一个绝对运行时地址。</span></span><br><span class="line">    <span class="type">long</span> size;       <span class="comment">// 目标的大小，单位为字节。</span></span><br><span class="line">&#125; Elf64_Symbol;</span><br></pre></td></tr></table></figure>
+<p>符号表中的一个条目，还可以表示一个节，也可以用来表示原始文件路径名。</p>
+<h3 id="伪节">伪节</h3>
+<p>除了表中列出的节之外，还有三个伪节，在节头部表中没有条目。伪节仅存在于可重定向目标文件。</p>
+<ul>
+<li><strong>ABS</strong>：表示不该被重定向的符号；</li>
+<li><strong>UNDEF</strong>：表示未定义的符号，也就是在本目标模块中引用，但是在其他地方定义的符号；</li>
+<li><strong>COMMON</strong>：表示还未被分配位置的未初始化的数据目标。此时，value字段给出对齐要求，size指的是最小的大小。</li>
+</ul>
+<h3 id="common和.bss的区别">COMMON和.bss的区别。</h3>
+<p>COMMON存放未初始化的全局变量（也就是弱符号）；</p>
+<p>.bss存放未初始化的静态变量，以及初始化为0的全局和静态变量。</p>
+<p>造成这一区分的主要原因是，编译器允许不同模块中有同名的符号。</p>
+<h2 id="符号解析">符号解析</h2>
+<p><strong>强符号</strong>：函数和已经初始化的全局变量；</p>
+<p><strong>弱符号</strong>：未初始化的全局变量。</p>
+<p>三条规则</p>
+<ol type="1">
+<li>不允许有同名的强符号；</li>
+<li>如果有强符号和弱符号同名，则选择强符号；</li>
+<li>如果若干弱符号同名，则随意选择一个。</li>
+</ol>
+<h2 id="静态库">静态库</h2>
+<p>多个标准可重定向目标文件，可以打包形成一个归档文件，以.a后缀名结尾，又称为<strong>静态库</strong>。</p>
+<p>在使用gcc命令进行编译的时候，需要将用到的静态库显式地添加到命令行。</p>
+<p>例如<code>gcc main.c /usr/lib/libm.a /usr/lib/libc.a</code>，而libc.a是被默认链接地，所以并不需要指出。</p>
+<p>静态库的连接顺序是有所谓的。未定义的符号所在模块，必须出现在定义模块之前。</p>
+<h2 id="重定位">重定位</h2>
+<p>链接器知道了.text和.data的确切大小，可以进行地址的重定位。</p>
+<ol type="1">
+<li>重定位节和符号定义。将所有模块的同种节合成一个，例如将所有模块的.data节合成一个大的.data节，输出到可执行目标文件的.data节。然后链接器为每个聚合节，聚合节中的每一个原始节，和节中出现的符号分配运行时内存地址。</li>
+<li>重定位节中的符号引用。修改代码和数据节中对每个符号的引用。这依赖于.rel.text和.rel.data两个重定位节。</li>
+</ol>
+<p>代码的重定位条目放在.rel.text中，已初始化数据的重定位条目放在.rel.data中。</p>
+<p>条目格式如下。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="type">long</span> offset;    <span class="comment">// 要被修改的引用相对于节的偏移。</span></span><br><span class="line">    <span class="type">long</span> type:<span class="number">32</span>,   <span class="comment">// 重定位类型，告诉链接器如何修改。</span></span><br><span class="line">         symbol:<span class="number">32</span>; <span class="comment">// 该引用指向的符号。</span></span><br><span class="line">    <span class="type">long</span> addend;    <span class="comment">// 一些类型的重定位需要使用该信息来修改偏移量。</span></span><br><span class="line">&#125; Elf64_Rela;</span><br></pre></td></tr></table></figure>
+<p>ELF定义了32种不同的重定位模式。</p>
+<ul>
+<li><strong>R_X86_64_PC32</strong>：32位PC相对地址；</li>
+<li><strong>R_X86_64_32</strong>：32位绝对地址。</li>
+</ul>
+<p>这两种类型支持x86-64小型代码模型，即假设代码和数据总体大小小于2GB。</p>
+<h2 id="可执行目标文件">可执行目标文件</h2>
+<table>
+<thead>
+<tr>
+<th>部分</th>
+<th>段属性</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ELF头</td>
+<td>只读内存段（代码段）</td>
+<td></td>
+</tr>
+<tr>
+<td>段头部表</td>
+<td>只读内存段</td>
+<td>将连续的文件节映射到运行时的内存段</td>
+</tr>
+<tr>
+<td>.init</td>
+<td>只读内存段</td>
+<td></td>
+</tr>
+<tr>
+<td>.text</td>
+<td>只读内存段</td>
+<td></td>
+</tr>
+<tr>
+<td>.rodata</td>
+<td>只读内存段</td>
+<td></td>
+</tr>
+<tr>
+<td>.data</td>
+<td>读写内存段（数据段）</td>
+<td></td>
+</tr>
+<tr>
+<td>.bss</td>
+<td>读写内存段</td>
+<td></td>
+</tr>
+<tr>
+<td>.symtab</td>
+<td>不加载到内存</td>
+<td></td>
+</tr>
+<tr>
+<td>.debug</td>
+<td>不加载到内存</td>
+<td></td>
+</tr>
+<tr>
+<td>.line</td>
+<td>不加载到内存</td>
+<td></td>
+</tr>
+<tr>
+<td>.strtab</td>
+<td>不加载到内存</td>
+<td></td>
+</tr>
+<tr>
+<td>节头部表</td>
+<td>不加载到内存</td>
+<td>描述目标文件的节</td>
+</tr>
+</tbody>
+</table>
+<h3 id="程序头部表">程序头部表</h3>
+<p>描述了将代码段加载到内存的映射关系。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">只读段</span><br><span class="line">LOAD off    0x0000000000000000 vaddr 0x0000000000400000 paddr 0x0000000000400000 align 2**21</span><br><span class="line">     filesz 0x000000000000069c memsz 0x000000000000069c flags r-x</span><br><span class="line"></span><br><span class="line">读写段</span><br><span class="line">LOAD off    0x0000000000000df8 vaddr 0x0000000000600df8 paddr 0x0000000000600df8 align 2**21</span><br><span class="line">     filesz 0x0000000000000228 memsz 0x0000000000000230 flags rw-</span><br></pre></td></tr></table></figure>
+<p>filesz和memsz不一致的原因在于，.bss在目标文件中是不需要占用空间的，但是在内存中需要为其留出位置并初始化为0。</p>
+<p>off和vaddr要求对齐，即<span class="math inline">\(\text{vaddr}\pmod
+{\text{align}}=\text{off}\pmod
+{\text{align}}\)</span>。这种要求的原因，与虚拟内存的组织方式有关。</p>
+<h2 id="加载可执行目标文件">加载可执行目标文件</h2>
+<p>在命令行中执行内置命令或用<code>./prog</code>来执行一个可执行文件，或者调用`<code>execve</code>函数，都可以调用加载器（loader）。</p>
+<h2 id="动态链接">动态链接</h2>
+<p>静态库的一个问题是，所有进程都会加载相同的标准静态库函数，造成内存的极大浪费。</p>
+<p><strong>共享库</strong>在运行或加载时，加载到任意的内存位置，并和一个在内存中的程序链接起来。</p>
+<p>共享库也叫共享目标，在Linux中以.so文件后缀结尾，在Windows中则是DLL（动态链接库）。</p>
+<p>两种不同的共享方式：</p>
+<ol type="1">
+<li>一个库只对应一个.so文件，所有引用该库的文件共享.text和.data中的数据，而不用嵌入到引用模块的可执行目标文件中；</li>
+<li>在内存中，共享库的.text节的一个副本可以被不同的正在运行的进程共享。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">flowchart TB;</span><br><span class="line">A(main.c) &amp; B(vector.h) --&gt; a[&quot;翻译器(cpp, cc1, as)&quot;] --&gt; C(可重定位目标文件main.o)</span><br><span class="line">C &amp; D(libc.so\nlibvector.so) --&gt; b[&quot;链接器(ld)&quot;] --&gt; E(&quot;部分链接地可执行目标文件prog1&quot;) --&gt; c[&quot;加载器(execve)&quot;]</span><br><span class="line">c &amp; F(&quot;libc.so\nlibvector.so&quot;) --&gt; d[&quot;动态链接器(ld-linux.so)&quot;] --&gt; G(&quot;完全链接的可执行目标文件prog2&quot;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="位置无关代码pic">位置无关代码（PIC）</h2>
+<p>如何在多个进程中共享一个程序副本？</p>
+<p>如果为每一个共享库都分配一个固定的地址空间，那么弊端很多，主要是难于管理，并且也有很大浪费。</p>
+<p>可加载而无需重定向的代码称之为<strong>位置无关代码（Position-Independent
+Code）</strong>。</p>
+<h3 id="全局偏移量表got">全局偏移量表（GOT）</h3>
+<p>首先，编译器在.data开始的地方创建一个<strong>全局偏移量表（Global
+Offset
+Table）</strong>。每个被该模块引用的全局数据目标（过程或者全局变量）都有一个8字节的条目。同时编译器还为GOT中的每一个条目生成一个重定向记录，由于代码段和数据段的间隔是不变的，编译器可以使用PC相对寻址来重定位。</p>
+<h3 id="过程链接表plt">过程链接表（PLT）</h3>
+<p>为了避免动态链接在加载时，对成百上千个不需要的符号进行重定位，GNU提出了<strong>延迟绑定</strong>。延迟绑定需要使用GOT和<strong>过程连接表（Procedure
+Linkage
+Table）</strong>两个数据结构。如果一个目标模块调用了共享库中定义的任何函数，那么他就有GOT和PLT。GOT是数据段的一部分，PLT是代码段的一部分。</p>
+<h2 id="库打桩机制">库打桩机制</h2>
+<h1 id="第八章-异常控制流">第八章 异常控制流</h1>
+<h2 id="异常">异常</h2>
+<p>异常的发生可能与当前执行的指令有关，例如当前指令发生了一些缺页错误，或者尝试除零；也可能与当前指令没有关系，例如定时器到时，或者IO操作完成。</p>
+<p>当程序检测到有异常时，会通过<strong>异常表</strong>来进行间接的函数调用，到一个专门处理这些事件的操作系统子程序（异常处理程序）。处理完成后，根据异常事件的类型，会发生三种情况。</p>
+<ol type="1">
+<li>将控制返回<span
+class="math inline">\(I_{curr}\)</span>，重新执行；</li>
+<li>将控制返回<span
+class="math inline">\(I_{next}\)</span>，跳过之前的指令；</li>
+<li>终止被中断的程序。</li>
+</ol>
+<h3 id="异常处理">异常处理</h3>
+<p>系统为每种异常都分配了一个异常号码，有一些来自于处理器的设计者，有一些来自于操作系统内核。</p>
+<p>系统在启动时，操作系统会分配并初始化一张异常表，每个条目都指向对应异常的处理函数的地址。</p>
+<p>异常表的起始地址存放在名为<strong>异常表基址寄存器</strong>的特殊寄存器中。</p>
+<p>异常处理函数的调用与普通函数调用有一些区别：</p>
+<ol type="1">
+<li>将当前函数的返回地址压栈的时候，根据异常类型，要确定是压入当前指令地址，还是下一个指令的地址；</li>
+<li>处理函数会把一些额外的处理器状态压栈，但是栈有内核栈和用户栈的区别。处理函数由于处于内核态，则压入内核栈，同时它也对所有系统资源具有完全访问权限。</li>
+</ol>
+<h3 id="异常种类">异常种类</h3>
+<ul>
+<li>中断（interrupt）</li>
+<li>陷阱（trap）</li>
+<li>故障（fault）</li>
+<li>终止（abort）</li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 24%" />
+<col style="width: 42%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr>
+<th>类别</th>
+<th>原因</th>
+<th>异步/同步</th>
+<th>返回行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>中断</td>
+<td>来自IO设备的信号</td>
+<td>异步（与当前指令无关的异常）</td>
+<td>总是返回下一条指令</td>
+</tr>
+<tr>
+<td>陷阱</td>
+<td>有意的异常</td>
+<td>同步（当前指令的直接产物）</td>
+<td>总是返回下一条指令</td>
+</tr>
+<tr>
+<td>故障</td>
+<td>可能恢复的异常</td>
+<td>同步（当前指令的直接产物）</td>
+<td>可能返回当前地址</td>
+</tr>
+<tr>
+<td>终止</td>
+<td>不可恢复的异常</td>
+<td>同步（当前指令的直接产物）</td>
+<td>不会返回</td>
+</tr>
+</tbody>
+</table>
+<p><strong>中断</strong></p>
+<p>IO设备会异步地向CPU的一个引脚发送信号。</p>
+<p>CPU会在<strong>处理完当前指令之后</strong>调用异常处理器，而不是直接打断执行到中间状态的当前指令，于是原来的进程就像没有受到中断一样，继续执行下一条指令。</p>
+<p><strong>陷阱和系统调用</strong></p>
+<p>是有意为之的异常，主要是用来进行系统调用，例如调用系统层的read，write，fork等等函数。</p>
+<p>处理器提供了一个特殊的<code>syscall n</code>指令，n代表系统函数的编号。</p>
+<p><strong>故障</strong></p>
+<p>用户程序发生了一个错误情况，触发故障处理函数。如果处理函数能够修复故障，则会返回出现故障的用户指令重新执行，否则，处理函数将会直接在<strong>内核态</strong>发送一个新的终止异常，结束用户程序。</p>
+<p><strong>终止</strong></p>
+<p>终止是不可修复的致命错误，通常是一些硬件错误。</p>
+<h3 id="linuxx86-64系统异常">Linux/x86-64系统异常</h3>
+<p>有256种异常，0-31号由Intel的设计师们定义，因此对于任何x86-64的机器，这些异常都是一样的，32-255号是由操作系统定义的中断和陷阱。</p>
+<p><strong>Linux故障和终止举例</strong></p>
+<p><em>除法错误</em>：编号0，不会恢复，Linux
+shell通常会报“浮点异常（Floating exception）”的异常信息。</p>
+<p><em>一般保护故障</em>：编号13，有许多原因，但通常是由于程序引用了一个未定义的虚拟内存区域，例如访问空指针，或尝试修改一个只读片段。不会恢复，Linux
+shell通常报告为“段故障（Segmentation fault）”。</p>
+<p><em>缺页</em>：编号14，与虚拟内存的管理有关。</p>
+<p><em>机器检查</em>：编号18，硬件错误。</p>
+<p><strong>Linux系统调用</strong></p>
+<p>Linux提供了上百个系统调用，每个都对应于一个整数号，对应于内核中的一个跳转表（<strong>注意该跳转表与异常表并不相同</strong>）。</p>
+<p>调用<code>syscall</code>指令即可进入内核态执行系统函数。在开始前，需要将编号存入%rax寄存器，并将可能用到的参数依次存入%rdi、%rsi、%rdx、%rcx、%r8、%r9这六个寄存器中。系统函数无法使用栈传递更多的参数，于是一个系统函数最多只有六个参数。</p>
+<h2 id="进程">进程※</h2>
+<p>提供一种假象，让我们的程序独占所有计算机资源。</p>
+<p>进程提供了两个关键抽象：</p>
+<ul>
+<li>一个独立的逻辑控制流；</li>
+<li>一个私有的地址空间。</li>
+</ul>
+<h3 id="私有地址空间">私有地址空间</h3>
+<p>一般而言，一个进程所在的内存字节是不能被其他进程进行读写的，也就是所谓私有。</p>
+<p>每个进程的地址空间都有相同的结构。</p>
+<p><img src="/ICS/ics1.png" /></p>
+<h3 id="用户态和内核态">用户态和内核态</h3>
+<p>处理器必须限制一个应用可以执行的指令和可以访问的地址空间范围。通常用一个模式位来提供这种功能。当设置了该模式位时，系统处于内核态，可以访问内存中的任何位置。</p>
+<p>在用户态中，如果直接执行特权指令，例如停止处理器，改变模式位，发起IO操作，或者访问内核态的代码和数据，都会直接导致保护故障。用户必须通过系统调用接口来间接的调用内核数据和代码。</p>
+<p>用户态进入内核态的<strong>唯一方法</strong>是触发异常。</p>
+<p>Linux提供了一种/proc文件系统，他允许用户访问内核数据结构的内容，例如CPU类型，某个进程所使用的内存段。</p>
+<h3 id="上下文切换">上下文切换</h3>
+<p>以进程A进行read系统调用为例。</p>
+<ol type="1">
+<li>进程A通过系统调用触发陷阱异常，进入内核态；</li>
+<li>内核在执行了一部分陷阱处理逻辑之后，将需要等待磁盘的返回，此时它将进行上下文切换，切换到进程B的内核态；</li>
+<li>系统进入进程B的用户态并执行代码；</li>
+<li>进程B在执行过程中，受到了来自磁盘的中断，表示数据已经读取成功；</li>
+<li>进程B进入内核态，随后内核将上下文切换回A进程；</li>
+<li>系统进入进程A的用户态，继续执行剩余的用户代码。</li>
+</ol>
+<h3 id="系统调用的错误">系统调用的错误</h3>
+<p>和用户函数一样，系统调用也可能出现错误。此时通常会返回-1，并设置全局整数变量<code>errno</code>来表示出了什么问题。</p>
+<p>通过<code>strerror(errno)</code>函数，我们可以将errno对应的错误信息打印出来。</p>
+<h2 id="进程控制">进程控制※</h2>
+<p>接下来将复习Unix的进程控制函数，数量较多。</p>
+<h3 id="进程id">进程ID</h3>
+<p>每个进程都有一个正数进程ID。可以通过getpid获取，getppid则返回父进程的pid。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">pid_t</span> <span class="title function_">getpid</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="type">pid_t</span> <span class="title function_">getppid</span><span class="params">(<span class="type">void</span>)</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="创建和终止进程">创建和终止进程</h3>
+<p>进程的状态有三种：</p>
+<ul>
+<li><strong>运行</strong>：或者正在执行，或者在等待内核再一次切换上下文回来继续执行；</li>
+<li><strong>停止</strong>：被挂起，且不会被调度。当收到SIGSTOP，SIGTSTP，SIGTTIN或者SIGTTOU等信号时，进程就会停止。当他收到SIGCONT信号时，程序再次回到运行状态；</li>
+<li><strong>终止</strong>：程序永远的停止了，原因可能有三个：
+<ol type="1">
+<li>收到默认行为为终止进程的信号；</li>
+<li>从主程序返回；</li>
+<li>调用了<code>exit</code>函数。</li>
+</ol></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">exit</span><span class="params">(<span class="type">int</span> status)</span>;</span><br><span class="line"><span class="comment">// 不返回。</span></span><br></pre></td></tr></table></figure>
+<p>父进程可通过<code>fork</code>函数创建一个新的进程。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">pid_t</span> <span class="title function_">fork</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="comment">// 返回：子进程为0，父进程为子进程PID；出错则返回-1。</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>调用一次，返回两次，分别在父进程和子进程中。在父进程中，返回的是子进程的PID，在子进程中，返回0。通过这一特性，我们就可以区分当前进程是父进程还是子进程。</li>
+<li>并发执行。进程一旦创建完毕，父子进程的执行是并发的，他们可能以任何可能的顺序交替执行。</li>
+<li>相同但是独立的地址空间。<code>fork</code>函数执行完之后，两进程的地址空间及其内容是一样的，但是针对其进行的修改是完全独立的。</li>
+<li>共享文件。子进程会继承父进程打开的所有文件。</li>
+</ul>
+<h3 id="进程回收">进程回收</h3>
+<p>进程的三种状态之一是终止。但是终止并不意味着系统会将该进程所占用的资源立刻回收，清空，并释放。父进程需要主动地去回收它。一个终止但并未被回收的进程称之为僵尸进程。当父进程回收子进程时，内核可以将子进程的退出状态传递给父进程。</p>
+<p>系统中的所有进程，都是init进程的子进程。init的PID是1，是所有进程的祖先，在系统启动时被内核创建，永远不会退出。</p>
+<p>在一个进程退出时，如果他存在孤儿进程，则init会主动去收养该进程作为自己的子进程。如果一个父进程在退出时并未回收其僵尸子进程，则init会自动回收他们。但是，对于长时间不退出的进程，例如shell或者服务器，我们需要手动去回收其子进程。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">pid_t</span> <span class="title function_">waitpid</span><span class="params">(<span class="type">pid_t</span> pid, <span class="type">int</span> *statusp, <span class="type">int</span> options)</span>;</span><br><span class="line"><span class="comment">// 返回：如果成功，则为子进程PID；如果options设置了WNOHANG则为0；其他为-1。</span></span><br></pre></td></tr></table></figure>
+<p>该函数的行为<strong>比较复杂</strong>。</p>
+<p><strong>默认情况下（options=0）</strong>，进程被挂起，直到其<em>等待集合</em>中的某一个子进程终止。</p>
+<p><strong>修改等待集合</strong>，通过指定pid参数来控制。</p>
+<ul>
+<li><strong>pid&gt;0</strong>：等待PID=pid的进程返回。</li>
+<li><strong>pid=-1</strong>：等待集合为父进程的所有子进程。</li>
+</ul>
+<p><strong>修改默认行为</strong>，通过修改options来控制。</p>
+<ul>
+<li><strong>WNOHANG</strong>：如果调用的时候，等待集合里面没有已经终止的子进程，则立即返回。</li>
+<li><strong>WUNTRACED</strong>：除了等待终止，也等待停止。</li>
+<li><strong>WCONTINUED</strong>：除了等待终止，也等待一个等待集合中被停止的进程被SIGCONT重新激活。</li>
+</ul>
+<p>可以将他们用或运算组合起来。</p>
+<p><strong>检查已回收子进程的退出状态</strong></p>
+<p>设<code>int status = *statusp;</code>（如果statusp非空）。</p>
+<p><code>waitpid</code>会修改改指针指向的值，然后父进程可以用一些预定义的宏来获取信息。</p>
+<ul>
+<li><strong>WIFEXITED</strong>：如果子进程正常终止，则返回真。</li>
+<li><strong>WEXITSTATUS</strong>：返回退出状态。</li>
+<li><strong>WIFSIGNALED</strong>：如果子进程是因为一个未被捕获的信号终止的，则返回真。</li>
+<li><strong>WTERMSIG</strong>：返回引起终止的信号编号。</li>
+<li><strong>WIFSTOPPED</strong>：如果因为子进程停止而返回，则返回真。</li>
+<li><strong>WSTOPSIG</strong>：返回引起子进程停止的信号编号。</li>
+<li><strong>WIFCONTINUED</strong>：如果因为子进程重新运行而返回，则返回真。</li>
+</ul>
+<p><strong>错误返回</strong></p>
+<p>如果没有子进程，则返回-1，并设置<code>errno</code>为<code>ECHILD</code>；如果<code>waitpid</code>被一个信号中断，则返回-1，并设置<code>error</code>为<code>EINTR</code>。</p>
+<h3 id="进程休眠">进程休眠</h3>
+<p>可以用<code>sleep</code>来让进程休眠指定时间。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">int</span> <span class="title function_">sleep</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span> secs)</span>;</span><br><span class="line"><span class="comment">// 返回：还要休眠的秒数。</span></span><br></pre></td></tr></table></figure>
+<p><code>sleep</code>如果达成了设置的休眠时间，则返回0。但是他有可能被一个信号提前中断，此时返回剩余秒数。</p>
+<p>如果想让程序休眠，直到收到一个信号，则应使用<code>pause</code>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">pause</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="comment">// 返回：总是-1。</span></span><br></pre></td></tr></table></figure>
+<h3 id="加载并运行程序">加载并运行程序</h3>
+<p><code>execve</code>可以在当前进程的上下文中，加载并运行一个程序。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">execve</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *filename, <span class="type">const</span> <span class="type">char</span> *argv[], <span class="type">const</span> <span class="type">char</span> *envp[])</span>;</span><br><span class="line"><span class="comment">// 返回：如果成功则不返回，否则返回-1。</span></span><br></pre></td></tr></table></figure>
+<p>filename表示可执行文件的文件名，argv提供程序运行的字符串参数数组，而envp提供环境键值对。</p>
+<p>以下函数可以操作环境数组。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> *<span class="title function_">getenv</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *name)</span>;</span><br><span class="line"><span class="comment">// 返回：若存在则返回指向name的指针，否则返回NULL。</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">setenv</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *name, <span class="type">const</span> <span class="type">char</span> *newvalue, <span class="type">int</span> overwrite)</span>;</span><br><span class="line"><span class="comment">// 返回：成功为0，失败为-1。</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">unsetenv</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *name)</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="信号">信号※</h2>
+<p>一个信号就是一条消息，用来通知进程系统中发生了某些事件。</p>
+<ul>
+<li>进程尝试除零，则内核会给该进程发一个<strong>SIGFPE</strong>信号。</li>
+<li>进程执行一条非法指令，则内核会给进程发一个<strong>SIGILL</strong>信号。</li>
+<li>进程进行非法内存引用，则内核会给进程发一个<strong>SIGSEGV</strong>信号。</li>
+</ul>
+<h3 id="信号术语">信号术语</h3>
+<p>传送一个信号到目标进程需要两步。</p>
+<ul>
+<li><em>发送信号</em>：内核通过更新目的进程上下文中的某个状态，发送一个信号给目的进程。发送原因可能有：
+<ul>
+<li>内核检测到一个系统事件，比如除零错或者子进程终止。</li>
+<li>一个进程调用了kill函数，将信号发给自身进程或其他进程。</li>
+</ul></li>
+<li><em>接收信号</em>：目的进程被内核强迫对发来的信号进行反应。进程可以忽略这个信号，终止或者通过用<code>signal</code>函数捕获这个信号，并自定义针对该信号的处理逻辑。目标进程在执行到<span
+class="math inline">\(I_{curr}\)</span>被打断之后，内核将控制流交给信号处理函数，可能是系统内置，也可能是用户自定义的函数。执行完成之后，内核将控制流返回目标进程，继续执行<span
+class="math inline">\(I_{next}\)</span>。</li>
+</ul>
+<p><em>待处理信号</em>：一个已发出但未被接收的信号。一个类型的信号至多有一个待处理信号。一个进程可以阻塞某些信号，阻塞后，该种信号仍可以被发送给目标进程，但是不会被接受，直到目标进程取消对该信号的阻塞。</p>
+<p>如果进程阻塞了k号信号之后，k号信号被发送给该进程，则内核会设置pending位向量的第k位。</p>
+<h3 id="发送信号">发送信号</h3>
+<h4 id="进程组">进程组</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">pid_t</span> <span class="title function_">getpgrp</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="comment">// 返回：调用进程的进程组ID。</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">setpgid</span><span class="params">(<span class="type">pid_t</span> pid, <span class="type">pid_t</span> pgid)</span>;</span><br><span class="line"><span class="comment">// 返回：成功为0，失败为-1。</span></span><br></pre></td></tr></table></figure>
+<p>子进程默认与父进程处于相同PGID。调用<code>setpgid</code>可以改变自己或者其他进程的PGID。</p>
+<p>pid为0时，使用当前进程的PID；pgid为0时，使用pid指定的PID作为PGID的数字。</p>
+<h4 id="binkill命令">/bin/kill命令</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">/bin/kill -9 15213  // 发送9号信号给15213进程。</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">/bin/kill -9 -15213 // 发送9好信号给15213进程组中的所有进程。</span></span><br></pre></td></tr></table></figure>
+<h4 id="从键盘发送信号">从键盘发送信号</h4>
+<p>按下Ctrl+C，可以向shell的前台进程组中的每个进程发送一个SIGINT信号。</p>
+<p>类似地，按下Ctrl+Z则发送SIGTSTP信号到前台进程组中的每个进程。</p>
+<h4 id="kill函数">kill函数</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">kill</span><span class="params">(<span class="type">pid_t</span> pid, <span class="type">int</span> sig)</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>pid</code>&gt;0：发送<code>sig</code>号信号给<code>pid</code>进程。</li>
+<li><code>pid</code>=0：发送给调用进程所在进程组的每一个进程，包括自己。</li>
+<li><code>pid</code>&lt;0：发送给进程组<code>|pid|</code>中的每一个进程。</li>
+</ul>
+<h4 id="alarm函数">alarm函数</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">int</span> <span class="title function_">alarm</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span> secs)</span>;</span><br><span class="line"><span class="comment">// 返回：前一次设置闹钟的剩余秒数，若以前没有设置过，则返回0。</span></span><br></pre></td></tr></table></figure>
+<p>在<code>secs</code>秒后，向自己发送一个SIGALRM信号。</p>
+<p>如果在上一个闹钟尚未触发的时候就又调用了<code>alarm</code>函数，则之前的闹钟被取消，只保留新闹钟，并返回上次闹钟所剩秒数。</p>
+<h3 id="接收信号">接收信号</h3>
+<p>信号处理的时机：进程从内核态转变为用户态时（系统调用结束或者上下文切换）。</p>
+<p>会检查未被阻塞的待处理信号集合。如果有，则选择某一个进行处理。</p>
+<p>每个信号都有默认处理行为：</p>
+<ul>
+<li>进程终止。</li>
+<li>进程终止并转储内存。</li>
+<li>进程停止知道被SIGCONT重启。</li>
+<li>进程忽略改信号。</li>
+</ul>
+<p>可以通过<code>signal</code>函数修改该进程对某一信号的默认处理行为。（<strong>注意：SIGSTOP和SIGKILL两信号是唯二默认行为不能被修改的信号</strong>）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">sighandler_t</span> <span class="title function_">signal</span><span class="params">(<span class="type">int</span> signum, <span class="type">sighandler_t</span> handler)</span>;</span><br><span class="line"><span class="comment">// 返回：若成功则返回前次处理函数的指针，若失败则返回SIG_ERR（并不设置errno）。</span></span><br></pre></td></tr></table></figure>
+<p><code>handler</code>可以传入三种值：</p>
+<ul>
+<li><strong>SIG_IGN</strong>：忽略。</li>
+<li><strong>SIG_DFL</strong>：恢复默认。</li>
+<li><strong>函数指针</strong>：执行改函数流程。</li>
+</ul>
+<p><strong>注意，信号的处理函数也可以被其他信号打断。</strong></p>
+<p><img src="/ICS/ics2.png" /></p>
+<h3 id="阻塞与解阻">阻塞与解阻</h3>
+<p>分为两种：</p>
+<ul>
+<li><em>隐式阻塞</em>：若内核正在执行信号s的处理程序，此时进程又收到了一个信号s，则该信号不会被立即接收，也不会被取消，而是称为待处理信号。</li>
+<li><em>显式阻塞</em>：程序调用<code>sigpromask</code>及相关辅助函数。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">sigpromask</span><span class="params">(<span class="type">int</span> how, <span class="type">const</span> <span class="type">sigset_t</span> *<span class="built_in">set</span>, <span class="type">sigset_t</span> *oldset)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">sigemptyset</span><span class="params">(<span class="type">sigset_t</span> *<span class="built_in">set</span>)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">sigfillset</span><span class="params">(<span class="type">sigset_t</span> *<span class="built_in">set</span>)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">sigaddset</span><span class="params">(<span class="type">sigset_t</span> *<span class="built_in">set</span>, <span class="type">int</span> signum)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">sigdelset</span><span class="params">(<span class="type">sigset_t</span> *<span class="built_in">set</span>, <span class="type">int</span> signum)</span>;</span><br><span class="line"><span class="comment">// 返回：均为成功0，失败-1。</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">sigismember</span><span class="params">(<span class="type">const</span> <span class="type">sigset_t</span> *<span class="built_in">set</span>, <span class="type">int</span> signum)</span>;</span><br><span class="line"><span class="comment">// 返回：如果signum是set的成员则返回1，不是则返回0，出错返回-1。</span></span><br></pre></td></tr></table></figure>
+<p>其中，<code>how</code>的语义为如何改变当前信号集。有如下三种方式：</p>
+<ul>
+<li><strong>SIG_BLOCK</strong>：将set中的信号添加到blocked中。</li>
+<li><strong>SIG_UNBLOCK</strong>：删除set中的信号。</li>
+<li><strong>SIG_SETMASK</strong>：block=set。</li>
+</ul>
+<h3 id="编写singal-handler信号处理程序">编写singal
+handler信号处理程序</h3>
+<p>安全信号处理的一些原则。</p>
+<ol type="1">
+<li><strong>处理函数要尽可能简单</strong>。</li>
+<li><strong>调用异步信号安全的函数</strong>。在处理函数中调用其他外部函数时，该外部函数可能会被其他信号中断，导致处理函数被间接中断。应该使用一些保证异步信号安全的函数。他们要么是<em>可重入的</em>，要么不会被其他信号中断。</li>
+<li><strong>保存和回复errno</strong>。主程序中可能会用到errno。如果在处理函数中也调用了一些内核函数，则会干扰主程序的判断。应该保证在执行处理函数前后，errno不变。</li>
+<li><strong>阻塞所有信号，保护全局数据访问</strong>。</li>
+<li><strong>用volatile声明全局变量</strong>。volatile告诉编译器，不要缓存该变量。由于信号处理函数处于内核态，不经过主函数的缓存路线，而直接将变量在内存中修改，用户态函数无法穿透缓存而读取到内存中的最新值。</li>
+<li><strong>用sig_atom_t声明标志</strong>。保证读写的原子性。</li>
+</ol>
+<p><strong>竞争问题（race）</strong></p>
+<p>子进程结束会给父进程发送<strong>SIGCHLD</strong>信号，父进程自定义处理函数，捕获之后进行一些处理。但是处理函数和父进程程序中的一些操作可能存在顺序冲突。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">sigsuspend</span><span class="params">(<span class="type">const</span> <span class="type">sigset_t</span> *mask)</span>;</span><br><span class="line"><span class="comment">// 返回：-1。</span></span><br></pre></td></tr></table></figure>
+<p>该函数等价于如下流程的原子版本：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sigpromask(SIG_SETMASK, &amp;mask, &amp;prev);</span><br><span class="line">pause();</span><br><span class="line">sigpromask(SIG_SETMASK, &amp;prev, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
+<p>可以使用该函数暂时取消某一信号的阻塞，然后不可中断地进入pause。此时，如果已经有了待处理信号，则pause会被信号唤醒。</p>
+<h2 id="非本地跳转未完">非本地跳转（未完）</h2>
+<p>将控制直接从一个函数转移至另一个当前正在执行的函数，而不需要通过正常的调用返回。非本地跳转通过<code>setjmp</code>和<code>longjmp</code>函数实现。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">setjmp</span><span class="params">(jmp_buf env)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">sigsetjmp</span><span class="params">(sigjmp_buf env, <span class="type">int</span> savesigs)</span>;</span><br><span class="line"><span class="comment">// 返回：setjmp返回0，sigsetjmp返回非0。</span></span><br></pre></td></tr></table></figure>
+<h1 id="第九章-虚拟内存">第九章 虚拟内存※</h1>
+<h2 id="物理和虚拟地址">物理和虚拟地址</h2>
+<p>主存是一个由M个连续的字节大小的单元组成的数组，每个单元对应了一个地址。</p>
+<p>如果我们拿到一个地址值并且直接用该地址取出内存中的值，则称为<strong>物理寻址</strong>。</p>
+<p>然而，我们可以<strong>虚拟寻址</strong>。</p>
+<p>CPU首先生成一个虚拟地址，但是这个地址并不能直接被用于寻找内存中的数据，需要经过一个
+<strong>内存管理单元（MMU）</strong>的翻译，转化为物理地址后，才能取出数据。MMU利用存放在主存中的查询表来进行动态翻译，该表内容由操作系统管理。</p>
+<h2 id="地址空间">地址空间</h2>
+<p>一个非负整数组成的有序集合<span
+class="math inline">\(\{0,1,2,3,\cdots\}\)</span>可以称之为一个地址空间。我们总是假设他是连续的。</p>
+<p>CPU从一个有<span
+class="math inline">\(N=2^n\)</span>的地址空间中生成虚拟地址。</p>
+<p>一个包含<span class="math inline">\(N=2^n\)</span>的地址空间称为<span
+class="math inline">\(n\)</span>位地址空间。现代操作系统通常支持32位或者64位虚拟地址空间。</p>
+<p>物理地址空间字节数<span
+class="math inline">\(M\)</span>不要求一定是2的幂次，但为了方便讨论，假设<span
+class="math inline">\(M=2^m\)</span>。</p>
+<h2 id="虚拟内存作为缓存的工具">虚拟内存作为缓存的工具</h2>
+<p>虚拟内存存储于磁盘上。</p>
+<p>主存可以看成是磁盘的缓存，于是二者之间的信息交流有一个固定大小的单位长度。系统将虚拟内存分割为<strong>虚拟页</strong>，每一页的大小是固定的，一般是2的幂次<span
+class="math inline">\(P=2^p\)</span>。类似地，物理内存被分割为<strong>物理页</strong>，大小也为<span
+class="math inline">\(P\)</span>字节，物理页也被称为页帧。</p>
+<p>任何时刻，虚拟页的集合都分为三个不相交的子集：</p>
+<ul>
+<li><strong>未被分配的</strong>：VM系统尚未分配或创建的页。不占用磁盘空间。</li>
+<li><strong>缓存的</strong>：已缓存在物理内存中的已分配页。</li>
+<li><strong>未缓存的</strong>：未缓存在物理内存中的已分配页。</li>
+</ul>
+<h3 id="dram组织结构">DRAM组织结构</h3>
+<p>DRAM如果miss了，那么到磁盘中去读取数据的延迟是巨大的。</p>
+<p>所以为了尽量避免cache miss，虚拟页往往都很大，通常是4KB~2MB。</p>
+<p>虚拟页是fully-associative的，也就是只有一个set，任何虚拟页可以放到任何物理页中。替换算法要比SRAM缓存更复杂精密。</p>
+<h3 id="页表">页表</h3>
+<p>既然虚拟内存是物理内存的缓存，则需要一个表来记录信息。</p>
+<p>页表是存放在物理内存中的数据结构，将虚拟页映射到物理页。</p>
+<p><img src="/ICS/ics3.png" /></p>
+<p>在如图所示的例子中，第0，5号虚拟页尚未被分配所以是null；第1，2，4，7号虚拟页已经被缓存到物理内存中，剩下的第3，6号尚未被缓存。</p>
+<h3 id="命中">命中</h3>
+<p>此时，如果CPU想要访问第2号虚拟地址，那么他就会被翻译成物理内存中的PP1。此时称为页命中。</p>
+<h3 id="缺页">缺页</h3>
+<p>如果页表没有查询到对应的记录，则出现了一次miss，称为<strong>缺页</strong>。</p>
+<p>如果CPU想要访问VP3，则系统触发缺页异常，并调用缺页异常处理程序，它会选择一个物理内存中的牺牲页（PP3对应的VP4）。如果VP4已经被修改，则内核会将他复制回磁盘。然后无论是否修改，都会将页表中关于VP4的信息抹除。然后内核从磁盘复制VP3中的内容到PP3，同时更新页表。然后处理程序返回，重启触发缺页异常的指令，此时他就可以正常访问VP3。</p>
+<p>一般情况下，页的写入和擦除都是在发生miss的情况下才进行，这称之为<strong>demand
+paging</strong>。也可以按照某种方式，预测可能的miss，在页实际被饮用之前就提前准备好。不过，所有现代机器都不会做这种预测。</p>
+<h3 id="分配malloc">分配（malloc）</h3>
+<p>将页表中一些尚未分配的条目，在磁盘上分配新的空间。</p>
+<h2 id="虚拟内存作为内存管理的工具">虚拟内存作为内存管理的工具</h2>
+<p>一些早期系统中，虚拟内存小于物理内存。即便如此，它也可以作为管理内存一个有用的工具。</p>
+<p>系统为每个进程提供了独立的页表。</p>
+<p><img src="/ICS/ics4.png" /></p>
+<p>在此示例中，两进程的共享了一个物理内存页PP7。在两个进程中访问同一个VP1地址，最终指向的物理地址是不同的。它的作用体现在：</p>
+<ol type="1">
+<li><strong>简化链接</strong>。允许了每个进程使用完全相同的内存结构。</li>
+<li><strong>简化加载</strong>。分配新的虚拟页，用于加载可执行目标文件的各个段，而不需要实际去磁盘中读写物理页。</li>
+<li><strong>简化共享</strong>。一般而言，不同进程的虚拟地址空间是私有的，在物理内存中不会被映射到相同的地址。但是，想printf这种大家都会用到的程序，操作系统会将其映射到相同的物理页面。</li>
+<li><strong>简化内存分配</strong>。直接在虚拟内存中分配连续的k个页，而不需要在物理内存中寻找。</li>
+</ol>
+<h2 id="虚拟内存作为内存保护的工具">虚拟内存作为内存保护的工具</h2>
+<p>我们需要限制用户态函数对只读代码段的修改，不能允许他访问内核态的代码和数据，也不能让其读写其他进程的私有内存，除非是共享的。</p>
+<p>在内核分配一个虚拟页时，可以在页表中的条目里面添加一些控制位，来区分权限。</p>
+<p>例如，PTE中有三个许可位：</p>
+<ul>
+<li><strong>SUP</strong>：表示进程是否必须为内核态。</li>
+<li><strong>READ</strong>：读权限。</li>
+<li><strong>WRITE</strong>：写权限。</li>
+</ul>
+<h2 id="地址翻译">地址翻译※</h2>
+<p>基本参数和术语。</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math inline">\(N=2^n\)</span></td>
+<td>虚拟地址的地址数量</td>
+</tr>
+<tr>
+<td><span class="math inline">\(M=2^m\)</span></td>
+<td>物理地址的地址数量</td>
+</tr>
+<tr>
+<td><span class="math inline">\(P=2^p\)</span></td>
+<td>页大小</td>
+</tr>
+<tr>
+<td>VPO</td>
+<td>虚拟页偏移量</td>
+</tr>
+<tr>
+<td>VPN</td>
+<td>虚拟页号</td>
+</tr>
+<tr>
+<td>TLBI</td>
+<td>TLB index</td>
+</tr>
+<tr>
+<td>TLBT</td>
+<td>TLB tag</td>
+</tr>
+<tr>
+<td>PPO</td>
+<td>物理页偏移量</td>
+</tr>
+<tr>
+<td>PPN</td>
+<td>物理页号</td>
+</tr>
+<tr>
+<td>CO</td>
+<td>cache offset</td>
+</tr>
+<tr>
+<td>CI</td>
+<td>cache index</td>
+</tr>
+<tr>
+<td>CT</td>
+<td>cache tag</td>
+</tr>
+</tbody>
+</table>
+<h3 id="基本流程-1">基本流程</h3>
+<p><img src="/ICS/ics5.png" /></p>
+<p>上图展示了MMU使用页表来进行翻译的基本流程。</p>
+<p>CPU中有一个特殊寄存器称为<strong>页表基址寄存器（PTBR）</strong>，指向当前进程的页表。</p>
+<p>n位虚拟地址包含两部分：</p>
+<ul>
+<li><strong>VPO</strong>：<span
+class="math inline">\(p\)</span>位，代表着在一个页中，想要读取的字节的起始位置。</li>
+<li><strong>VPN</strong>：<span
+class="math inline">\((n-p)\)</span>位，代表虚拟页号。</li>
+</ul>
+<p>MMU利用VPN来选去适当的PTE。由于虚拟和物理内存的页大小都是<span
+class="math inline">\(P\)</span>字节，所以PPO和VPO是相等的。</p>
+<h3 id="具体流程">具体流程</h3>
+<p><img src="/ICS/ics6.png" /></p>
+<h4 id="hit">hit</h4>
+<ol type="1">
+<li>CPU生成一个虚拟地址，传给MMU。</li>
+<li>MMU生成PTE的地址，并利用各级缓存或主存找到它。</li>
+<li>各级缓存或主存返回给MMU一个PTE。</li>
+<li>MMU组装物理地址，并传给各级缓存或主存。</li>
+<li>各级缓存或主存将数据返回CPU。</li>
+</ol>
+<p><strong>注意</strong>，PTE的地址（PTEA）和要找的地址是不一样的。页表是常驻于内存的，并通过PTBR寄存器加上条目编号的方式定位。</p>
+<h4 id="miss">miss</h4>
+<ol type="1">
+<li>同上。</li>
+<li>同上。</li>
+<li>同上。</li>
+<li>PTE中的有效位为0，意味着缺页。MMU触发一次异常，将控制传递给缺页异常处理程序。</li>
+<li>处理程序确定物理内存中的牺牲页，若该页被修改，则写回磁盘，否则则不需要。</li>
+<li>缺页异常换入新页面，并更新PTE。</li>
+<li>处理函数将控制交回给原进程，再次执行触发缺页的指令，从头执行，本次执行会hit。</li>
+</ol>
+<h3 id="高速缓存中的地址">高速缓存中的地址</h3>
+<p>大多数系统选择物理地址。PTEA也可以参与缓存。</p>
+<h3 id="tlb">TLB</h3>
+<p>除了查询目标物理地址，每次翻译的时候，都必须要在各级缓存或者主存中查找PTE的地址，针对PTEA，我们也可以有一个小缓存器，名为<strong>翻译后备缓冲器（TLB）</strong></p>
+<p>TLB中存储虚拟地址，每一行都是有一个PTE组成的块。</p>
+<p>假设TLB有<span
+class="math inline">\(T=2^t\)</span>个set，那么TLBI是由VPN地最低<span
+class="math inline">\(t\)</span>位组成的，剩余位组成TLBT。</p>
+<p><img src="/ICS/ics7.png" /></p>
+<p><strong>注意</strong>，此处可以使用虚拟地址而不担心不同进程之间混乱的原因是，各个进程的页表物理地址是存在PTBR中的，是不同的。</p>
+<h3 id="多级页表">多级页表</h3>
+<p>问题：需要的页表条目太多，占用空间太大。由此引出了多级页表的概念。</p>
+<p>举例说明，假设虚拟地址为32位，页大小为4KB，一个PTE是4字节。</p>
+<p>一级页表映射的是很多连续页表组成的一个大块，或成为<strong>片（chunk）</strong>。此时，一个32位系统只需要1024个一级页表项就够了。</p>
+<p>但是只有一级页表，是无法查到某一准确的PTE的。假设一级页表的一个条目已经被分配，则它指向的二级页表是存在的，是连续的1024个PTE。</p>
+<p>我们很精确的构造，使得一二级页表都是正好一个页的大小。</p>
+<p><img src="/ICS/ics8.png" /></p>
+<p>如图所示，我们对一个虚拟地址进行切分，使用不同的位来到每级页表中去查询，最终得到PPN。然后与VPO组装，形成一个物理地址。</p>
+<h2 id="案例">案例</h2>
+<h2 id="内存映射">内存映射</h2>
+<h2 id="动态内存分配">动态内存分配</h2>
+<hr />
+<div
+style="font-size: 50px; font-weight: bold; color: #777; margin: 22px 0; line-height: normal;">
+第三部分 程序间的交互和通信
+</div>
+<h1 id="第十章-系统级io">第十章 系统级I/O</h1>
+<h1 id="第十一章-网络编程">第十一章 网络编程</h1>
+<h1 id="第十二章-并发编程">第十二章 并发编程</h1>
+</div><div class="article-licensing box"><div class="licensing-title"><p>计算机系统基础</p><p><a href="https://lulu010722.com/计算机系统基础/">https://lulu010722.com/计算机系统基础/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>LULU</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2022-10-15</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2025-12-27</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="../git%E2%80%94%E2%80%94%E4%BA%BA%E7%B1%BB%E5%A5%BD%E6%9C%8B%E5%8F%8B/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">git——人类好朋友</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="../cse-lab1%E8%B8%A9%E5%9D%91/"><span class="level-item">cse-lab1踩坑</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card" id="comments"><div class="card-content"><h3 class="title is-5">Comments</h3><script src="https://giscus.app/client.js" repo="lulu010722/blog-comments" data-repo="lulu010722/blog-comments" data-repo-id="R_kgDOJ17irQ" data-category-id="DIC_kwDOJ17irc4Cp_fV" data-category="Announcements" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="1" data-input-position="top" data-theme="light" data-lang="en" data-loading="lazy" crossorigin="anonymous" async></script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-3-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="../asset/images/avatar.png" alt="LULU"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">LULU</p><p class="is-size-6 is-block">不宅的极客，也能改变世界</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shanghai, China</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">Posts</p><a href="../archives/"><p class="title">25</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Categories</p><a href="../categories/"><p class="title">12</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Tags</p><a href="../tags/"><p class="title">6</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/lulu010722" target="_blank" rel="me noopener">Follow</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Github" href="https://github.com/lulu010722/lulu010722.github.io"><i class="fab fa-github"></i></a></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="../categories/%E4%B9%A6%E6%9E%B6/"><span class="level-start"><span class="level-item">书架</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="../categories/%E5%A5%B9%E4%BB%AC/"><span class="level-start"><span class="level-item">她们</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="../categories/%E5%B1%95%E5%8E%85/"><span class="level-start"><span class="level-item">展厅</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="../categories/%E5%BC%80%E5%8F%91/"><span class="level-start"><span class="level-item">开发</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="../categories/%E6%95%99%E7%A8%8B/"><span class="level-start"><span class="level-item">教程</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="../categories/%E6%95%99%E7%A8%8B/docker/"><span class="level-start"><span class="level-item">docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="../categories/%E6%95%99%E7%A8%8B/git/"><span class="level-start"><span class="level-item">git</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="../categories/%E6%95%99%E7%A8%8B/hexo/"><span class="level-start"><span class="level-item">hexo</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="../categories/%E6%97%A5%E8%AE%B0/"><span class="level-start"><span class="level-item">日记</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="../categories/%E6%97%A5%E8%AF%AD/"><span class="level-start"><span class="level-item">日语</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="../categories/%E8%AF%BE%E7%A8%8B/"><span class="level-start"><span class="level-item">课程</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="../categories/%E9%85%8D%E7%BD%AE/"><span class="level-start"><span class="level-item">配置</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">Recents</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2025-08-24T07:54:20.000Z">2025-08-24</time></p><p class="title"><a href="../giscus%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%BD%AE%E9%A1%B6%E5%9B%BE%E6%A0%87/">giscus配置与置顶图标</a></p><p class="categories"><a href="../categories/%E9%85%8D%E7%BD%AE/">配置</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2025-08-24T06:20:21.000Z">2025-08-24</time></p><p class="title"><a href="../%E5%8F%B0%E5%BC%8F%E6%9C%BA/">台式机</a></p><p class="categories"><a href="../categories/%E5%B1%95%E5%8E%85/">展厅</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2025-05-06T15:08:30.000Z">2025-05-06</time></p><p class="title"><a href="../docker%E5%9C%A8wsl2%E7%8E%AF%E5%A2%83%E4%B8%AD%E7%9A%84%E4%BB%A3%E7%90%86%E9%97%AE%E9%A2%98/">docker在WSL2环境中的代理问题</a></p><p class="categories"><a href="../categories/%E6%95%99%E7%A8%8B/">教程</a> / <a href="../categories/%E6%95%99%E7%A8%8B/docker/">docker</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2025-03-18T20:33:57.000Z">2025-03-19</time></p><p class="title"><a href="../something-to-say/">something to say</a></p><p class="categories"><a href="../categories/%E5%A5%B9%E4%BB%AC/">她们</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-08T14:07:53.000Z">2024-04-08</time></p><p class="title"><a href="../%E5%A5%B9/">她</a></p><p class="categories"><a href="../categories/%E5%A5%B9%E4%BB%AC/">她们</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="../archives/2025/08/"><span class="level-start"><span class="level-item">August 2025</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="../archives/2025/05/"><span class="level-start"><span class="level-item">May 2025</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="../archives/2025/03/"><span class="level-start"><span class="level-item">March 2025</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="../archives/2024/04/"><span class="level-start"><span class="level-item">April 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="../archives/2023/08/"><span class="level-start"><span class="level-item">August 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="../archives/2023/06/"><span class="level-start"><span class="level-item">June 2023</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="../archives/2022/11/"><span class="level-start"><span class="level-item">November 2022</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="../archives/2022/10/"><span class="level-start"><span class="level-item">October 2022</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="../archives/2022/09/"><span class="level-start"><span class="level-item">September 2022</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">Tags</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="../tags/cse/"><span class="tag">cse</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="../tags/git/"><span class="tag">git</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="../tags/mysql/"><span class="tag">mysql</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="../tags/%E5%89%8D%E7%AB%AF/"><span class="tag">前端</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="../tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="tag">机器学习</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="../tags/%E8%B8%A9%E5%9D%91/"><span class="tag">踩坑</span><span class="tag">3</span></a></div></div></div></div></div><div class="column-right-shadow is-hidden-widescreen is-sticky"></div></div><div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#第一章-计算机系统漫游"><span class="level-left"><span class="level-item">1</span><span class="level-item">第一章 计算机系统漫游</span></span></a></li><li><a class="level is-mobile" href="#第二章-信息的表示和处理"><span class="level-left"><span class="level-item">2</span><span class="level-item">第二章 信息的表示和处理</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#数据类型的转换"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">数据类型的转换</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#相同位数"><span class="level-left"><span class="level-item">2.1.1</span><span class="level-item">相同位数</span></span></a></li><li><a class="level is-mobile" href="#不同位数"><span class="level-left"><span class="level-item">2.1.2</span><span class="level-item">不同位数</span></span></a></li></ul></li><li><a class="level is-mobile" href="#ieee浮点数表示"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">IEEE浮点数表示</span></span></a></li><li><a class="level is-mobile" href="#浮点之间浮点与整形的转换"><span class="level-left"><span class="level-item">2.3</span><span class="level-item">浮点之间，浮点与整形的转换</span></span></a></li></ul></li><li><a class="level is-mobile" href="#第三章-程序的机器级表示"><span class="level-left"><span class="level-item">3</span><span class="level-item">第三章 程序的机器级表示</span></span></a></li><li><a class="level is-mobile" href="#第四章-处理器体系结构"><span class="level-left"><span class="level-item">4</span><span class="level-item">第四章 处理器体系结构</span></span></a></li><li><a class="level is-mobile" href="#第五章-优化程序性能"><span class="level-left"><span class="level-item">5</span><span class="level-item">第五章 优化程序性能</span></span></a></li><li><a class="level is-mobile" href="#第六章-储存器层次结构"><span class="level-left"><span class="level-item">6</span><span class="level-item">第六章 储存器层次结构</span></span></a></li><li><a class="level is-mobile" href="#第七章-链接"><span class="level-left"><span class="level-item">7</span><span class="level-item">第七章 链接</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#基本流程"><span class="level-left"><span class="level-item">7.1</span><span class="level-item">基本流程</span></span></a></li><li><a class="level is-mobile" href="#静态链接"><span class="level-left"><span class="level-item">7.2</span><span class="level-item">静态链接</span></span></a></li><li><a class="level is-mobile" href="#符号和符号表"><span class="level-left"><span class="level-item">7.3</span><span class="level-item">符号和符号表</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#伪节"><span class="level-left"><span class="level-item">7.3.1</span><span class="level-item">伪节</span></span></a></li><li><a class="level is-mobile" href="#common和.bss的区别"><span class="level-left"><span class="level-item">7.3.2</span><span class="level-item">COMMON和.bss的区别。</span></span></a></li></ul></li><li><a class="level is-mobile" href="#符号解析"><span class="level-left"><span class="level-item">7.4</span><span class="level-item">符号解析</span></span></a></li><li><a class="level is-mobile" href="#静态库"><span class="level-left"><span class="level-item">7.5</span><span class="level-item">静态库</span></span></a></li><li><a class="level is-mobile" href="#重定位"><span class="level-left"><span class="level-item">7.6</span><span class="level-item">重定位</span></span></a></li><li><a class="level is-mobile" href="#可执行目标文件"><span class="level-left"><span class="level-item">7.7</span><span class="level-item">可执行目标文件</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#程序头部表"><span class="level-left"><span class="level-item">7.7.1</span><span class="level-item">程序头部表</span></span></a></li></ul></li><li><a class="level is-mobile" href="#加载可执行目标文件"><span class="level-left"><span class="level-item">7.8</span><span class="level-item">加载可执行目标文件</span></span></a></li><li><a class="level is-mobile" href="#动态链接"><span class="level-left"><span class="level-item">7.9</span><span class="level-item">动态链接</span></span></a></li><li><a class="level is-mobile" href="#位置无关代码pic"><span class="level-left"><span class="level-item">7.10</span><span class="level-item">位置无关代码（PIC）</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#全局偏移量表got"><span class="level-left"><span class="level-item">7.10.1</span><span class="level-item">全局偏移量表（GOT）</span></span></a></li><li><a class="level is-mobile" href="#过程链接表plt"><span class="level-left"><span class="level-item">7.10.2</span><span class="level-item">过程链接表（PLT）</span></span></a></li></ul></li><li><a class="level is-mobile" href="#库打桩机制"><span class="level-left"><span class="level-item">7.11</span><span class="level-item">库打桩机制</span></span></a></li></ul></li><li><a class="level is-mobile" href="#第八章-异常控制流"><span class="level-left"><span class="level-item">8</span><span class="level-item">第八章 异常控制流</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#异常"><span class="level-left"><span class="level-item">8.1</span><span class="level-item">异常</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#异常处理"><span class="level-left"><span class="level-item">8.1.1</span><span class="level-item">异常处理</span></span></a></li><li><a class="level is-mobile" href="#异常种类"><span class="level-left"><span class="level-item">8.1.2</span><span class="level-item">异常种类</span></span></a></li><li><a class="level is-mobile" href="#linuxx86-64系统异常"><span class="level-left"><span class="level-item">8.1.3</span><span class="level-item">Linux/x86-64系统异常</span></span></a></li></ul></li><li><a class="level is-mobile" href="#进程"><span class="level-left"><span class="level-item">8.2</span><span class="level-item">进程※</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#私有地址空间"><span class="level-left"><span class="level-item">8.2.1</span><span class="level-item">私有地址空间</span></span></a></li><li><a class="level is-mobile" href="#用户态和内核态"><span class="level-left"><span class="level-item">8.2.2</span><span class="level-item">用户态和内核态</span></span></a></li><li><a class="level is-mobile" href="#上下文切换"><span class="level-left"><span class="level-item">8.2.3</span><span class="level-item">上下文切换</span></span></a></li><li><a class="level is-mobile" href="#系统调用的错误"><span class="level-left"><span class="level-item">8.2.4</span><span class="level-item">系统调用的错误</span></span></a></li></ul></li><li><a class="level is-mobile" href="#进程控制"><span class="level-left"><span class="level-item">8.3</span><span class="level-item">进程控制※</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#进程id"><span class="level-left"><span class="level-item">8.3.1</span><span class="level-item">进程ID</span></span></a></li><li><a class="level is-mobile" href="#创建和终止进程"><span class="level-left"><span class="level-item">8.3.2</span><span class="level-item">创建和终止进程</span></span></a></li><li><a class="level is-mobile" href="#进程回收"><span class="level-left"><span class="level-item">8.3.3</span><span class="level-item">进程回收</span></span></a></li><li><a class="level is-mobile" href="#进程休眠"><span class="level-left"><span class="level-item">8.3.4</span><span class="level-item">进程休眠</span></span></a></li><li><a class="level is-mobile" href="#加载并运行程序"><span class="level-left"><span class="level-item">8.3.5</span><span class="level-item">加载并运行程序</span></span></a></li></ul></li><li><a class="level is-mobile" href="#信号"><span class="level-left"><span class="level-item">8.4</span><span class="level-item">信号※</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#信号术语"><span class="level-left"><span class="level-item">8.4.1</span><span class="level-item">信号术语</span></span></a></li><li><a class="level is-mobile" href="#发送信号"><span class="level-left"><span class="level-item">8.4.2</span><span class="level-item">发送信号</span></span></a></li><li><a class="level is-mobile" href="#接收信号"><span class="level-left"><span class="level-item">8.4.3</span><span class="level-item">接收信号</span></span></a></li><li><a class="level is-mobile" href="#阻塞与解阻"><span class="level-left"><span class="level-item">8.4.4</span><span class="level-item">阻塞与解阻</span></span></a></li><li><a class="level is-mobile" href="#编写singal-handler信号处理程序"><span class="level-left"><span class="level-item">8.4.5</span><span class="level-item">编写singal
+handler信号处理程序</span></span></a></li></ul></li><li><a class="level is-mobile" href="#非本地跳转未完"><span class="level-left"><span class="level-item">8.5</span><span class="level-item">非本地跳转（未完）</span></span></a></li></ul></li><li><a class="level is-mobile" href="#第九章-虚拟内存"><span class="level-left"><span class="level-item">9</span><span class="level-item">第九章 虚拟内存※</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#物理和虚拟地址"><span class="level-left"><span class="level-item">9.1</span><span class="level-item">物理和虚拟地址</span></span></a></li><li><a class="level is-mobile" href="#地址空间"><span class="level-left"><span class="level-item">9.2</span><span class="level-item">地址空间</span></span></a></li><li><a class="level is-mobile" href="#虚拟内存作为缓存的工具"><span class="level-left"><span class="level-item">9.3</span><span class="level-item">虚拟内存作为缓存的工具</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#dram组织结构"><span class="level-left"><span class="level-item">9.3.1</span><span class="level-item">DRAM组织结构</span></span></a></li><li><a class="level is-mobile" href="#页表"><span class="level-left"><span class="level-item">9.3.2</span><span class="level-item">页表</span></span></a></li><li><a class="level is-mobile" href="#命中"><span class="level-left"><span class="level-item">9.3.3</span><span class="level-item">命中</span></span></a></li><li><a class="level is-mobile" href="#缺页"><span class="level-left"><span class="level-item">9.3.4</span><span class="level-item">缺页</span></span></a></li><li><a class="level is-mobile" href="#分配malloc"><span class="level-left"><span class="level-item">9.3.5</span><span class="level-item">分配（malloc）</span></span></a></li></ul></li><li><a class="level is-mobile" href="#虚拟内存作为内存管理的工具"><span class="level-left"><span class="level-item">9.4</span><span class="level-item">虚拟内存作为内存管理的工具</span></span></a></li><li><a class="level is-mobile" href="#虚拟内存作为内存保护的工具"><span class="level-left"><span class="level-item">9.5</span><span class="level-item">虚拟内存作为内存保护的工具</span></span></a></li><li><a class="level is-mobile" href="#地址翻译"><span class="level-left"><span class="level-item">9.6</span><span class="level-item">地址翻译※</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#基本流程-1"><span class="level-left"><span class="level-item">9.6.1</span><span class="level-item">基本流程</span></span></a></li><li><a class="level is-mobile" href="#具体流程"><span class="level-left"><span class="level-item">9.6.2</span><span class="level-item">具体流程</span></span></a></li><li><a class="level is-mobile" href="#高速缓存中的地址"><span class="level-left"><span class="level-item">9.6.3</span><span class="level-item">高速缓存中的地址</span></span></a></li><li><a class="level is-mobile" href="#tlb"><span class="level-left"><span class="level-item">9.6.4</span><span class="level-item">TLB</span></span></a></li><li><a class="level is-mobile" href="#多级页表"><span class="level-left"><span class="level-item">9.6.5</span><span class="level-item">多级页表</span></span></a></li></ul></li><li><a class="level is-mobile" href="#案例"><span class="level-left"><span class="level-item">9.7</span><span class="level-item">案例</span></span></a></li><li><a class="level is-mobile" href="#内存映射"><span class="level-left"><span class="level-item">9.8</span><span class="level-item">内存映射</span></span></a></li><li><a class="level is-mobile" href="#动态内存分配"><span class="level-left"><span class="level-item">9.9</span><span class="level-item">动态内存分配</span></span></a></li></ul></li><li><a class="level is-mobile" href="#第十章-系统级io"><span class="level-left"><span class="level-item">10</span><span class="level-item">第十章 系统级I/O</span></span></a></li><li><a class="level is-mobile" href="#第十一章-网络编程"><span class="level-left"><span class="level-item">11</span><span class="level-item">第十一章 网络编程</span></span></a></li><li><a class="level is-mobile" href="#第十二章-并发编程"><span class="level-left"><span class="level-item">12</span><span class="level-item">第十二章 并发编程</span></span></a></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="../js/toc.js" defer></script></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="../index.html"><img src="../img/avatar.png" alt="冰化了还有棍儿" height="28"></a><p class="is-size-7"><span>&copy; 2025 LULU</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">Visited by <span id="busuanzi_value_site_uv">0</span> users</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script data-pjax src="../js/column.js"></script><script src="../js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script data-pjax src="../js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script data-pjax src="../js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script data-pjax src="../js/insight.js" defer></script><script data-pjax>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"../content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script></body></html>
