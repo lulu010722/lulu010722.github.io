@@ -2,7 +2,7 @@
 title: 台式机
 description: 台式机
 published: 2025-08-24
-image: "1.jpg"
+image: "4.jpg"
 draft: false
 tags: ["装机", "硬件", "DIY"]
 category: "生活"
