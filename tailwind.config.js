@@ -1,8 +1,9 @@
 import defaultTheme from "tailwindcss/defaultTheme"
+import tailwindPlugin from "tailwindcss/plugin"
 
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue,mjs}"],
-  darkMode: "class", // allows toggling dark mode manually
+  darkMode: "class",
   theme: {
     extend: {
       fontFamily: {
@@ -10,5 +11,5 @@ export default {
       },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [tailwindPlugin],
 }
