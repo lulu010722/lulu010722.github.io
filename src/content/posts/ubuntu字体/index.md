@@ -1,12 +1,17 @@
 ---
-title: fontconfig配置自定义字体回退
-description: fontconfig配置自定义字体回退
+title: "fontconfig配置自定义字体回退"
+description: "fontconfig配置自定义字体回退"
 published: 2026-04-19
 image: "LXGWWenKai.png"
 draft: false
-tags: ["fontconfig", "字体", "Ubuntu", "终端"]
-category: "运维"
+tags:
+  - "fontconfig"
+  - "字体"
+  - "Ubuntu"
+  - "终端"
 lang: ""
+category:
+  - "运维"
 ---
 
 # 痛点

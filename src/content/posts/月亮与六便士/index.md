@@ -1,11 +1,15 @@
 ---
-title: 《月亮与六便士》
-description: 《月亮与六便士》
+title: "《月亮与六便士》"
+description: "《月亮与六便士》"
 published: 2022-09-22
 draft: false
-tags: ["读书笔记", "毛姆", "月亮与六便士"]
-category: "生活"
+tags:
+  - "读书笔记"
+  - "毛姆"
+  - "月亮与六便士"
 lang: ""
+category:
+  - "生活"
 ---
 
 > 满地都是六便士，他却抬头看见了月亮。

@@ -1,11 +1,16 @@
 ---
-title: JPA事务控制与外键死锁
-description: JPA事务控制与外键死锁
+title: "JPA事务控制与外键死锁"
+description: "JPA事务控制与外键死锁"
 published: 2022-09-25
 draft: false
-tags: ["JPA", "Java", "数据库", "事务"]
-category: "编程"
+tags:
+  - "JPA"
+  - "Java"
+  - "数据库"
+  - "事务"
 lang: ""
+category:
+  - "编程"
 ---
 
 # 问题背景

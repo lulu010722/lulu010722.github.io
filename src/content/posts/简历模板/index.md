@@ -1,11 +1,15 @@
 ---
-title: 求职模板
-description: 求职模板
+title: "求职模板"
+description: "求职模板"
 published: 2023-08-26
 draft: false
-tags: ["简历", "求职", "找工"]
-category: "生活"
+tags:
+  - "简历"
+  - "求职"
+  - "找工"
 lang: ""
+category:
+  - "生活"
 ---
 
 # 简历

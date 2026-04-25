@@ -1,11 +1,15 @@
 ---
-title: 柯柯的画
-description: 柯柯的画
+title: "柯柯的画"
+description: "柯柯的画"
 published: 2022-09-18
 draft: false
-tags: ["绘画", "原神", "阿贝多"]
-category: "生活"
+tags:
+  - "绘画"
+  - "原神"
+  - "阿贝多"
 lang: ""
+category:
+  - "生活"
 ---
 
 # 阿贝多

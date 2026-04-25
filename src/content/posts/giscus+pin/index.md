@@ -1,11 +1,15 @@
 ---
-title: giscus配置与置顶图标
-description: giscus配置与置顶图标
+title: "giscus配置与置顶图标"
+description: "giscus配置与置顶图标"
 published: 2025-08-24
 draft: false
-tags: ["giscus", "Hexo", "评论"]
-category: "运维"
+tags:
+  - "giscus"
+  - "Hexo"
+  - "评论"
 lang: ""
+category:
+  - "运维"
 ---
 
 # 在hexo-icarus主题中，使用giscus博客评论

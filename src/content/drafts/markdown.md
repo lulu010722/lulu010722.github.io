@@ -1,10 +1,14 @@
 ---
-title: Markdown Example
+title: "Markdown Example"
 published: 2023-10-01
-description: A simple example of a Markdown blog post.
-tags: [Markdown, Blogging, Demo]
-category: Examples
+description: "A simple example of a Markdown blog post."
+tags:
+  - "Markdown"
+  - "Blogging"
+  - "Demo"
 draft: true
+category:
+  - "Examples"
 ---
 
 # An h1 header

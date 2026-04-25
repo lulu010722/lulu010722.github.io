@@ -1,8 +1,8 @@
 ---
-title: 冰化了还有棍儿
-description: 关于我
+title: "冰化了还有棍儿"
+description: "关于我"
 pubDate: 2022-09-16
-heroImage: ../../assets/blog-placeholder-about.jpg
+heroImage: "../../assets/blog-placeholder-about.jpg"
 ---
 
 # 2026-04-20更

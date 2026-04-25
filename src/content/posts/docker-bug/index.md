@@ -1,11 +1,15 @@
 ---
-title: docker在WSL2环境中的代理问题
-description: docker在WSL2环境中的代理问题
+title: "docker在WSL2环境中的代理问题"
+description: "docker在WSL2环境中的代理问题"
 published: 2025-05-06
 draft: false
-tags: ["docker", "wsl2", "bug"]
-category: "技术"
+tags:
+  - "docker"
+  - "wsl2"
+  - "bug"
 lang: ""
+category:
+  - "技术"
 ---
 
 # 事情的起因

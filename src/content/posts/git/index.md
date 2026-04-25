@@ -1,11 +1,14 @@
 ---
-title: git——人类好朋友
-description: git——人类好朋友
+title: "git——人类好朋友"
+description: "git——人类好朋友"
 published: 2022-10-16
 draft: false
-tags: ["git", "GitHub"]
-category: "编程"
+tags:
+  - "git"
+  - "GitHub"
 lang: ""
+category:
+  - "编程"
 ---
 
 # 本地/远程分支创建和删除

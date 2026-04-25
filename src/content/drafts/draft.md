@@ -1,9 +1,13 @@
 ---
-title: Draft Example
+title: "Draft Example"
 published: 2022-07-01
-tags: [Markdown, Blogging, Demo]
-category: Examples
+tags:
+  - "Markdown"
+  - "Blogging"
+  - "Demo"
 draft: true
+category:
+  - "Examples"
 ---
 
 # This Article is a Draft

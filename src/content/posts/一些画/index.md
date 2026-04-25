@@ -1,11 +1,15 @@
 ---
-title: 一些画
-description: 一些画
+title: "一些画"
+description: "一些画"
 published: 2022-09-24
 draft: false
-tags: ["绘画", "Procreate", "画"]
-category: "生活"
+tags:
+  - "绘画"
+  - "Procreate"
+  - "画"
 lang: ""
+category:
+  - "生活"
 ---
 
 # Pro Create

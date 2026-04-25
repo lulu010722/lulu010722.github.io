@@ -1,11 +1,14 @@
 ---
-title: CNAME的必要性
-description: CNAME的必要性
+title: "CNAME的必要性"
+description: "CNAME的必要性"
 published: 2023-06-27
 draft: false
-tags: ["GitHub Pages", "域名"]
-category: "运维"
+tags:
+  - "GitHub Pages"
+  - "域名"
 lang: ""
+category:
+  - "运维"
 ---
 
 首先，如果不写`CNAME`的话，我们只能从`https://username.github.io`这个网址进行访问，但是显然如果有一个更好记忆的自定义域名会更好。

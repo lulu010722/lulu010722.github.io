@@ -1,11 +1,15 @@
 ---
-title: 《苏东坡传》
-description: 《苏东坡传》
+title: "《苏东坡传》"
+description: "《苏东坡传》"
 published: 2022-09-23
 draft: false
-tags: ["读书笔记", "林语堂", "苏东坡"]
-category: "生活"
+tags:
+  - "读书笔记"
+  - "林语堂"
+  - "苏东坡"
 lang: ""
+category:
+  - "生活"
 ---
 
 > 莫听穿林打叶声，何妨吟啸且徐行。竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生。

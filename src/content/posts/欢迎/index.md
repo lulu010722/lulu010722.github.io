@@ -1,11 +1,14 @@
 ---
-title: 欢迎来到我的博客！
-description: 欢迎来到我的博客！
+title: "欢迎来到我的博客！"
+description: "欢迎来到我的博客！"
 published: 2022-09-16
 draft: false
-tags: ["博客", "欢迎"]
-category: "生活"
+tags:
+  - "博客"
+  - "欢迎"
 lang: ""
+category:
+  - "生活"
 ---
 
 这是我的第一篇博客

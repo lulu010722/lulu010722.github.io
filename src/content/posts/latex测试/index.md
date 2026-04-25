@@ -1,11 +1,14 @@
 ---
-title: 机器学习概论
-description: 机器学习概论
+title: "机器学习概论"
+description: "机器学习概论"
 published: 2022-09-16
 draft: false
-tags: ["机器学习", "NFL定理"]
-category: "课程笔记"
+tags:
+  - "机器学习"
+  - "NFL定理"
 lang: ""
+category:
+  - "课程笔记"
 ---
 
 # NFL定理

@@ -1,11 +1,15 @@
 ---
-title: inode文件系统
-description: inode文件系统
+title: "inode文件系统"
+description: "inode文件系统"
 published: 2022-10-02
 draft: false
-tags: ["文件系统", "inode", "操作系统"]
-category: "课程笔记"
+tags:
+  - "文件系统"
+  - "inode"
+  - "操作系统"
 lang: ""
+category:
+  - "课程笔记"
 ---
 
 # 7层架构

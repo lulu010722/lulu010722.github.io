@@ -1,10 +1,14 @@
 ---
-title: 泉さんとの相談
-description: 泉さんとの相談
+title: "泉さんとの相談"
+description: "泉さんとの相談"
 published: 2022-11-10
 draft: false
-tags: ["日语", "信", "情感"]
-category: "生活"
+tags:
+  - "日语"
+  - "信"
+  - "情感"
+category:
+  - "生活"
 ---
 
 > とっても突然ですけど、申し訳ございません。私は、泉さんに言いたいことがあるから。

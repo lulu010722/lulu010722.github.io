@@ -1,11 +1,14 @@
 ---
-title: something to say
-description: something to say
+title: "something to say"
+description: "something to say"
 published: 2025-03-19
 draft: false
-tags: ["情感", "信"]
-category: "生活"
+tags:
+  - "情感"
+  - "信"
 lang: "en"
+category:
+  - "生活"
 ---
 
 For people grown up in a cross-cultural background like you, I guess it might be easier to understand why I choose neither Chinese nor Japanese but English. It is simply because to speak in a language that is not familiar to both of us helps me to confess my affection in a completely honest way.

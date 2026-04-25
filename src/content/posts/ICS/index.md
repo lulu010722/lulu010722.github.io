@@ -1,11 +1,15 @@
 ---
-title: 计算机系统基础
-description: 计算机系统基础
+title: "计算机系统基础"
+description: "计算机系统基础"
 published: 2022-10-15
 draft: false
-tags: ["ICS", "CSAPP", "计算机系统"]
-category: "课程笔记"
+tags:
+  - "ICS"
+  - "CSAPP"
+  - "计算机系统"
 lang: ""
+category:
+  - "课程笔记"
 ---
 
 <div style="font-size: 50px; font-weight: bold; color: #777; margin: 22px 0; line-height: normal;">第一部分 程序结构和执行</div>

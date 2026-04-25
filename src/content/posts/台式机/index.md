@@ -1,12 +1,16 @@
 ---
-title: 台式机
-description: 台式机
+title: "台式机"
+description: "台式机"
 published: 2025-08-24
 image: "4.jpg"
 draft: false
-tags: ["装机", "硬件", "DIY"]
-category: "生活"
+tags:
+  - "装机"
+  - "硬件"
+  - "DIY"
 lang: ""
+category:
+  - "生活"
 ---
 
 # 锵锵锵！我的第一台台式机！

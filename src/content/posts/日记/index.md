@@ -1,11 +1,14 @@
 ---
-title: Daily Report
-description: Daily Report
+title: "Daily Report"
+description: "Daily Report"
 published: 2022-09-16
 draft: false
-tags: ["日记", "记录"]
-category: "生活"
+tags:
+  - "日记"
+  - "记录"
 lang: ""
+category:
+  - "生活"
 ---
 
 # 2022-09

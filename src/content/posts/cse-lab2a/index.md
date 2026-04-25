@@ -1,11 +1,15 @@
 ---
-title: cse-lab2a踩坑
-description: cse-lab2a踩坑
+title: "cse-lab2a踩坑"
+description: "cse-lab2a踩坑"
 published: 2022-10-29
 draft: false
-tags: ["CSE", "C++", "踩坑"]
-category: "课程笔记"
+tags:
+  - "CSE"
+  - "C++"
+  - "踩坑"
 lang: ""
+category:
+  - "课程笔记"
 ---
 
 1. `ifstream::eof()`有bug。

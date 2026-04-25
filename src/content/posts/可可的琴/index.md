@@ -1,11 +1,15 @@
 ---
-title: 可可的琴
-description: 可可的琴
+title: "可可的琴"
+description: "可可的琴"
 published: 2022-09-18
 draft: false
-tags: ["音乐", "古筝", "演奏"]
-category: "生活"
+tags:
+  - "音乐"
+  - "古筝"
+  - "演奏"
 lang: ""
+category:
+  - "生活"
 ---
 
 # 寒鸦戏水

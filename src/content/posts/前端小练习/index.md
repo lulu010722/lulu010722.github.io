@@ -1,11 +1,15 @@
 ---
-title: 前端小练习
-description: 前端小练习
+title: "前端小练习"
+description: "前端小练习"
 published: 2023-06-27
 draft: false
-tags: ["React", "前端", "练习"]
-category: "编程"
+tags:
+  - "React"
+  - "前端"
+  - "练习"
 lang: ""
+category:
+  - "编程"
 ---
 
 ![](register_form_error.png)

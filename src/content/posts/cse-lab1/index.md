@@ -1,11 +1,15 @@
 ---
-title: cse-lab1踩坑
-description: cse-lab1踩坑
+title: "cse-lab1踩坑"
+description: "cse-lab1踩坑"
 published: 2022-10-04
 draft: false
-tags: ["CSE", "操作系统", "踩坑"]
-category: "课程笔记"
+tags:
+  - "CSE"
+  - "操作系统"
+  - "踩坑"
 lang: ""
+category:
+  - "课程笔记"
 ---
 
 1. memcpy与strncpy。

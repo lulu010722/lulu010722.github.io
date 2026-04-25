@@ -1,11 +1,15 @@
 ---
-title: 配置hexo博客，并更换多种主题
-description: 配置hexo博客，并更换多种主题
+title: "配置hexo博客，并更换多种主题"
+description: "配置hexo博客，并更换多种主题"
 published: 2022-09-16
 draft: false
-tags: ["Hexo", "博客", "主题"]
-category: "运维"
+tags:
+  - "Hexo"
+  - "博客"
+  - "主题"
 lang: ""
+category:
+  - "运维"
 ---
 
 # hexo 博客的基本维护方式
