@@ -9,15 +9,34 @@
         "name": "@astrojs/ts-plugin"
       }
     ],
+    "types": [
+      "astro/client"
+    ],
     "paths": {
-      "@components/*": ["./src/components/*"],
-      "@assets/*": ["./src/assets/*"],
-      "@constants/*": ["./src/constants/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@i18n/*": ["./src/i18n/*"],
-      "@layouts/*": ["./src/layouts/*"],
-      "@/*": ["./src/*"]
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@assets/*": [
+        "./src/assets/*"
+      ],
+      "@constants/*": [
+        "./src/constants/*"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
+      ],
+      "@i18n/*": [
+        "./src/i18n/*"
+      ],
+      "@layouts/*": [
+        "./src/layouts/*"
+      ],
+      "@/*": [
+        "./src/*"
+      ]
     }
   },
-  "include": ["./src/**/*"]
+  "include": [
+    "./src/**/*"
+  ]
 }

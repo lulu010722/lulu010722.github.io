@@ -1,5 +1,5 @@
-import defaultTheme from "tailwindcss/defaultTheme"
-import tailwindPlugin from "tailwindcss/plugin"
+import defaultTheme from "tailwindcss/defaultTheme";
+import typographPlugin from "@tailwindcss/typography";
 
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue,mjs}"],
@@ -11,5 +11,5 @@ export default {
       },
     },
   },
-  plugins: [tailwindPlugin],
-}
+  plugins: [typographPlugin],
+};
