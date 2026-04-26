@@ -10,6 +10,7 @@ tags:
 lang: ""
 category:
   - "技术"
+sticky: 1
 ---
 
 # 事情的起因

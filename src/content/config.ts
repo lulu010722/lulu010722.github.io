@@ -11,6 +11,7 @@ const postsCollection = defineCollection({
     tags: z.array(z.string()).optional().default([]),
     category: z.array(z.string()).optional().default([]),
     lang: z.string().optional().default(""),
+    sticky: z.number().optional().default(0),
 
     /* For internal use */
     prevTitle: z.string().default(""),
@@ -35,6 +36,7 @@ const draftCollection = defineCollection({
     tags: z.array(z.string()).optional().default([]),
     category: z.array(z.string()).optional().default([]),
     lang: z.string().optional().default(""),
+    sticky: z.number().optional().default(0),
 
     /* For internal use */
     prevTitle: z.string().default(""),
