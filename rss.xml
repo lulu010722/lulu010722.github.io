@@ -1,4 +1,50 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>冰化了还有棍儿</title><description>A geeky blog built with Astro and Notion</description><link>https://lulu010722.com/</link><language>zh_CN</language><item><title>fontconfig配置自定义字体回退</title><link>https://lulu010722.com/posts/ubuntu%E5%AD%97%E4%BD%93/</link><guid isPermaLink="true">https://lulu010722.com/posts/ubuntu%E5%AD%97%E4%BD%93/</guid><description>fontconfig配置自定义字体回退</description><content:encoded>&lt;h1&gt;痛点&lt;/h1&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>冰化了还有棍儿</title><description>A geeky blog built with Astro and Notion</description><link>https://lulu010722.com/</link><language>zh_CN</language><item><title>docker在WSL2环境中的代理问题</title><link>https://lulu010722.com/posts/docker-bug/</link><guid isPermaLink="true">https://lulu010722.com/posts/docker-bug/</guid><description>docker在WSL2环境中的代理问题</description><content:encoded>&lt;h1&gt;事情的起因&lt;/h1&gt;
+&lt;p&gt;是，电脑最近重装了系统之后，docker一直还没安装，最近做毕设正好有需求，再加上久闻docker大名，想要成为docker糕手😍&lt;/p&gt;
+&lt;p&gt;但是，如果你：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;人在中国&lt;/li&gt;
+&lt;li&gt;使用windows系统下的docker desktop&lt;/li&gt;
+&lt;li&gt;使用WSL2而不是WSL1&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;那么恭喜你，你将喜提一个超~~级难debug的bug（好像是最近一个新的bug，&lt;a href=&quot;https://github.com/docker/for-win/issues/14706#signed-out-banner-sign-up&quot;&gt;仓库&lt;/a&gt;里有人发了关于这个问题的issue&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h1&gt;如何复现这个bug&lt;/h1&gt;
+&lt;p&gt;默认情况下，WSL2会在windows的用户目录（一般是C:/Users/&amp;lt;你的用户名&amp;gt;/）下创建一个&lt;strong&gt;隐藏&lt;/strong&gt;的&lt;code&gt;.wslconfig&lt;/code&gt;文件，这个文件中，有一个设置&lt;code&gt;networkingMode&lt;/code&gt;，默认情况下可能是这样的：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;networkingMode=mirrored
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这个配置如果不填，则会使用NAT模式&lt;/p&gt;
+&lt;p&gt;如果是mirrored模式，那么docker无法找到正确的主机代理&lt;/p&gt;
+&lt;p&gt;此时，如果你想运行&lt;code&gt;docker pull xxx&lt;/code&gt;命令，就会出现类似于下面的bug&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Error response from daemon: Get &quot;https://registry-1.docker.io/v2/&quot;: proxyconnect tcp: dial tcp 127.0.0.1:7890: connect: connection refused
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我尝试过的方法有：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;打开clash的系统代理，并重启docker--&amp;gt;😢&lt;/li&gt;
+&lt;li&gt;修改docker desktop界面的&lt;code&gt;Settings&lt;/code&gt;-&amp;gt;&lt;code&gt;Resources&lt;/code&gt;-&amp;gt;&lt;code&gt;Proxies&lt;/code&gt;，在这里打开&lt;code&gt;Manual proxy configuration&lt;/code&gt;，并将http和https的代理都设置为&lt;code&gt;http://127.0.0.1:7890&lt;/code&gt;（7890是clash的默认端口）--&amp;gt;😢&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Settings&lt;/code&gt;-&amp;gt;&lt;code&gt;Docker Engine&lt;/code&gt;，在右侧编辑框里加入下面的规则：&lt;pre&gt;&lt;code&gt;{
+    &quot;xxx&quot;: {},
+    &quot;yyy&quot;: &quot;zzz&quot;,
+    &quot;proxies&quot;: [
+        &quot;httpProxy&quot;: &quot;http://127.0.0.1:7890&quot;,
+        &quot;httpsProxy&quot;: &quot;http://127.0.0.1:7890&quot;
+    ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+然后重启docker--&amp;gt;😢&lt;/li&gt;
+&lt;li&gt;使用clash的TUN模式--&amp;gt;😢&lt;/li&gt;
+&lt;li&gt;以及上述各种方式的排列组合--&amp;gt;😢😢😢😢&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;但是其实解决方法就是，把&lt;code&gt;networkingMode&lt;/code&gt;这一行的配置删了就行&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;原理不太懂，但是感觉是mirrored模式下，docker的代码写死了一定会使用127.0.0.1:7890这个代理，但是WSL2环境中，127.0.0.1也就是localhost所代表的回环地址，已经不像WSL1中那样表示windows主机了，而是指的虚拟机自身的虚拟网卡，所以无法访问到主机的代理设置&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h1&gt;话说中国docker&lt;/h1&gt;
+&lt;p&gt;哎，听说是2024年年中六七月的时候，高层强行封禁了docker hub的内地访问，并且关停了很多国内的镜像源&lt;/p&gt;
+&lt;p&gt;不过，这个镜像源再禁，也总有漏网之鱼。另外，都用docker了，肯定至少有些计算机和编程基础，那还可能不知道怎么科学上网么（&lt;/p&gt;
+&lt;p&gt;所以就想着，与其找一个可能随时就会再次被封的国内镜像源，还不如直接访问docker hub&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h1&gt;总之&lt;/h1&gt;
+&lt;p&gt;不要盲目怀疑自己，&lt;strong&gt;路见不平一声吼，github找issue！&lt;/strong&gt;&lt;/p&gt;
+</content:encoded></item><item><title>fontconfig配置自定义字体回退</title><link>https://lulu010722.com/posts/ubuntu%E5%AD%97%E4%BD%93/</link><guid isPermaLink="true">https://lulu010722.com/posts/ubuntu%E5%AD%97%E4%BD%93/</guid><description>fontconfig配置自定义字体回退</description><content:encoded>&lt;h1&gt;痛点&lt;/h1&gt;
 &lt;p&gt;最近使用coding agent，比如opencode，大多数都可以直接在Terminal User Interface(TUI)中进行对话。&lt;/p&gt;
 &lt;p&gt;这就给中文程序员带来了不便。&lt;/p&gt;
 &lt;p&gt;因为默认的终端字体对中文的支持比较一般，到不是说显示不出来字体，而是感觉那种方方正正的黑体比较难看。&lt;/p&gt;
@@ -120,52 +166,6 @@ module.exports = class extends Component {
 &lt;p&gt;除此之外，台式机还有一些外设需要购买，我是缺一个音响，买了个100多的HP有线音响，凑合着用了&lt;/p&gt;
 &lt;h1&gt;5070Ti的实际使用体验&lt;/h1&gt;
 &lt;p&gt;我的显示器是2K的，我只测试过&lt;strong&gt;黑神话：悟空&lt;/strong&gt;，&lt;strong&gt;赛博朋克：2077&lt;/strong&gt;和&lt;strong&gt;鸣潮&lt;/strong&gt;三款游戏，拉到最高配置，帧率破百无压力~~😍😍😍&lt;/p&gt;
-</content:encoded></item><item><title>docker在WSL2环境中的代理问题</title><link>https://lulu010722.com/posts/docker-bug/</link><guid isPermaLink="true">https://lulu010722.com/posts/docker-bug/</guid><description>docker在WSL2环境中的代理问题</description><content:encoded>&lt;h1&gt;事情的起因&lt;/h1&gt;
-&lt;p&gt;是，电脑最近重装了系统之后，docker一直还没安装，最近做毕设正好有需求，再加上久闻docker大名，想要成为docker糕手😍&lt;/p&gt;
-&lt;p&gt;但是，如果你：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;人在中国&lt;/li&gt;
-&lt;li&gt;使用windows系统下的docker desktop&lt;/li&gt;
-&lt;li&gt;使用WSL2而不是WSL1&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;那么恭喜你，你将喜提一个超~~级难debug的bug（好像是最近一个新的bug，&lt;a href=&quot;https://github.com/docker/for-win/issues/14706#signed-out-banner-sign-up&quot;&gt;仓库&lt;/a&gt;里有人发了关于这个问题的issue&lt;/p&gt;
-&lt;hr /&gt;
-&lt;h1&gt;如何复现这个bug&lt;/h1&gt;
-&lt;p&gt;默认情况下，WSL2会在windows的用户目录（一般是C:/Users/&amp;lt;你的用户名&amp;gt;/）下创建一个&lt;strong&gt;隐藏&lt;/strong&gt;的&lt;code&gt;.wslconfig&lt;/code&gt;文件，这个文件中，有一个设置&lt;code&gt;networkingMode&lt;/code&gt;，默认情况下可能是这样的：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;networkingMode=mirrored
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;这个配置如果不填，则会使用NAT模式&lt;/p&gt;
-&lt;p&gt;如果是mirrored模式，那么docker无法找到正确的主机代理&lt;/p&gt;
-&lt;p&gt;此时，如果你想运行&lt;code&gt;docker pull xxx&lt;/code&gt;命令，就会出现类似于下面的bug&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Error response from daemon: Get &quot;https://registry-1.docker.io/v2/&quot;: proxyconnect tcp: dial tcp 127.0.0.1:7890: connect: connection refused
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;我尝试过的方法有：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;打开clash的系统代理，并重启docker--&amp;gt;😢&lt;/li&gt;
-&lt;li&gt;修改docker desktop界面的&lt;code&gt;Settings&lt;/code&gt;-&amp;gt;&lt;code&gt;Resources&lt;/code&gt;-&amp;gt;&lt;code&gt;Proxies&lt;/code&gt;，在这里打开&lt;code&gt;Manual proxy configuration&lt;/code&gt;，并将http和https的代理都设置为&lt;code&gt;http://127.0.0.1:7890&lt;/code&gt;（7890是clash的默认端口）--&amp;gt;😢&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Settings&lt;/code&gt;-&amp;gt;&lt;code&gt;Docker Engine&lt;/code&gt;，在右侧编辑框里加入下面的规则：&lt;pre&gt;&lt;code&gt;{
-    &quot;xxx&quot;: {},
-    &quot;yyy&quot;: &quot;zzz&quot;,
-    &quot;proxies&quot;: [
-        &quot;httpProxy&quot;: &quot;http://127.0.0.1:7890&quot;,
-        &quot;httpsProxy&quot;: &quot;http://127.0.0.1:7890&quot;
-    ]
-}
-&lt;/code&gt;&lt;/pre&gt;
-然后重启docker--&amp;gt;😢&lt;/li&gt;
-&lt;li&gt;使用clash的TUN模式--&amp;gt;😢&lt;/li&gt;
-&lt;li&gt;以及上述各种方式的排列组合--&amp;gt;😢😢😢😢&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;strong&gt;但是其实解决方法就是，把&lt;code&gt;networkingMode&lt;/code&gt;这一行的配置删了就行&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;原理不太懂，但是感觉是mirrored模式下，docker的代码写死了一定会使用127.0.0.1:7890这个代理，但是WSL2环境中，127.0.0.1也就是localhost所代表的回环地址，已经不像WSL1中那样表示windows主机了，而是指的虚拟机自身的虚拟网卡，所以无法访问到主机的代理设置&lt;/p&gt;
-&lt;hr /&gt;
-&lt;h1&gt;话说中国docker&lt;/h1&gt;
-&lt;p&gt;哎，听说是2024年年中六七月的时候，高层强行封禁了docker hub的内地访问，并且关停了很多国内的镜像源&lt;/p&gt;
-&lt;p&gt;不过，这个镜像源再禁，也总有漏网之鱼。另外，都用docker了，肯定至少有些计算机和编程基础，那还可能不知道怎么科学上网么（&lt;/p&gt;
-&lt;p&gt;所以就想着，与其找一个可能随时就会再次被封的国内镜像源，还不如直接访问docker hub&lt;/p&gt;
-&lt;hr /&gt;
-&lt;h1&gt;总之&lt;/h1&gt;
-&lt;p&gt;不要盲目怀疑自己，&lt;strong&gt;路见不平一声吼，github找issue！&lt;/strong&gt;&lt;/p&gt;
 </content:encoded></item><item><title>something to say</title><link>https://lulu010722.com/posts/something/</link><guid isPermaLink="true">https://lulu010722.com/posts/something/</guid><description>something to say</description><content:encoded>&lt;p&gt;For people grown up in a cross-cultural background like you, I guess it might be easier to understand why I choose neither Chinese nor Japanese but English. It is simply because to speak in a language that is not familiar to both of us helps me to confess my affection in a completely honest way.&lt;/p&gt;
 &lt;p&gt;Though I&apos;ve always regarded you as a little baka, I don&apos;t think it will cost so much of your brain to realize that we have been chatting nonstop for almost a week in a way that is genuinely close as I guess.&lt;/p&gt;
 &lt;p&gt;During the time, it was obvious that I have shown my feelings clearly enough.&lt;/p&gt;
