@@ -159,13 +159,82 @@ module.exports = class extends Component {
 &lt;p&gt;&lt;img src=&quot;2.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;3.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;4.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;h1&gt;配置&lt;/h1&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;新显卡&lt;/strong&gt;：技嘉 Nvidia Geforce RTX 5070Ti 雪鹰**（￥7500）**&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;CPU&lt;/strong&gt;: Intel(R) Core(TM) i7-12700KF &lt;strong&gt;(￥1188)&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;主板&lt;/strong&gt;: 微星 B760M GAMING PLUS WIFI &lt;strong&gt;(￥970)&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;内存&lt;/strong&gt;: 32GB（阿斯加德 DDR5 6000MHz 16GB×2）&lt;strong&gt;(￥659)&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;显卡&lt;/strong&gt;: NVIDIA GeForce GT730 (2GB 微星) &lt;strong&gt;(￥360)&lt;/strong&gt;
+（我知道很拉……就买个 300 多的过渡一下，有钱了直接上 5070 及以上 😍）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;（ps：已更新）&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;所以，更新一下总花费（刨除之前的￥360的亮机卡）：&lt;strong&gt;￥12192&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;除此之外，台式机还有一些外设需要购买，我是缺一个音响，买了个100多的HP有线音响，凑合着用了&lt;/p&gt;
-&lt;h1&gt;5070Ti的实际使用体验&lt;/h1&gt;
-&lt;p&gt;我的显示器是2K的，我只测试过&lt;strong&gt;黑神话：悟空&lt;/strong&gt;，&lt;strong&gt;赛博朋克：2077&lt;/strong&gt;和&lt;strong&gt;鸣潮&lt;/strong&gt;三款游戏，拉到最高配置，帧率破百无压力~~😍😍😍&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;硬盘&lt;/strong&gt;: 金士顿 SNV3S20000G (2TB 固态硬盘) &lt;strong&gt;(￥869)&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;机箱&lt;/strong&gt;: 航嘉 S960 暴风雪 白色海景房 &lt;strong&gt;(￥150)&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;散热&lt;/strong&gt;: &lt;strong&gt;(￥459)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;CPU&lt;/strong&gt;: 京品鹿冰封 360 水冷 ARGB &lt;strong&gt;(￥249)&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;机箱&lt;/strong&gt;: 京品鹿棱镜 4PRO 积木风扇（正向×1 + 反向×6）&lt;strong&gt;(￥210)&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;电源&lt;/strong&gt;: 航嘉 WD750 全模组 750W &lt;strong&gt;(￥397)&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;综上，不算外设，一共 &lt;strong&gt;5052 元&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;还有一些装机的人工费、音响、耳麦、摄像头等等是现买的，总共约 500 元。&lt;/p&gt;
+&lt;h1&gt;一些经验&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;小白还是别自己装了吧……容易烧主板。
+我就是在风冷还没到货的时候，把其他东西都装上然后通电了，然后主板和 CPU 就都出现了故障。
+当时手去摸 CPU，貌似超 100 度……&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;预算吃紧的小朋友，确实可以考虑使用 CPU 核显或者超低价 GPU 过渡。
+不过显卡也不要太低端了，像我这个 GT730 卡，驱动都装不上了，英伟达早就停止驱动维护了……&lt;/p&gt;
+&lt;p&gt;本来我的需求是 LOL 最高画质能 60 帧就行，而且看到网上说这款显卡其实带得动，但是实测只能跑最低画质，还不稳定，卡的时候 30 帧……&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;其实线下买不一定更贵，反而可能比较便宜。
+另外线下买可以顺便让师傅指导装机、顺便装系统。最快的情况下，你可能下午去数码城，晚上回来就能玩了。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;编织电源模组线没啥必要，感觉几根线就两百多……
+（当然重度颜值党除外）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;ARGB 的灯效还是很炫酷的，成本很低的情况下就能将主机外观提升非常大的档次。
+搭配海景房，你绝对值得拥有！&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;更新&lt;/h1&gt;
+&lt;p&gt;兄弟们，&lt;strong&gt;5070Ti&lt;/strong&gt; 到货，安排！&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;4.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;新显卡&lt;/strong&gt;：技嘉 Nvidia Geforce RTX 5070Ti 雪鹰 &lt;strong&gt;(￥7500)&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;所以更新一下总花费（刨除之前的 ￥360 的亮机卡）：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;￥12192&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;除此之外，台式机还有一些外设需要购买。
+我还缺一个音响，买了个 100 多的 HP 有线音响，凑合着用了。&lt;/p&gt;
+&lt;h1&gt;5070Ti 的实际使用体验&lt;/h1&gt;
+&lt;p&gt;我的显示器是 2K 的。&lt;/p&gt;
+&lt;p&gt;我只测试过 &lt;strong&gt;黑神话：悟空&lt;/strong&gt;、&lt;strong&gt;赛博朋克：2077&lt;/strong&gt; 和 &lt;strong&gt;鸣潮&lt;/strong&gt; 三款游戏。&lt;/p&gt;
+&lt;p&gt;拉到最高配置，帧率破百无压力~~ 😍😍😍&lt;/p&gt;
 </content:encoded></item><item><title>something to say</title><link>https://lulu010722.com/posts/something/</link><guid isPermaLink="true">https://lulu010722.com/posts/something/</guid><description>something to say</description><content:encoded>&lt;p&gt;For people grown up in a cross-cultural background like you, I guess it might be easier to understand why I choose neither Chinese nor Japanese but English. It is simply because to speak in a language that is not familiar to both of us helps me to confess my affection in a completely honest way.&lt;/p&gt;
 &lt;p&gt;Though I&apos;ve always regarded you as a little baka, I don&apos;t think it will cost so much of your brain to realize that we have been chatting nonstop for almost a week in a way that is genuinely close as I guess.&lt;/p&gt;
 &lt;p&gt;During the time, it was obvious that I have shown my feelings clearly enough.&lt;/p&gt;
