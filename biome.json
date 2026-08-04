@@ -1,0 +1,25 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.2.5/schema.json",
+	"files": {
+		"includes": ["src/**/*.{js,ts,mjs,cjs,astro,svelte}", "scripts/**/*.{js,mjs,cjs}"]
+	},
+	"linter": {
+		"rules": {}
+	},
+	"overrides": [
+		{
+			"includes": ["**/*.astro", "**/*.svelte"],
+			"linter": {
+				"rules": {
+					"correctness": {
+						"noUnusedVariables": "off",
+						"noUnusedImports": "off"
+					},
+					"style": {
+						"useConst": "off"
+					}
+				}
+			}
+		}
+	]
+}
